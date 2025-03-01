@@ -49,14 +49,18 @@ const StatsTile = ({
         </div>
       </header>
       <div className={styles.chart}>
+        {/* @ts-ignore */}
         <Sparklines
           data={data.timeseries}
           limit={20}
           height={80}
           svgHeight={80}
         >
+          {/* @ts-ignore */}
           <SparklinesBars style={{ fill: "#41c3f9", fillOpacity: ".25" }} />
+          {/* @ts-ignore */}
           <SparklinesLine style={{ stroke: "#41c3f9", fill: "none" }} />
+          {/* @ts-ignore */}
           <SparklinesReferenceLine type="mean" />
         </Sparklines>
       </div>
