@@ -7,6 +7,8 @@ import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 
 const DAILY_API_KEY = process.env.DAILY_API_KEY;
 const DAILY_API_URL = 'https://api.daily.co/v1';
+const ANKER_API_URL = process.env.ANKER_API_URL;
+const ANKER_API_KEY = process.env.ANKER_API_KEY;
 const lambdaClient = new LambdaClient({ region: "us-east-1" });
 
 const headers = {
@@ -74,7 +76,7 @@ async function getToken(roomName: string, expiryTime = 600, owner = true) {
 async function startBot(roomUrl: string, token: string) {
   const command = new InvokeCommand({
     FunctionName: "voice-agent-anker-bot",
-    Payload: JSON.stringify({ room_url: roomUrl, token, anker_api_url: "https://desk-staging.shulex.com/api_v2/gpt/bot/439/chat/stream", anker_token: "c6268270c43448229ccd983e89cff1dd" }),
+    Payload: JSON.stringify({ room_url: roomUrl, token, anker_api_url: ANKER_API_URL, anker_token: ANKER_API_KEY }),
     InvocationType: 'Event', // Asynchronous invocation
   });
   lambdaClient.send(command).catch(error => console.error('Error invoking Lambda:', error));
