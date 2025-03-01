@@ -7,8 +7,8 @@ import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 
 const DAILY_API_KEY = process.env.DAILY_API_KEY;
 const DAILY_API_URL = 'https://api.daily.co/v1';
-const ANKER_API_URL = process.env.ANKER_API_URL;
-const ANKER_API_KEY = process.env.ANKER_API_KEY;
+const ANKER_API_URL = process.env.ANKER_API_URL_STAGING;
+const ANKER_API_KEY = process.env.ANKER_API_KEY_STAGING;
 const lambdaClient = new LambdaClient({
   region: "us-east-1",
   credentials: {
