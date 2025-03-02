@@ -3,19 +3,9 @@ export const runtime = "nodejs"; // Required for SST
 import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 
 const DAILY_API_KEY = process.env.DAILY_API_KEY;
 const DAILY_API_URL = 'https://api.daily.co/v1';
-const ANKER_API_URL = process.env.ANKER_API_URL_STAGING;
-const ANKER_API_KEY = process.env.ANKER_API_KEY_STAGING;
-const lambdaClient = new LambdaClient({
-  region: "us-east-1",
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
-  },
-});
 
 const headers = {
   Authorization: `Bearer ${DAILY_API_KEY}`,
@@ -80,12 +70,11 @@ async function getToken(roomName: string, expiryTime = 600, owner = true) {
 }
 
 async function startBot(roomUrl: string, token: string) {
-  const command = new InvokeCommand({
-    FunctionName: "voice-agent-anker-bot",
-    Payload: JSON.stringify({ room_url: roomUrl, token, anker_api_url: ANKER_API_URL, anker_token: ANKER_API_KEY }),
-    InvocationType: 'Event', // Asynchronous invocation
+  const response = await axios.post(`http://44.213.201.101:7860/staging/start`, {
+    room_url: roomUrl,
+    token,
   });
-  lambdaClient.send(command).catch(error => console.error('Error invoking Lambda:', error));
+  return response.data;
 }
 
 
