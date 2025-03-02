@@ -60,7 +60,6 @@ export const Agent: React.FC<{
     return (
       <div className={styles.agent}>
         <div className={cx}>
-          <ModelBadge />
           {!hasStarted ? (
             <span className={styles.loader}>
               <Loader2 size={32} className="animate-spin" />
