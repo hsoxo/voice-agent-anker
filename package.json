@@ -3,10 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev": "node server.js",
     "build": "next build",
-    "dev": "next dev",
-    "lint": "next lint",
-    "start": "next start -H 0.0.0.0 -p 3000"
+    "start": "node server.js"
   },
   "dependencies": {
     "@daily-co/realtime-ai-daily": "0.2.0",
@@ -20,6 +19,8 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "deepmerge-ts": "^7.1.0",
+    "express": "^4.21.2",
+    "http-proxy-middleware": "^3.0.3",
     "lucide-react": "^0.378.0",
     "next": "14.2.5",
     "react": "^18",
@@ -28,7 +29,8 @@
     "realtime-ai": "0.2.0",
     "realtime-ai-react": "0.2.0",
     "tailwind-merge": "^2.3.0",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "ws": "^8.18.1"
   },
   "devDependencies": {
     "@types/node": "^20",
