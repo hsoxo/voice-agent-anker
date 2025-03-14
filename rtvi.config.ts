@@ -15,7 +15,7 @@ export const LANGUAGES = [
 
 export const defaultServices = {
   llm: "together",
-  tts: "cartesia",
+  tts: "bf0a246a-8642-498a-9950-80c35e9276b5",
   stt: "deepgram",
 };
 
@@ -25,7 +25,12 @@ Your responses will converted to audio. Please do not include any special charac
 Start by briefly introducing yourself.`;
 
 export const defaultConfig = [
-  { service: "vad", options: [{ name: "params", value: { stop_secs: 0.5 } }] },
+  { service: "vad", options: [{ name: "params", value: { 
+    start_secs: 0.2,
+    stop_secs: 0.8,
+    confidence: 0.7,
+    min_volume: 0.6
+   } }] },
   {
     service: "tts",
     options: [
@@ -68,54 +73,26 @@ export const defaultConfig = [
 
 export const LLM_MODEL_CHOICES = [
   {
-    label: "Together AI",
-    value: "together",
+    label: "Anker",
+    value: "anker",
     models: [
       {
-        label: "Meta Llama 3.1 70B Instruct Turbo",
-        value: "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+        label: "Anker Llm Staging",
+        value: "anker staging",
       },
       {
-        label: "Meta Llama 3.1 8B Instruct Turbo",
-        value: "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
-      },
-      {
-        label: "Meta Llama 3.1 405B Instruct Turbo",
-        value: "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo",
+        label: "Anker Llm Prod",
+        value: "anker prod",
       },
     ],
   },
   {
-    label: "Anthropic",
-    value: "anthropic",
+    label: "Groq",
+    value: "groq",
     models: [
       {
-        label: "Claude 3.5 Sonnet",
-        value: "claude-3-5-sonnet-20240620",
-      },
-    ],
-  },
-  {
-    label: "Grok (x.ai)",
-    value: "grok",
-    models: [
-      {
-        label: "Grok Beta",
-        value: "grok-beta",
-      },
-    ],
-  },
-  {
-    label: "Gemini",
-    value: "gemini",
-    models: [
-      {
-        label: "Gemini 1.5 Flash",
-        value: "gemini-1.5-flash",
-      },
-      {
-        label: "Gemini 1.5 Pro",
-        value: "gemini-1.0-pro",
+        label: "Groq Llama 3.1 8b",
+        value: "llama-3.1-8b-instant",
       },
     ],
   },
@@ -130,6 +107,31 @@ export const LLM_MODEL_CHOICES = [
       {
         label: "GPT-4o Mini",
         value: "gpt-4o-mini",
+      },
+    ],
+  },
+];
+
+export const TTS_MODEL_CHOICES = [
+  {
+    label: "Cartesia",
+    value: "cartesia",
+    models: [
+      {
+        label: "Sophie",
+        value: "bf0a246a-8642-498a-9950-80c35e9276b5",
+      },
+      {
+        label: "Brooke",
+        value: "6f84f4b8-58a2-430c-8c79-688dad597532",
+      },
+      {
+        label: "Corinne",
+        value: "0c8ed86e-6c64-40f0-b252-b773911de6bb",
+      },
+      {
+        label: "Helpful Woman",
+        value: "156fb8d2-335b-4950-9cb3-a2d33befec77",
       },
     ],
   },

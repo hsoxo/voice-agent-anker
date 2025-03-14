@@ -25,6 +25,7 @@ import {
   defaultLLMPrompt,
   LANGUAGES,
   LLM_MODEL_CHOICES,
+  TTS_MODEL_CHOICES,
   PRESET_CHARACTERS,
 } from "@/rtvi.config";
 import { cn } from "@/utils/tailwind";
@@ -51,6 +52,12 @@ const llmProviders = LLM_MODEL_CHOICES.map((choice) => ({
   models: choice.models,
 }));
 
+const ttsProviders = TTS_MODEL_CHOICES.map((choice) => ({
+  label: choice.label,
+  value: choice.value,
+  models: choice.models,
+}));
+
 const tileCX = cx(
   "*:opacity-50 cursor-pointer rounded-xl px-4 py-3 bg-white border border-primary-200 bg-white select-none ring-ring transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
 );
@@ -65,8 +72,11 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
   const { character, setCharacter, language, setLanguage, clientParams } =
     useContext(AppContext);
 
-  const [llmProvider, setLlmProvider] = useState<string>(
+    const [llmProvider, setLlmProvider] = useState<string>(
     clientParams.services.llm
+  );
+  const [ttsProvider, setTtsProvider] = useState<string>(
+    clientParams.services.tts
   );
   const [llmModel, setLlmModel] = useState<string>(
     clientParams.config
@@ -82,8 +92,39 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
       }
     )?.stop_secs
   );
+  const [vadStartSecs, setVadStartSecs] = useState<number>(
+    (
+      clientParams.config
+        .find((c) => c.service === "vad")
+        ?.options.find((p) => p.name === "params")?.value as {
+        start_secs: number;
+      }
+    )?.start_secs
+  );
+  const [vadConfidence, setVadConfidence] = useState<number>(
+    (
+      clientParams.config
+        .find((c) => c.service === "vad")
+        ?.options.find((p) => p.name === "params")?.value as {
+        confidence: number;
+      }
+    )?.confidence
+  );
+  const [vadMinVolume, setVadMinVolume] = useState<number>(
+    (
+      clientParams.config
+        .find((c) => c.service === "vad")
+        ?.options.find((p) => p.name === "params")?.value as {
+        min_volume: number;
+      }
+    )?.min_volume
+  );
+
   const [showPrompt, setshowPrompt] = useState<boolean>(false);
   const modalRef = useRef<HTMLDialogElement>(null);
+  const [ttsModel, setTtsModel] = useState<string>(
+    clientParams.services.tts
+  );
 
   useEffect(() => {
     // Modal effect
@@ -206,8 +247,8 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
             ))}
           </Select>
         </Field>
-        {/* <Accordion type="single" collapsible>
-          {language === 0 && (
+        <Accordion type="single" collapsible>
+          {/* {language === 0 && (
             <AccordionItem value="character">
               <AccordionTrigger>Character</AccordionTrigger>
               <AccordionContent>
@@ -238,7 +279,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                 </Field>
               </AccordionContent>
             </AccordionItem>
-          )}
+          )} */}
           <AccordionItem value="llm">
             <AccordionTrigger>LLM options</AccordionTrigger>
             <AccordionContent>
@@ -317,11 +358,56 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
               </Field>
             </AccordionContent>
           </AccordionItem>
+          <AccordionItem value="tts">
+            <AccordionTrigger>TTS options</AccordionTrigger>
+            <AccordionContent>
+              <Field error={false}>
+                <Label>Model</Label>
+                <Select
+                  onChange={(e) => {
+                    setTtsModel(e.currentTarget.value);
+                    onConfigUpdate([
+                      {
+                        service: "tts",
+                        options: [
+                          { name: "model", value: e.currentTarget.value },
+                        ],
+                      },
+                    ]);
+                  }}
+                  value={ttsModel}
+                >
+                  {ttsProviders[0].models?.map(({ value, label }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </Select>
+              </Field>
+            </AccordionContent>
+          </AccordionItem>
           <AccordionItem value="voice">
             <AccordionTrigger>Voice config</AccordionTrigger>
             <AccordionContent>
               <StopSecs
-                vadStopSecs={vadStopSecs}
+                label="Speech start timeout"
+                helpText="Timeout (seconds) voice activity detection waits after you start speaking"
+                value={vadStartSecs}
+                handleChange={(v) => {
+                  setVadStartSecs(v);
+
+                  onConfigUpdate([
+                    {
+                      service: "vad",
+                      options: [{ name: "params", value: { start_secs: v } }],
+                    },
+                  ]);
+                }}
+              />
+              <StopSecs
+                label="Speech stop timeout"
+                helpText="Timeout (seconds) voice activity detection waits after you stop speaking"
+                value={vadStopSecs}
                 handleChange={(v) => {
                   setVadStopSecs(v);
 
@@ -333,9 +419,39 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                   ]);
                 }}
               />
+              <StopSecs
+                label="Confidence"
+                helpText="Confidence threshold for voice activity detection"
+                value={vadConfidence}
+                handleChange={(v) => {
+                  setVadConfidence(v);
+
+                  onConfigUpdate([
+                    {
+                      service: "vad",
+                      options: [{ name: "params", value: { confidence: v } }],
+                    },
+                  ]);
+                }}
+              />
+              <StopSecs
+                label="Minimum volume"
+                helpText="Minimum volume for voice activity detection"
+                value={vadMinVolume}
+                handleChange={(v) => {
+                  setVadMinVolume(v);
+
+                  onConfigUpdate([
+                    {
+                      service: "vad",
+                      options: [{ name: "params", value: { min_volume: v } }],
+                    },
+                  ]);
+                }}
+              />
             </AccordionContent>
           </AccordionItem>
-        </Accordion> */}
+        </Accordion>
       </div>
     </>
   );

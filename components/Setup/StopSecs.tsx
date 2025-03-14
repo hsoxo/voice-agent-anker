@@ -6,15 +6,19 @@ import { Label } from "../ui/label";
 import { Slider } from "../ui/slider";
 
 interface StopSecsProps {
-  vadStopSecs: number | undefined;
+  label: string;
+  helpText: string;
+  value: number;
   handleChange: (value: number) => void;
 }
 
 const StopSecs: React.FC<StopSecsProps> = ({
-  vadStopSecs = 0.3,
+  label,
+  helpText,
+  value = 0.3,
   handleChange,
 }) => {
-  const [stopSecs, setStopSecs] = useState<number>(vadStopSecs);
+  const [stopSecs, setStopSecs] = useState<number>(value);
   const debouncedUpdate = useDebounce(stopSecs, 500);
 
   const handleValueChange = (value: number[]) => {
@@ -23,16 +27,16 @@ const StopSecs: React.FC<StopSecsProps> = ({
   };
 
   useEffect(() => {
-    if (debouncedUpdate !== vadStopSecs) {
+    if (debouncedUpdate !== value) {
       handleChange(debouncedUpdate);
     }
-  }, [debouncedUpdate, handleChange, vadStopSecs]);
+  }, [debouncedUpdate, handleChange, value]);
 
   return (
     <div className="flex flex-col justify-between gap-2">
       <Label className="flex flex-row gap-1 items-center shrink-0">
-        Speech stop timeout
-        <HelpTip text="Timeout (seconds) voice activity detection waits after you stop speaking" />
+        {label}
+        <HelpTip text={helpText} />
       </Label>
       <div className="flex flex-row gap-2">
         <Slider
