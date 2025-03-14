@@ -14,7 +14,7 @@ export const LANGUAGES = [
 ];
 
 export const defaultServices = {
-  llm: "together",
+  llm: "anker",
   tts: "bf0a246a-8642-498a-9950-80c35e9276b5",
   stt: "deepgram",
 };
@@ -49,7 +49,7 @@ export const defaultConfig = [
   {
     service: "llm",
     options: [
-      { name: "model", value: "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo" },
+      { name: "model", value: "anker-staging" },
       {
         name: "initial_messages",
         value: [
@@ -78,11 +78,11 @@ export const LLM_MODEL_CHOICES = [
     models: [
       {
         label: "Anker Llm Staging",
-        value: "anker staging",
+        value: "anker-staging",
       },
       {
         label: "Anker Llm Prod",
-        value: "anker prod",
+        value: "anker-prod",
       },
     ],
   },

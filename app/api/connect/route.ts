@@ -71,18 +71,15 @@ async function getToken(roomName: string, expiryTime = 600, owner = true) {
   }
 }
 
-async function startBot(roomUrl: string, token: string) {
-  const response = await axios.post(`http://44.213.201.101:7860/start`, {
-    room_url: roomUrl,
-    token,
-  });
-  return response.data;
+async function startBot(body: any) {
+  const response = await axios.post(`http://44.213.201.101:7860/start`, body);
+  return response.data; 
 }
 
 
 export async function POST(req: NextRequest) {
   try {
-    const referer = req.headers.get('referer');
+    const body = await req.json();
     const room = await getARoom();
     if (!room) {
       return NextResponse.json({ error: 'Failed to create or get a room' }, { status: 500 });
@@ -92,11 +89,27 @@ export async function POST(req: NextRequest) {
     if (!token) {
       return NextResponse.json({ error: 'Failed to generate token' }, { status: 500 });
     }
-    await startBot(room.url, token);
+
+    
+    const params = {
+      room_url: room.url,
+      token: token,
+      tts_model: {
+        provider: 'cartesia',
+        model: body.config.find((c: any) => c.service === "tts")?.options.find((o: any) => o.name === "model")?.value,
+      },
+      llm_model: {
+        provider: body.services.llm,
+        model: body.config.find((c: any) => c.service === "llm")?.options.find((o: any) => o.name === "model")?.value,
+      },
+      vad_params: body.config.find((c: any) => c.service === "vad")?.options.find((o: any) => o.name === "params")?.value,
+    }
+    console.log("============>", params);
+    await startBot(params);
 
     return NextResponse.json({ room_url: room.url, token });
   } catch (error) {
-    console.error('Error handling request:', error);
+    // console.error('Error handling request:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
