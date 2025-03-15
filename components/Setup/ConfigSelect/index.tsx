@@ -370,7 +370,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                       {
                         service: "tts",
                         options: [
-                          { name: "model", value: e.currentTarget.value },
+                          { name: "voice", value: e.currentTarget.value },
                         ],
                       },
                     ]);
