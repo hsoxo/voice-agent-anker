@@ -10,12 +10,14 @@ interface StopSecsProps {
   helpText: string;
   value: number;
   handleChange: (value: number) => void;
+  postfix?: string;
 }
 
 const StopSecs: React.FC<StopSecsProps> = ({
   label,
   helpText,
   value = 0.3,
+  postfix = "",
   handleChange,
 }) => {
   const [stopSecs, setStopSecs] = useState<number>(value);
@@ -46,7 +48,10 @@ const StopSecs: React.FC<StopSecsProps> = ({
           step={0.1}
           onValueChange={handleValueChange}
         />
-        <div className="w-24">{stopSecs}s</div>
+        <div className="w-24">
+          {stopSecs}
+          {postfix}
+        </div>
       </div>
     </div>
   );

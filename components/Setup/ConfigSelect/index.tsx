@@ -72,7 +72,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
   const { character, setCharacter, language, setLanguage, clientParams } =
     useContext(AppContext);
 
-    const [llmProvider, setLlmProvider] = useState<string>(
+  const [llmProvider, setLlmProvider] = useState<string>(
     clientParams.services.llm
   );
   const [ttsProvider, setTtsProvider] = useState<string>(
@@ -122,9 +122,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
 
   const [showPrompt, setshowPrompt] = useState<boolean>(false);
   const modalRef = useRef<HTMLDialogElement>(null);
-  const [ttsModel, setTtsModel] = useState<string>(
-    clientParams.services.tts
-  );
+  const [ttsModel, setTtsModel] = useState<string>(clientParams.services.tts);
 
   useEffect(() => {
     // Modal effect
@@ -393,6 +391,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                 label="Speech start timeout"
                 helpText="Timeout (seconds) voice activity detection waits after you start speaking"
                 value={vadStartSecs}
+                postfix="s"
                 handleChange={(v) => {
                   setVadStartSecs(v);
 
@@ -408,6 +407,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                 label="Speech stop timeout"
                 helpText="Timeout (seconds) voice activity detection waits after you stop speaking"
                 value={vadStopSecs}
+                postfix="s"
                 handleChange={(v) => {
                   setVadStopSecs(v);
 
