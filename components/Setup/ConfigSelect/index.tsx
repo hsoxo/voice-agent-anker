@@ -387,7 +387,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="voice">
-            <AccordionTrigger>Voice config</AccordionTrigger>
+            <AccordionTrigger>VAD config</AccordionTrigger>
             <AccordionContent>
               <StopSecs
                 label="Speech start timeout"
