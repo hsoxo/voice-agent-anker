@@ -38,6 +38,6 @@ export default function Home() {
 }
 
 async function getCallSettings() {
-  const response = await fetch("/api/call-settings");
+  const response = await fetch("/voice-api/twilio/call-settings");
   return response.json();
 }

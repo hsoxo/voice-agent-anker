@@ -224,13 +224,16 @@ export default function Settings({ settings }: { settings: any }) {
 }
 
 export async function getCallSettings() {
-  const response = await fetch("/api/call-settings");
+  const response = await fetch("/voice-api/twilio/call-settings");
   return response.json();
 }
 
 export async function updateCallSettings(settings: any) {
-  const response = await fetch("/api/call-settings", {
+  const response = await fetch("/voice-api/twilio/call-settings", {
     method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(settings),
   });
   return response.json();
