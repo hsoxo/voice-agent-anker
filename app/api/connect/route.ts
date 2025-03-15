@@ -1,17 +1,17 @@
 export const runtime = "nodejs"; // Required for SST
 
-import { NextRequest, NextResponse } from 'next/server';
-import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
+import { NextRequest, NextResponse } from "next/server";
+import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 
 const DAILY_API_KEY = process.env.DAILY_API_KEY;
-const DAILY_API_URL = 'https://api.daily.co/v1';
+const DAILY_API_URL = "https://api.daily.co/v1";
 const ANKER_API_URL = process.env.ANKER_API_URL;
 const ANKER_API_KEY = process.env.ANKER_API_KEY;
 
 const headers = {
   Authorization: `Bearer ${DAILY_API_KEY}`,
-  'Content-Type': 'application/json',
+  "Content-Type": "application/json",
 };
 
 async function getExistingRooms() {
@@ -19,18 +19,21 @@ async function getExistingRooms() {
     const response = await axios.get(`${DAILY_API_URL}/rooms`, { headers });
     return response.data.data;
   } catch (error) {
-    console.error('Error fetching rooms:', error);
+    console.error("Error fetching rooms:", error);
     return [];
   }
 }
 
 async function checkIfRoomAvailable(roomName: string) {
   try {
-    const response = await axios.get(`${DAILY_API_URL}/rooms/${roomName}/presence`, { headers });
+    const response = await axios.get(
+      `${DAILY_API_URL}/rooms/${roomName}/presence`,
+      { headers }
+    );
     console.log(response.data);
     return response.data.total_count === 0;
   } catch (error) {
-    console.error('Error checking room availability:', error);
+    console.error("Error checking room availability:", error);
     return false;
   }
 }
@@ -38,10 +41,14 @@ async function checkIfRoomAvailable(roomName: string) {
 async function createRoom() {
   try {
     const roomName = uuidv4();
-    const response = await axios.post(`${DAILY_API_URL}/rooms`, { name: roomName }, { headers });
+    const response = await axios.post(
+      `${DAILY_API_URL}/rooms`,
+      { name: roomName },
+      { headers }
+    );
     return response.data;
   } catch (error) {
-    console.error('Error creating room:', error);
+    console.error("Error creating room:", error);
     return null;
   }
 }
@@ -66,50 +73,66 @@ async function getToken(roomName: string, expiryTime = 600, owner = true) {
     );
     return response.data.token;
   } catch (error) {
-    console.error('Error generating token:', error);
+    console.error("Error generating token:", error);
     return null;
   }
 }
 
 async function startBot(body: any) {
   const response = await axios.post(`http://44.213.201.101:7860/start`, body);
-  return response.data; 
+  return response.data;
 }
-
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const room = await getARoom();
     if (!room) {
-      return NextResponse.json({ error: 'Failed to create or get a room' }, { status: 500 });
+      return NextResponse.json(
+        { error: "Failed to create or get a room" },
+        { status: 500 }
+      );
     }
 
     const token = await getToken(room.name);
     if (!token) {
-      return NextResponse.json({ error: 'Failed to generate token' }, { status: 500 });
+      return NextResponse.json(
+        { error: "Failed to generate token" },
+        { status: 500 }
+      );
     }
 
-    
     const params = {
       room_url: room.url,
       token: token,
       tts_model: {
-        provider: 'cartesia',
-        model: body.config.find((c: any) => c.service === "tts")?.options.find((o: any) => o.name === "voice")?.value,
+        provider: "cartesia",
+        model: body.config
+          .find((c: any) => c.service === "tts")
+          ?.options.find((o: any) => o.name === "voice")?.value,
       },
       llm_model: {
         provider: body.services.llm,
-        model: body.config.find((c: any) => c.service === "llm")?.options.find((o: any) => o.name === "model")?.value,
+        model: body.config
+          .find((c: any) => c.service === "llm")
+          ?.options.find((o: any) => o.name === "model")?.value,
       },
-      vad_params: body.config.find((c: any) => c.service === "vad")?.options.find((o: any) => o.name === "params")?.value,
-    }
+      vad_params: body.config
+        .find((c: any) => c.service === "vad")
+        ?.options.find((o: any) => o.name === "params")?.value,
+    };
     console.log("============>", params);
     await startBot(params);
 
     return NextResponse.json({ room_url: room.url, token });
   } catch (error) {
-    // console.error('Error handling request:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    console.error(
+      "Error handling request:",
+      JSON.stringify((error as any).response.data, null, 2)
+    );
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
