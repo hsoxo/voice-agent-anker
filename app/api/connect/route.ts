@@ -96,7 +96,7 @@ export async function POST(req: NextRequest) {
       token: token,
       tts_model: {
         provider: 'cartesia',
-        model: body.config.find((c: any) => c.service === "tts")?.options.find((o: any) => o.name === "model")?.value,
+        model: body.config.find((c: any) => c.service === "tts")?.options.find((o: any) => o.name === "voice")?.value,
       },
       llm_model: {
         provider: body.services.llm,
