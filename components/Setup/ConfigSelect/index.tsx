@@ -375,6 +375,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                           options: [
                             { name: "provider", value: provider },
                             { name: "voice", value: e.currentTarget.value },
+                            { name: "model", value: e.currentTarget.value },
                           ],
                         },
                       ]);
