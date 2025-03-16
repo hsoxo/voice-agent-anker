@@ -25,12 +25,20 @@ Your responses will converted to audio. Please do not include any special charac
 Start by briefly introducing yourself.`;
 
 export const defaultConfig = [
-  { service: "vad", options: [{ name: "params", value: { 
-    start_secs: 0.2,
-    stop_secs: 0.8,
-    confidence: 0.7,
-    min_volume: 0.6
-   } }] },
+  {
+    service: "vad",
+    options: [
+      {
+        name: "params",
+        value: {
+          start_secs: 0.2,
+          stop_secs: 0.8,
+          confidence: 0.7,
+          min_volume: 0.6,
+        },
+      },
+    ],
+  },
   {
     service: "tts",
     options: [
@@ -132,6 +140,20 @@ export const TTS_MODEL_CHOICES = [
       {
         label: "Helpful Woman",
         value: "156fb8d2-335b-4950-9cb3-a2d33befec77",
+      },
+    ],
+  },
+  {
+    label: "Eleven Labs",
+    value: "elevenlabs",
+    models: [
+      {
+        label: "Rachel",
+        value: "21m00Tcm4TlvDq8ikWAM",
+      },
+      {
+        label: "Paul",
+        value: "5Q0t7uMcjvnagumLfvZi",
       },
     ],
   },

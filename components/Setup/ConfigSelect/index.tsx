@@ -363,22 +363,33 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                 <Label>Model</Label>
                 <Select
                   onChange={(e) => {
-                    setTtsModel(e.currentTarget.value);
-                    onConfigUpdate([
-                      {
-                        service: "tts",
-                        options: [
-                          { name: "voice", value: e.currentTarget.value },
-                        ],
-                      },
-                    ]);
+                    const provider = TTS_MODEL_CHOICES.find(({ models }) =>
+                      models.find((m) => m.value === e.currentTarget.value)
+                    )?.value;
+                    if (provider) {
+                      setTtsModel(e.target.value);
+                      setTtsProvider(provider);
+                      onConfigUpdate([
+                        {
+                          service: "tts",
+                          options: [
+                            { name: "provider", value: provider },
+                            { name: "voice", value: e.currentTarget.value },
+                          ],
+                        },
+                      ]);
+                    }
                   }}
                   value={ttsModel}
                 >
-                  {ttsProviders[0].models?.map(({ value, label }) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
+                  {TTS_MODEL_CHOICES.map(({ value, label, models }) => (
+                    <optgroup key={value} label={label}>
+                      {models.map(({ value, label }) => (
+                        <option key={value} value={value}>
+                          {label}
+                        </option>
+                      ))}
+                    </optgroup>
                   ))}
                 </Select>
               </Field>

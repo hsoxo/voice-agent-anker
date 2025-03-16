@@ -52,6 +52,9 @@ export default function Settings({ settings }: { settings: any }) {
   );
   const [llmModel, setLlmModel] = useState<string>(settings.llm_model.model);
   const [ttsModel, setTtsModel] = useState<string>(settings.tts_model.model);
+  const [ttsProvider, setTtsProvider] = useState<string>(
+    settings.tts_model.provider
+  );
   const availableModels = LLM_MODEL_CHOICES.find(
     (choice) => choice.value === llmProvider
   )?.models;
@@ -88,7 +91,7 @@ export default function Settings({ settings }: { settings: any }) {
     updateCallSettings({
       ...settings,
       llm_model: { provider: llmProvider, model: llmModel },
-      tts_model: { provider: "cartesia", model: ttsModel },
+      tts_model: { provider: ttsProvider, model: ttsModel },
       vad_params: vadSettings,
     });
   };
@@ -158,14 +161,24 @@ export default function Settings({ settings }: { settings: any }) {
                     <Label>Model</Label>
                     <Select
                       onChange={(e) => {
-                        setTtsModel(e.currentTarget.value);
+                        const provider = TTS_MODEL_CHOICES.find(({ models }) =>
+                          models.find((m) => m.value === e.currentTarget.value)
+                        )?.value;
+                        if (provider) {
+                          setTtsModel(e.target.value);
+                          setTtsProvider(provider);
+                        }
                       }}
                       value={ttsModel}
                     >
-                      {TTS_MODEL_CHOICES[0].models?.map(({ value, label }) => (
-                        <option key={value} value={value}>
-                          {label}
-                        </option>
+                      {TTS_MODEL_CHOICES.map(({ value, label, models }) => (
+                        <optgroup key={value} label={label}>
+                          {models.map(({ value, label }) => (
+                            <option key={value} value={value}>
+                              {label}
+                            </option>
+                          ))}
+                        </optgroup>
                       ))}
                     </Select>
                   </Field>
