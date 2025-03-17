@@ -126,20 +126,16 @@ export const TTS_MODEL_CHOICES = [
     value: "cartesia",
     models: [
       {
-        label: "Sophie",
-        value: "bf0a246a-8642-498a-9950-80c35e9276b5",
+        label: "Jacqueline",
+        value: "9626c31c-bec5-4cca-baa8-f8ba9e84c8bc",
       },
       {
         label: "Brooke",
         value: "6f84f4b8-58a2-430c-8c79-688dad597532",
       },
       {
-        label: "Corinne",
-        value: "0c8ed86e-6c64-40f0-b252-b773911de6bb",
-      },
-      {
-        label: "Helpful Woman",
-        value: "156fb8d2-335b-4950-9cb3-a2d33befec77",
+        label: "Jordan",
+        value: "87bc56aa-ab01-4baa-9071-77d497064686",
       },
     ],
   },
@@ -152,8 +148,16 @@ export const TTS_MODEL_CHOICES = [
         value: "21m00Tcm4TlvDq8ikWAM",
       },
       {
+        label: "Brian",
+        value: "nPczCjzI2devNBz1zQrb",
+      },
+      {
         label: "Paul",
         value: "5Q0t7uMcjvnagumLfvZi",
+      },
+      {
+        label: "Hofan Avatar",
+        value: "Bi7ydXBpaaAoszoDb2kd",
       },
     ],
   },
