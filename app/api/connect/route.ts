@@ -63,12 +63,20 @@ async function getARoom() {
   return await createRoom();
 }
 
-async function getToken(roomName: string, expiryTime = 600, owner = true) {
+async function getToken(roomName: string, expiryTime = 600, owner = false) {
   try {
-    const expiration = Math.floor(Date.now() / 1000) + expiryTime;
+    const expiration = Math.floor(Date.now() / 1000) + expiryTime + 20;
     const response = await axios.post(
       `${DAILY_API_URL}/meeting-tokens`,
-      { properties: { room_name: roomName, is_owner: owner, exp: expiration } },
+      {
+        properties: {
+          room_name: roomName,
+          is_owner: owner,
+          exp: expiration,
+          eject_at_token_exp: true,
+          eject_after_elapsed: expiryTime,
+        },
+      },
       { headers }
     );
     return response.data.token;
