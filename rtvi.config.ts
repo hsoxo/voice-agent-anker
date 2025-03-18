@@ -57,7 +57,7 @@ export const defaultConfig = [
   {
     service: "llm",
     options: [
-      { name: "model", value: "anker-staging" },
+      { name: "model", value: "anker-prod" },
       {
         name: "initial_messages",
         value: [
