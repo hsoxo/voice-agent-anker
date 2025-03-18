@@ -85,12 +85,12 @@ export const LLM_MODEL_CHOICES = [
     value: "anker",
     models: [
       {
-        label: "Anker Llm Staging",
-        value: "anker-staging",
-      },
-      {
         label: "Anker Llm Prod",
         value: "anker-prod",
+      },
+      {
+        label: "Anker Llm Staging",
+        value: "anker-staging",
       },
     ],
   },
