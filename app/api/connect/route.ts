@@ -79,7 +79,10 @@ async function getToken(roomName: string, expiryTime = 600, owner = true) {
 }
 
 async function startBot(body: any) {
-  const response = await axios.post(`http://44.213.201.101:7860/start`, body);
+  const response = await axios.post(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/start`,
+    body
+  );
   return response.data;
 }
 
