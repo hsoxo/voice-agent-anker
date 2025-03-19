@@ -137,6 +137,10 @@ export const TTS_MODEL_CHOICES = [
         label: "Jordan",
         value: "87bc56aa-ab01-4baa-9071-77d497064686",
       },
+      {
+        label: "Vexa (Helpful Woman)",
+        value: "156fb8d2-335b-4950-9cb3-a2d33befec77",
+      },
     ],
   },
   {
@@ -152,11 +156,11 @@ export const TTS_MODEL_CHOICES = [
         value: "nPczCjzI2devNBz1zQrb",
       },
       {
-        label: "Paul",
-        value: "5Q0t7uMcjvnagumLfvZi",
+        label: "Charlie",
+        value: "IKne3meq5aSn9XLyUdCD",
       },
       {
-        label: "Hofan Avatar",
+        label: "Zephyr",
         value: "Bi7ydXBpaaAoszoDb2kd",
       },
     ],
