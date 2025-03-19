@@ -144,10 +144,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ room_url: room.url, token });
   } catch (error) {
-    console.error(
-      "Error handling request:",
-      JSON.stringify((error as any).response.data, null, 2)
-    );
+    console.error("Error handling request:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

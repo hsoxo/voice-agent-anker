@@ -31,7 +31,6 @@ interface SessionProps {
 export const Session = React.memo(
   ({ state, onLeave, startAudioOff = false }: SessionProps) => {
     const voiceClient = useRTVIClient()!;
-    const [hasStarted, setHasStarted] = useState<boolean>(false);
     const [showConfig, setShowConfig] = useState<boolean>(false);
     const [showStats, setShowStats] = useState<boolean>(false);
     const [muted, setMuted] = useState(startAudioOff);
@@ -55,45 +54,7 @@ export const Session = React.memo(
       }, [])
     );
 
-    useRTVIClientEvent(
-      RTVIEvent.BotStoppedSpeaking,
-      useCallback(() => {
-        if (hasStarted) return;
-
-        /*if (bingSoundRef.current) {
-          bingSoundRef.current.volume = 0.5;
-          bingSoundRef.current.play();
-        }*/
-        setHasStarted(true);
-      }, [hasStarted])
-    );
-
-    useRTVIClientEvent(
-      RTVIEvent.UserStoppedSpeaking,
-      useCallback(() => {
-        /*if (bongSoundRef.current) {
-          bongSoundRef.current.volume = 0.5;
-          bongSoundRef.current.play();
-        }*/
-
-        if (hasStarted) return;
-        setHasStarted(true);
-      }, [hasStarted])
-    );
-
     // ---- Effects
-
-    useEffect(() => {
-      // Reset started state on mount
-      setHasStarted(false);
-    }, []);
-
-    useEffect(() => {
-      // If we joined unmuted, enable the mic once in ready state
-      if (!hasStarted || startAudioOff) return;
-      voiceClient.enableMic(true);
-    }, [voiceClient, startAudioOff, hasStarted]);
-
     useEffect(() => {
       // Create new stats aggregator on mount (removes stats from previous session)
       stats_aggregator = new StatsAggregator();
@@ -183,7 +144,7 @@ export const Session = React.memo(
             />
           </Card.Card>
           <UserMicBubble
-            active={hasStarted}
+            active={true}
             muted={muted}
             handleMute={() => toggleMute()}
           />

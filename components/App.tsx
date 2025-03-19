@@ -92,7 +92,7 @@ export default function App() {
     try {
       // Disable the mic until the bot has joined
       // to avoid interrupting the bot's welcome message
-      voiceClient.enableMic(false);
+      voiceClient.enableMic(true);
       await voiceClient.connect();
     } catch (e) {
       setError((e as RTVIError).message || "Unknown error occured");
