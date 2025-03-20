@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   try {
     const response = await axios.get(
-      `http://44.213.201.101:7860/twilio/call-settings`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/twilio/call-settings`
     );
     return NextResponse.json(response.data);
   } catch (error) {
@@ -22,7 +22,7 @@ export async function PUT(req: NextRequest) {
     console.log(body);
 
     const response = await axios.put(
-      `http://44.213.201.101:7860/twilio/call-settings`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/twilio/call-settings`,
       body
     );
     return NextResponse.json(response.data);
