@@ -120,6 +120,13 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
     )?.min_volume
   );
 
+  const vadParams = {
+    start_secs: vadStartSecs,
+    stop_secs: vadStopSecs,
+    confidence: vadConfidence,
+    min_volume: vadMinVolume,
+  };
+
   const [showPrompt, setshowPrompt] = useState<boolean>(false);
   const modalRef = useRef<HTMLDialogElement>(null);
   const [ttsModel, setTtsModel] = useState<string>(clientParams.services.tts);
@@ -410,7 +417,12 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                   onConfigUpdate([
                     {
                       service: "vad",
-                      options: [{ name: "params", value: { start_secs: v } }],
+                      options: [
+                        {
+                          name: "params",
+                          value: { ...vadParams, start_secs: v },
+                        },
+                      ],
                     },
                   ]);
                 }}
@@ -426,7 +438,12 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                   onConfigUpdate([
                     {
                       service: "vad",
-                      options: [{ name: "params", value: { stop_secs: v } }],
+                      options: [
+                        {
+                          name: "params",
+                          value: { ...vadParams, stop_secs: v },
+                        },
+                      ],
                     },
                   ]);
                 }}
@@ -441,7 +458,12 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                   onConfigUpdate([
                     {
                       service: "vad",
-                      options: [{ name: "params", value: { confidence: v } }],
+                      options: [
+                        {
+                          name: "params",
+                          value: { ...vadParams, confidence: v },
+                        },
+                      ],
                     },
                   ]);
                 }}
@@ -456,7 +478,12 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                   onConfigUpdate([
                     {
                       service: "vad",
-                      options: [{ name: "params", value: { min_volume: v } }],
+                      options: [
+                        {
+                          name: "params",
+                          value: { ...vadParams, min_volume: v },
+                        },
+                      ],
                     },
                   ]);
                 }}
