@@ -143,28 +143,6 @@ export const TTS_MODEL_CHOICES = [
       },
     ],
   },
-  {
-    label: "Eleven Labs",
-    value: "elevenlabs",
-    models: [
-      {
-        label: "Rachel",
-        value: "21m00Tcm4TlvDq8ikWAM",
-      },
-      {
-        label: "Brian",
-        value: "nPczCjzI2devNBz1zQrb",
-      },
-      {
-        label: "Charlie",
-        value: "IKne3meq5aSn9XLyUdCD",
-      },
-      {
-        label: "Zephyr",
-        value: "Bi7ydXBpaaAoszoDb2kd",
-      },
-    ],
-  },
 ];
 
 export const PRESET_CHARACTERS = [
