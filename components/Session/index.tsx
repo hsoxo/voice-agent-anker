@@ -141,6 +141,7 @@ export const Session = React.memo(
             <Agent
               isReady={state === "ready"}
               statsAggregator={stats_aggregator}
+              onLeave={onLeave}
             />
           </Card.Card>
           <UserMicBubble

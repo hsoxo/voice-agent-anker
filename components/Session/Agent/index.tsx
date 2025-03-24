@@ -11,8 +11,9 @@ import styles from "./styles.module.css";
 export const Agent: React.FC<{
   isReady: boolean;
   statsAggregator: StatsAggregator;
+  onLeave: () => void;
 }> = memo(
-  ({ isReady, statsAggregator }) => {
+  ({ isReady, statsAggregator, onLeave }) => {
     const [hasStarted, setHasStarted] = useState<boolean>(false);
     const [botStatus, setBotStatus] = useState<
       "initializing" | "connected" | "disconnected"
@@ -31,7 +32,8 @@ export const Agent: React.FC<{
       useCallback(() => {
         setHasStarted(false);
         setBotStatus("disconnected");
-      }, [])
+        onLeave();
+      }, [onLeave])
     );
 
     useRTVIClientEvent(

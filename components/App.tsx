@@ -66,7 +66,6 @@ export default function App() {
     // Update app state based on voice client transport state.
     // We only need a subset of states to determine the ui state,
     // so this effect helps avoid excess inline conditionals.
-    console.log(transportState);
     switch (transportState) {
       case "initialized":
       case "disconnected":
