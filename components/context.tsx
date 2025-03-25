@@ -10,8 +10,8 @@ export type ClientParams = {
 interface AppContextType {
   character: number;
   setCharacter: (value: number) => void;
-  language: number;
-  setLanguage: (value: number) => void;
+  language: string;
+  setLanguage: (value: string) => void;
   clientParams: ClientParams;
   setClientParams: (newParams: {
     config?: RTVIClientConfigOption[];
@@ -24,7 +24,7 @@ export const AppContext = createContext<AppContextType>({
   setCharacter: () => {
     throw new Error("setCharacter function must be overridden");
   },
-  language: 0,
+  language: "en",
   setLanguage: () => {
     throw new Error("setLanguage function must be overridden");
   },
@@ -46,7 +46,7 @@ export const AppProvider: React.FC<
   React.PropsWithChildren<AppContextProps>
 > = ({ children }) => {
   const [character, setCharacter] = useState<number>(0);
-  const [language, setLanguage] = useState<number>(0);
+  const [language, setLanguage] = useState<string>("en");
   const [clientParams, _setClientParams] = useState<ClientParams>({
     config: defaultConfig as RTVIClientConfigOption[],
     services: defaultServices as { [key: string]: string },

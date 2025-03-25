@@ -101,6 +101,7 @@ export default function App() {
 
   async function leave() {
     await voiceClient.disconnect();
+    window.location.reload();
   }
 
   /**

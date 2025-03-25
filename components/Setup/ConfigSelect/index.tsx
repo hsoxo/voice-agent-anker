@@ -72,6 +72,8 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
   const { character, setCharacter, language, setLanguage, clientParams } =
     useContext(AppContext);
 
+  const languageConfig = LANGUAGES.find((l) => l.value === language);
+
   const [llmProvider, setLlmProvider] = useState<string>(
     clientParams.services.llm
   );
@@ -144,77 +146,6 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
     return () => current?.close();
   }, [showPrompt]);
 
-  const composeConfig = useCallback(
-    (character: number, language: number) => {
-      // Get character data
-      const characterData = PRESET_CHARACTERS[character] as CharacterData;
-
-      // Compose new config object
-      const updatedConfig: RTVIClientConfigOption[] = [
-        {
-          service: "tts",
-          options: [
-            {
-              name: "voice",
-              value:
-                language !== 0
-                  ? LANGUAGES[language].default_voice
-                  : characterData.voice,
-            },
-            {
-              name: "model",
-              value: LANGUAGES[language].tts_model,
-            },
-            {
-              name: "language",
-              value: LANGUAGES[language].value,
-            },
-          ],
-        },
-        {
-          service: "llm",
-          options: [
-            {
-              name: "initial_messages",
-              value: [
-                {
-                  role: "system",
-                  content:
-                    language !== 0
-                      ? defaultLLMPrompt +
-                        `\nRespond only in ${LANGUAGES[language].label} please.`
-                          .split("\n")
-                          .map((line) => line.trim())
-                          .join("\n")
-                      : characterData.prompt
-                          .split("\n")
-                          .map((line) => line.trim())
-                          .join("\n"),
-                },
-              ],
-            },
-          ],
-        },
-        {
-          service: "stt",
-          options: [
-            {
-              name: "model",
-              value: LANGUAGES[language].stt_model,
-            },
-            {
-              name: "language",
-              value: LANGUAGES[language].value,
-            },
-          ],
-        },
-      ];
-
-      onConfigUpdate(updatedConfig);
-    },
-    [onConfigUpdate]
-  );
-
   const availableModels = LLM_MODEL_CHOICES.find(
     (choice) => choice.value === llmProvider
   )?.models;
@@ -239,14 +170,31 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
         <Field label="Language" error={false}>
           <Select
             onChange={(e) => {
-              composeConfig(character, parseInt(e.currentTarget.value));
-              setLanguage(parseInt(e.currentTarget.value));
+              setLanguage(e.currentTarget.value);
+              const voices = TTS_MODEL_CHOICES.find(
+                (m) => m.value === languageConfig?.tts_model
+              )?.models;
+              setTtsModel(
+                languageConfig?.default_voice ?? voices?.[0].value ?? ""
+              );
+              console.log(languageConfig);
+              onConfigUpdate([
+                {
+                  service: "tts",
+                  options: [
+                    { name: "language", value: languageConfig?.value },
+                    { name: "provider", value: languageConfig?.tts_model },
+                    { name: "voice", value: languageConfig?.default_voice },
+                    { name: "model", value: languageConfig?.tts_model },
+                  ],
+                },
+              ]);
             }}
             value={language}
             icon={<Languages size={24} />}
           >
             {LANGUAGES.map((lang, i) => (
-              <option key={lang.label} value={i}>
+              <option key={lang.label} value={lang.value}>
                 {lang.label}
               </option>
             ))}
@@ -374,15 +322,19 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                       models.find((m) => m.value === e.currentTarget.value)
                     )?.value;
                     if (provider) {
+                      const voice = TTS_MODEL_CHOICES.find(({ models }) =>
+                        models.find((m) => m.value === e.currentTarget.value)
+                      )?.models.find((m) => m.value === e.currentTarget.value);
                       setTtsModel(e.target.value);
                       setTtsProvider(provider);
                       onConfigUpdate([
                         {
                           service: "tts",
                           options: [
+                            { name: "language", value: voice?.language },
                             { name: "provider", value: provider },
-                            { name: "voice", value: e.currentTarget.value },
-                            { name: "model", value: e.currentTarget.value },
+                            { name: "voice", value: voice?.value },
+                            { name: "model", value: provider },
                           ],
                         },
                       ]);
@@ -390,13 +342,17 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                   }}
                   value={ttsModel}
                 >
-                  {TTS_MODEL_CHOICES.map(({ value, label, models }) => (
+                  {TTS_MODEL_CHOICES.filter(({ models }) =>
+                    models.find(({ language: lang }) => lang === language)
+                  ).map(({ value, label, models }) => (
                     <optgroup key={value} label={label}>
-                      {models.map(({ value, label }) => (
-                        <option key={value} value={value}>
-                          {label}
-                        </option>
-                      ))}
+                      {models
+                        .filter(({ language: lang }) => language === lang)
+                        .map(({ value, label }) => (
+                          <option key={value} value={value}>
+                            {label}
+                          </option>
+                        ))}
                     </optgroup>
                   ))}
                 </Select>

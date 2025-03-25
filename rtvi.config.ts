@@ -7,15 +7,22 @@ export const LANGUAGES = [
   {
     label: "English",
     value: "en",
-    tts_model: "bf0a246a-8642-498a-9950-80c35e9276b5",
+    tts_model: "cartesia",
     stt_model: "nova-2-general",
-    default_voice: "79a125e8-cd45-4c13-8a67-188112f4dd22",
+    default_voice: "9626c31c-bec5-4cca-baa8-f8ba9e84c8bc",
+  },
+  {
+    label: "中文",
+    value: "zh",
+    tts_model: "elevenlabs",
+    stt_model: "nova-2",
+    default_voice: "fQj4gJSexpu8RDE2Ii5m",
   },
 ];
 
 export const defaultServices = {
   llm: "anker",
-  tts: "bf0a246a-8642-498a-9950-80c35e9276b5",
+  tts: "cartesia",
   stt: "deepgram",
 };
 
@@ -128,18 +135,32 @@ export const TTS_MODEL_CHOICES = [
       {
         label: "Jacqueline",
         value: "9626c31c-bec5-4cca-baa8-f8ba9e84c8bc",
+        language: "en",
       },
       {
         label: "Brooke",
         value: "6f84f4b8-58a2-430c-8c79-688dad597532",
+        language: "en",
       },
       {
         label: "Jordan",
         value: "87bc56aa-ab01-4baa-9071-77d497064686",
+        language: "en",
       },
       {
         label: "Vexa (Helpful Woman)",
         value: "156fb8d2-335b-4950-9cb3-a2d33befec77",
+        language: "en",
+      },
+      {
+        label: "教授",
+        value: "c59c247b-6aa9-4ab6-91f9-9eabea7dc69e",
+        language: "zh",
+      },
+      {
+        label: "接线员",
+        value: "3a63e2d1-1c1e-425d-8e79-5100bc910e90",
+        language: "zh",
       },
     ],
   },

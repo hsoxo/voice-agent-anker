@@ -114,20 +114,21 @@ export async function POST(req: NextRequest) {
     }
 
     const ttsConfig = body.config.find((c: any) => c.service === "tts");
-    const ttsModel = ttsConfig?.options.find(
-      (o: any) => o.name === "model"
+    const ttsVoice = ttsConfig?.options.find(
+      (o: any) => o.name === "voice"
     )?.value;
     const ttsProvider = ttsConfig?.options.find(
-      (o: any) => o.name === "provider"
+      (o: any) => o.name === "model"
     )?.value;
 
     const params = {
       room_url: room.url,
       token: token,
+      language: ttsConfig?.options.find((o: any) => o.name === "language")
+        ?.value,
       tts_model: {
         provider: ttsProvider,
-        model: ttsModel,
-        voice: ttsModel,
+        voice: ttsVoice,
       },
       llm_model: {
         provider: body.services.llm,
