@@ -9,7 +9,7 @@ export const LANGUAGES = [
     value: "en",
     tts_model: "cartesia",
     stt_model: "nova-2-general",
-    default_voice: "9626c31c-bec5-4cca-baa8-f8ba9e84c8bc",
+    default_voice: "156fb8d2-335b-4950-9cb3-a2d33befec77",
   },
   {
     label: "中文",
@@ -133,23 +133,58 @@ export const TTS_MODEL_CHOICES = [
     value: "cartesia",
     models: [
       {
-        label: "Jacqueline",
+        label: "Jacqueline (F)",
         value: "9626c31c-bec5-4cca-baa8-f8ba9e84c8bc",
         language: "en",
       },
       {
-        label: "Brooke",
+        label: "Brooke (F)",
         value: "6f84f4b8-58a2-430c-8c79-688dad597532",
         language: "en",
       },
       {
-        label: "Jordan",
+        label: "Jordan (M)",
         value: "87bc56aa-ab01-4baa-9071-77d497064686",
         language: "en",
       },
       {
-        label: "Vexa (Helpful Woman)",
+        label: "Vexa (F)",
         value: "156fb8d2-335b-4950-9cb3-a2d33befec77",
+        language: "en",
+      },
+      {
+        label: "Chongz (M)",
+        value: "146485fd-8736-41c7-88a8-7cdd0da34d84",
+        language: "en",
+      },
+      {
+        label: "Keith (M)",
+        value: "9fa83ce3-c3a8-4523-accc-173904582ced",
+        language: "en",
+      },
+      {
+        label: "Ronald (M)",
+        value: "5ee9feff-1265-424a-9d7f-8e4d431a12c7",
+        language: "en",
+      },
+      {
+        label: "Salesman (M)",
+        value: "820a3788-2b37-4d21-847a-b65d8a68c99a",
+        language: "en",
+      },
+      {
+        label: "Joan (F)",
+        value: "5abd2130-146a-41b1-bcdb-974ea8e19f56",
+        language: "en",
+      },
+      {
+        label: "Connie (F)",
+        value: "8d8ce8c9-44a4-46c4-b10f-9a927b99a853",
+        language: "en",
+      },
+      {
+        label: "Professional women (F)",
+        value: "248be419-c632-4f23-adf1-5324ed7dbf1d",
         language: "en",
       },
       {
