@@ -11,13 +11,13 @@ export const LANGUAGES = [
     stt_model: "nova-2-general",
     default_voice: "156fb8d2-335b-4950-9cb3-a2d33befec77",
   },
-  {
-    label: "中文",
-    value: "zh",
-    tts_model: "elevenlabs",
-    stt_model: "nova-2",
-    default_voice: "fQj4gJSexpu8RDE2Ii5m",
-  },
+  // {
+  //   label: "中文",
+  //   value: "zh",
+  //   tts_model: "elevenlabs",
+  //   stt_model: "nova-2",
+  //   default_voice: "fQj4gJSexpu8RDE2Ii5m",
+  // },
 ];
 
 export const defaultServices = {
