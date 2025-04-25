@@ -49,7 +49,7 @@ export const defaultConfig = [
   {
     service: "tts",
     options: [
-      { name: "voice", value: "79a125e8-cd45-4c13-8a67-188112f4dd22" },
+      { name: "voice", value: "156fb8d2-335b-4950-9cb3-a2d33befec77" },
       { name: "model", value: LANGUAGES[0].tts_model },
       { name: "language", value: LANGUAGES[0].value },
       {

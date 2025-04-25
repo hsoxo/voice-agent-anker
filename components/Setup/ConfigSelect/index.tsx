@@ -71,6 +71,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
 }) => {
   const { character, setCharacter, language, setLanguage, clientParams } =
     useContext(AppContext);
+  console.log(clientParams);
 
   const languageConfig = LANGUAGES.find((l) => l.value === language);
 
@@ -131,7 +132,11 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
 
   const [showPrompt, setshowPrompt] = useState<boolean>(false);
   const modalRef = useRef<HTMLDialogElement>(null);
-  const [ttsModel, setTtsModel] = useState<string>(clientParams.services.tts);
+  const ttsConfig = clientParams.config.find(
+    (c) => c.service === "tts"
+  )!.options;
+  const ttsVoice = ttsConfig.find((p) => p.name === "voice")!.value;
+  const [ttsModel, setTtsModel] = useState<string>(ttsVoice as string);
 
   useEffect(() => {
     // Modal effect
