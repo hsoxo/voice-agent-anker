@@ -73,18 +73,17 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
     useContext(AppContext);
   console.log(clientParams);
 
-  const languageConfig = LANGUAGES.find((l) => l.value === language);
-
   const [llmProvider, setLlmProvider] = useState<string>(
     clientParams.services.llm
-  );
-  const [ttsProvider, setTtsProvider] = useState<string>(
-    clientParams.services.tts
   );
   const [llmModel, setLlmModel] = useState<string>(
     clientParams.config
       .find((c) => c.service === "llm")
       ?.options.find((p) => p.name === "model")?.value as string
+  );
+
+  const [ttsProvider, setTtsProvider] = useState<string>(
+    clientParams.services.tts
   );
   const [vadStopSecs, setVadStopSecs] = useState<number>(
     (
@@ -176,13 +175,23 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
           <Select
             onChange={(e) => {
               setLanguage(e.currentTarget.value);
+              const languageConfig = LANGUAGES.find(
+                (l) => l.value === e.currentTarget.value
+              );
               const voices = TTS_MODEL_CHOICES.find(
                 (m) => m.value === languageConfig?.tts_model
               )?.models;
               setTtsModel(
                 languageConfig?.default_voice ?? voices?.[0].value ?? ""
               );
-              console.log(languageConfig);
+              const llmModel = languageConfig?.llm_model ?? "gpt-4o-mini";
+              const llmProvider =
+                LLM_MODEL_CHOICES.find((l) =>
+                  l.models.some((m) => m.value === llmModel)
+                )?.value ?? "openai";
+
+              setLlmProvider(llmProvider);
+              setLlmModel(llmModel);
               onConfigUpdate([
                 {
                   service: "tts",
@@ -191,6 +200,13 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                     { name: "provider", value: languageConfig?.tts_model },
                     { name: "voice", value: languageConfig?.default_voice },
                     { name: "model", value: languageConfig?.tts_model },
+                  ],
+                },
+                {
+                  service: "llm",
+                  options: [
+                    { name: "model", value: llmModel },
+                    { name: "provider", value: llmProvider },
                   ],
                 },
               ]);

@@ -7,17 +7,27 @@ export const LANGUAGES = [
   {
     label: "English",
     value: "en",
+    llm_model: "anker-prod",
     tts_model: "cartesia",
-    stt_model: "nova-2-general",
+    stt_model: "nova-3-general",
     default_voice: "156fb8d2-335b-4950-9cb3-a2d33befec77",
   },
-  // {
-  //   label: "中文",
-  //   value: "zh",
-  //   tts_model: "elevenlabs",
-  //   stt_model: "nova-2",
-  //   default_voice: "fQj4gJSexpu8RDE2Ii5m",
-  // },
+  {
+    label: "中文",
+    value: "zh",
+    llm_model: "gpt-4o-mini",
+    tts_model: "cartesia",
+    stt_model: "nova-2-general",
+    default_voice: "c59c247b-6aa9-4ab6-91f9-9eabea7dc69e",
+  },
+  {
+    label: "日文",
+    value: "ja",
+    llm_model: "gpt-4o-mini",
+    tts_model: "cartesia",
+    stt_model: "nova-2-general",
+    default_voice: "6b92f628-be90-497c-8f4c-3b035002df71",
+  },
 ];
 
 export const defaultServices = {
@@ -94,10 +104,6 @@ export const LLM_MODEL_CHOICES = [
       {
         label: "Anker Llm Prod",
         value: "anker-prod",
-      },
-      {
-        label: "Anker Llm Staging",
-        value: "anker-staging",
       },
     ],
   },
@@ -196,6 +202,26 @@ export const TTS_MODEL_CHOICES = [
         label: "接线员",
         value: "3a63e2d1-1c1e-425d-8e79-5100bc910e90",
         language: "zh",
+      },
+      {
+        label: "Kenji (M)",
+        value: "6b92f628-be90-497c-8f4c-3b035002df71",
+        language: "ja",
+      },
+      {
+        label: "Yuki (F)",
+        value: "59d4fd2f-f5eb-4410-8105-58db7661144f",
+        language: "ja",
+      },
+      {
+        label: "Yumi (F)",
+        value: "2b568345-1d48-4047-b25f-7baccf842eb0",
+        language: "ja",
+      },
+      {
+        label: "Yuto (M)",
+        value: "e8a863c6-22c7-4671-86ca-91cacffc038d",
+        language: "ja",
       },
     ],
   },
