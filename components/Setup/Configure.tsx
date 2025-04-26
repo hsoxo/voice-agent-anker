@@ -73,5 +73,3 @@ export const Configure: React.FC<ConfigureProps> = React.memo(
     prevProps.startAudioOff === nextProps.startAudioOff &&
     prevProps.state === nextProps.state
 );
-
-Configure.displayName = "Configure";
