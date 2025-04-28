@@ -4,7 +4,7 @@ const nextConfig = {
     return [
       {
         source: "/voice-api/:path*",
-        destination: "http://newcast-dev-1.hhe.by/:path*",
+        destination: `${process.env.NEXT_PUBLIC_BACKEND_URL}/:path*`,
       },
     ];
   },

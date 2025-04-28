@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Space_Mono } from "next/font/google";
 
 import "./global.css";
+import { Toaster } from "sonner";
 
 // Font
 const fontSans = Inter({
@@ -29,6 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${fontSans.variable} ${fontMono.variable}`}>
+        <Toaster richColors position="top-center" />
         {children}
       </body>
     </html>

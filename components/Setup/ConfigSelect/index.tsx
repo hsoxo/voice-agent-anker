@@ -18,11 +18,13 @@ import { LANGUAGES, LLM_MODEL_CHOICES, TTS_MODEL_CHOICES } from "@/rtvi.config";
 import { cn } from "@/utils/tailwind";
 
 import StopSecs from "../StopSecs";
-
+import { convertClientParamsToConfigOptions } from "./utils";
 interface ConfigSelectProps {
-  state: string;
+  clientParams: ClientParams;
   onServiceUpdate: (service: { [key: string]: string }) => void;
   onConfigUpdate: (configOption: RTVIClientConfigOption[]) => void;
+  language: string;
+  setLanguage: (language: string) => void;
   inSession?: boolean;
 }
 
@@ -31,48 +33,14 @@ const tileCX = cx(
 );
 const tileActiveCX = cx("*:opacity-100 bg-primary-100/70 border-transparent");
 
-interface ConfigOption {
-  llm: {
-    model: string;
-    provider: string;
-  };
-  tts: {
-    language: string;
-    provider: string;
-    voice: string;
-    model: string;
-  };
-  vad: {
-    start_secs: number;
-    stop_secs: number;
-    confidence: number;
-    min_volume: number;
-  };
-  stt: {
-    language: string;
-    model: string;
-  };
-}
-
-const convertClientParamsToConfigOptions = (
-  clientParams: ClientParams
-): ConfigOption => {
-  return clientParams.config.reduce((acc, config) => {
-    acc[config.service] = config.options.reduce((acc, option) => {
-      acc[option.name] = option.value;
-      return acc;
-    }, {} as any);
-    return acc;
-  }, {} as any);
-};
-
 export const ConfigSelect: React.FC<ConfigSelectProps> = ({
   onConfigUpdate,
   onServiceUpdate,
-  state,
+  clientParams,
+  language,
+  setLanguage,
   inSession = false,
 }) => {
-  const { language, setLanguage, clientParams } = useContext(AppContext);
   const config = convertClientParamsToConfigOptions(clientParams);
 
   return (

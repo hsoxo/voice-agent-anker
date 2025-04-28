@@ -2,10 +2,10 @@
 
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import * as Card from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import Settings from "./components/Settings";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
+
 export default function Home() {
   const [settings, setSettings] = useState(null);
 
@@ -24,7 +24,7 @@ export default function Home() {
               <Card.CardTitle>Call Settings</Card.CardTitle>
             </Card.CardHeader>
             {settings ? (
-              <Settings settings={settings} />
+              <Settings />
             ) : (
               <div className="flex items-center justify-center h-full">
                 <Loader2 className="animate-spin" />

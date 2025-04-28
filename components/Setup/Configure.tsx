@@ -19,7 +19,7 @@ interface ConfigureProps {
 
 export const Configure: React.FC<ConfigureProps> = React.memo(
   ({ startAudioOff, state, inSession = false, handleStartAudioOff }) => {
-    const { clientParams, setClientParams } = useContext(AppContext);
+    const { clientParams, setClientParams, language, setLanguage } = useContext(AppContext);
     const voiceClient = useRTVIClient()!;
 
     const handleServiceUpdate = useCallback(
@@ -45,10 +45,12 @@ export const Configure: React.FC<ConfigureProps> = React.memo(
         <section className="flex flex-col flex-wrap gap-3 lg:gap-4">
           <DeviceSelect hideMeter={false} />
           <ConfigSelect
-            state={state}
             onConfigUpdate={handleConfigOptionUpdate}
             onServiceUpdate={handleServiceUpdate}
             inSession={inSession}
+            clientParams={clientParams}
+            language={language}
+            setLanguage={setLanguage}
           />
         </section>
 

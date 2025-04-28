@@ -1,230 +1,80 @@
 "use client";
 
-import { DailyTransport } from "@daily-co/realtime-ai-daily";
-import { TooltipProvider } from "@radix-ui/react-tooltip";
-import { useEffect, useRef, useState } from "react";
-import { LLMHelper, RTVIClient } from "realtime-ai";
-import { RTVIClientAudio, RTVIClientProvider } from "realtime-ai-react";
+import { useEffect, useState } from "react";
 import * as Card from "@/components/ui/card";
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Field } from "@/components/ui/field";
-import { Select } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import StopSecs from "@/components/Setup/StopSecs";
-import Image from "next/image";
 
-import App from "@/components/App";
-import { AppProvider } from "@/components/context";
-import Header from "@/components/Header";
-import Splash from "@/components/Splash";
-import {
-  BOT_READY_TIMEOUT,
-  defaultServices,
-  LLM_MODEL_CHOICES,
-  TTS_MODEL_CHOICES,
-} from "@/rtvi.config";
-import { cn } from "@/utils/tailwind";
-import { cx } from "class-variance-authority";
+import { ClientParams } from "@/components/context";
+import ConfigSelect from "@/components/Setup/ConfigSelect";
+import { defaultConfig, defaultServices } from "@/rtvi.config";
+import { toast } from "sonner";
 
-const defaultConfig = {
-  services: {
-    llm: "openai",
-    tts: "elevenlabs",
-    stt: "deepgram",
-  },
-};
 
-const tileCX = cx(
-  "*:opacity-50 cursor-pointer rounded-xl px-4 py-3 bg-white border border-primary-200 bg-white select-none ring-ring transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-);
-const tileActiveCX = cx("*:opacity-100 bg-primary-100/70 border-transparent");
+export default function Settings({ clientId }: { clientId?: string }) {
+  const [language, setLanguage] = useState('en')
+  const [clientParams, setClientParams] = useState<null | ClientParams>(null);
 
-export default function Settings({ settings }: { settings: any }) {
-  const [llmProvider, setLlmProvider] = useState<string>(
-    settings.llm_model.provider
-  );
-  const [llmModel, setLlmModel] = useState<string>(settings.llm_model.model);
-  const [ttsModel, setTtsModel] = useState<string>(settings.tts_model.model);
-  const [ttsProvider, setTtsProvider] = useState<string>(
-    settings.tts_model.provider
-  );
-  const availableModels = LLM_MODEL_CHOICES.find(
-    (choice) => choice.value === llmProvider
-  )?.models;
-  const [vadSettings, setVadSettings] = useState<{
-    start_secs: number;
-    stop_secs: number;
-    confidence: number;
-    min_volume: number;
-  }>({
-    start_secs: settings.vad_params.start_secs,
-    stop_secs: settings.vad_params.stop_secs,
-    confidence: settings.vad_params.confidence,
-    min_volume: settings.vad_params.min_volume,
-  });
+  const onConfigUpdate = (newConfigs: any[]) => {
+    setClientParams(prev => {
+      if (!prev) return null;
+      const newClientParams = { config: [...prev.config], services: { ...prev.services } };
+      for (const service of newConfigs) {
+        const serviceIndex = prev?.config.findIndex(c => c.service === service.service);
+        if (serviceIndex !== -1) {
+          newClientParams.config[serviceIndex] = service;
+        }
+        if (service.service === "tts") {
+          const provider = service.options.find((o: any) => o.name === "provider")!.value;
+          newClientParams.services.tts = provider;
+        }
+        if (service.service === "llm") {
+          const provider = service.options.find((o: any) => o.name === "provider")!.value;
+          newClientParams.services.llm = provider;
+        }
+        if (service.service === "stt") {
+          const provider = service.options.find((o: any) => o.name === "provider")!.value;
+          newClientParams.services.stt = provider;
+        }
+      }
+      return newClientParams;
+    });
+  };
 
-  console.log(vadSettings);
   useEffect(() => {
     async function fetchCallSettings() {
-      const callSettings = await getCallSettings();
-      setLlmProvider(callSettings.llm_model.provider);
-      setLlmModel(callSettings.llm_model.model);
-      setTtsModel(callSettings.tts_model.model);
-      setVadSettings({
-        start_secs: callSettings.vad_params.start_secs,
-        stop_secs: callSettings.vad_params.stop_secs,
-        confidence: callSettings.vad_params.confidence,
-        min_volume: callSettings.vad_params.min_volume,
-      });
+      const callSettings = await getCallSettings(clientId);
+      if (!callSettings.config) {
+        setClientParams({
+          config: defaultConfig,
+          services: defaultServices,
+        });
+      } else {
+        setClientParams(callSettings);
+      }
     }
     fetchCallSettings();
   }, []);
 
   const handleSave = () => {
-    updateCallSettings({
-      ...settings,
-      llm_model: { provider: llmProvider, model: llmModel },
-      tts_model: { provider: ttsProvider, model: ttsModel },
-      vad_params: vadSettings,
-    });
+    updateCallSettings(clientParams, clientId);
+    toast.success("Settings saved");
   };
 
   return (
     <>
       <Card.CardContent stack>
         <section className="flex flex-col flex-wrap gap-3 lg:gap-4">
-          <div className="flex flex-col flex-wrap gap-4">
-            <Accordion type="multiple" defaultValue={["llm", "tts", "voice"]}>
-              <AccordionItem value="llm">
-                <AccordionTrigger>LLM options</AccordionTrigger>
-                <AccordionContent>
-                  <Field error={false}>
-                    <Label>Provider</Label>
-                    <div className="grid grid-cols-3 gap-2">
-                      {LLM_MODEL_CHOICES.map(({ value, label }) => (
-                        <div
-                          tabIndex={0}
-                          className={cn(
-                            tileCX,
-                            value === llmProvider && tileActiveCX
-                          )}
-                          key={value}
-                          onClick={() => {
-                            if (value === llmProvider) return;
-
-                            setLlmProvider(value);
-
-                            const defaultProviderModel = LLM_MODEL_CHOICES.find(
-                              (p) => p.value === value
-                            )?.models[0].value!;
-                            setLlmModel(defaultProviderModel);
-                          }}
-                        >
-                          <Image
-                            src={`/logo-${value}.svg`}
-                            alt={label}
-                            width="200"
-                            height="60"
-                            className="user-select-none pointer-events-none"
-                          />
-                        </div>
-                      ))}
-                    </div>
-
-                    <Label>Model</Label>
-                    <Select
-                      onChange={(e) => {
-                        setLlmModel(e.currentTarget.value);
-                      }}
-                      value={llmModel}
-                    >
-                      {availableModels?.map(({ value, label }) => (
-                        <option key={value} value={value}>
-                          {label}
-                        </option>
-                      ))}
-                    </Select>
-                  </Field>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="tts">
-                <AccordionTrigger>TTS options</AccordionTrigger>
-                <AccordionContent>
-                  <Field error={false}>
-                    <Label>Model</Label>
-                    <Select
-                      onChange={(e) => {
-                        const provider = TTS_MODEL_CHOICES.find(({ models }) =>
-                          models.find((m) => m.value === e.currentTarget.value)
-                        )?.value;
-                        if (provider) {
-                          setTtsModel(e.target.value);
-                          setTtsProvider(provider);
-                        }
-                      }}
-                      value={ttsModel}
-                    >
-                      {TTS_MODEL_CHOICES.map(({ value, label, models }) => (
-                        <optgroup key={value} label={label}>
-                          {models.map(({ value, label }) => (
-                            <option key={value} value={value}>
-                              {label}
-                            </option>
-                          ))}
-                        </optgroup>
-                      ))}
-                    </Select>
-                  </Field>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="voice">
-                <AccordionTrigger>VAD config</AccordionTrigger>
-                <AccordionContent>
-                  <StopSecs
-                    label="Speech start timeout"
-                    helpText="Timeout (seconds) voice activity detection waits after you start speaking"
-                    value={vadSettings.start_secs}
-                    postfix="s"
-                    handleChange={(v) => {
-                      setVadSettings({ ...vadSettings, start_secs: v });
-                    }}
-                  />
-                  <StopSecs
-                    label="Speech stop timeout"
-                    helpText="Timeout (seconds) voice activity detection waits after you stop speaking"
-                    value={vadSettings.stop_secs}
-                    postfix="s"
-                    handleChange={(v) => {
-                      setVadSettings({ ...vadSettings, stop_secs: v });
-                    }}
-                  />
-                  <StopSecs
-                    label="Confidence"
-                    helpText="Confidence threshold for voice activity detection"
-                    value={vadSettings.confidence}
-                    handleChange={(v) => {
-                      setVadSettings({ ...vadSettings, confidence: v });
-                    }}
-                  />
-                  <StopSecs
-                    label="Minimum volume"
-                    helpText="Minimum volume for voice activity detection"
-                    value={vadSettings.min_volume}
-                    handleChange={(v) => {
-                      setVadSettings({ ...vadSettings, min_volume: v });
-                    }}
-                  />
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </div>
+          {clientParams && (
+            <ConfigSelect
+              onConfigUpdate={onConfigUpdate}
+              onServiceUpdate={() => {}}
+              inSession={false}
+              clientParams={clientParams}
+              language={language}
+              setLanguage={setLanguage}
+            />
+          )}
         </section>
       </Card.CardContent>
       <Card.CardFooter isButtonArray>
@@ -236,13 +86,15 @@ export default function Settings({ settings }: { settings: any }) {
   );
 }
 
-export async function getCallSettings() {
-  const response = await fetch("/voice-api/twilio/call-settings");
+export async function getCallSettings(clientId: undefined | string) {
+  const url = clientId ? `/voice-api/twilio/call-settings/${clientId}` : "/voice-api/twilio/call-settings";
+  const response = await fetch(url);
   return response.json();
 }
 
-export async function updateCallSettings(settings: any) {
-  const response = await fetch("/voice-api/twilio/call-settings", {
+export async function updateCallSettings(settings: any, clientId: undefined | string) { 
+  const url = clientId ? `/voice-api/twilio/call-settings/${clientId}` : "/voice-api/twilio/call-settings";
+  const response = await fetch(url, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
