@@ -10,30 +10,47 @@ import ConfigSelect from "@/components/Setup/ConfigSelect";
 import { defaultConfig, defaultServices } from "@/rtvi.config";
 import { toast } from "sonner";
 
-
-export default function Settings({ clientId, showExtra = false }: { clientId?: string, showExtra?: boolean }) {
-  const [language, setLanguage] = useState('en')
+export default function Settings({
+  clientId,
+  showExtra = false,
+}: {
+  clientId?: string;
+  showExtra?: boolean;
+}) {
+  const [language, setLanguage] = useState("en");
   const [clientParams, setClientParams] = useState<null | ClientParams>(null);
+  console.log(clientParams);
 
   const onConfigUpdate = (newConfigs: any[]) => {
-    setClientParams(prev => {
+    setClientParams((prev) => {
       if (!prev) return null;
-      const newClientParams = { config: [...prev.config], services: { ...prev.services } };
+      const newClientParams = {
+        config: [...prev.config],
+        services: { ...prev.services },
+      };
       for (const service of newConfigs) {
-        const serviceIndex = prev?.config.findIndex(c => c.service === service.service);
+        const serviceIndex = prev?.config.findIndex(
+          (c) => c.service === service.service
+        );
         if (serviceIndex !== -1) {
           newClientParams.config[serviceIndex] = service;
         }
         if (service.service === "tts") {
-          const provider = service.options.find((o: any) => o.name === "provider")!.value;
+          const provider = service.options.find(
+            (o: any) => o.name === "provider"
+          )!.value;
           newClientParams.services.tts = provider;
         }
         if (service.service === "llm") {
-          const provider = service.options.find((o: any) => o.name === "provider")!.value;
+          const provider = service.options.find(
+            (o: any) => o.name === "provider"
+          )!.value;
           newClientParams.services.llm = provider;
         }
         if (service.service === "stt") {
-          const provider = service.options.find((o: any) => o.name === "provider")!.value;
+          const provider = service.options.find(
+            (o: any) => o.name === "provider"
+          )!.value;
           newClientParams.services.stt = provider;
         }
       }
@@ -88,13 +105,20 @@ export default function Settings({ clientId, showExtra = false }: { clientId?: s
 }
 
 export async function getCallSettings(clientId: undefined | string) {
-  const url = clientId ? `/voice-api/twilio/call-settings/${clientId}` : "/voice-api/twilio/call-settings";
+  const url = clientId
+    ? `/voice-api/twilio/call-settings/${clientId}`
+    : "/voice-api/twilio/call-settings";
   const response = await fetch(url);
   return response.json();
 }
 
-export async function updateCallSettings(settings: any, clientId: undefined | string) { 
-  const url = clientId ? `/voice-api/twilio/call-settings/${clientId}` : "/voice-api/twilio/call-settings";
+export async function updateCallSettings(
+  settings: any,
+  clientId: undefined | string
+) {
+  const url = clientId
+    ? `/voice-api/twilio/call-settings/${clientId}`
+    : "/voice-api/twilio/call-settings";
   const response = await fetch(url, {
     method: "PUT",
     headers: {

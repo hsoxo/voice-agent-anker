@@ -1,7 +1,7 @@
 import { cx } from "class-variance-authority";
 import { Edit, Languages } from "lucide-react";
 import Image from "next/image";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { RTVIClientConfigOption } from "realtime-ai";
 
 import { ClientParams } from "@/components/context";
@@ -53,7 +53,9 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
   showExtra = false,
 }) => {
   const systemPromptModalRef = useRef<HTMLDialogElement>(null);
+  const [systemPromptOpen, setSystemPromptOpen] = useState(false);
   const config = convertClientParamsToConfigOptions(clientParams);
+  console.log(systemPromptOpen, config.llm.system_prompt);
 
   return (
     <>
@@ -195,7 +197,10 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
               {showExtra && (
                 <div
                   className="flex gap-2 items-center pt-4 cursor-pointer"
-                  onClick={() => systemPromptModalRef.current?.showModal()}
+                  onClick={() => {
+                    systemPromptModalRef.current?.showModal();
+                    setSystemPromptOpen(true);
+                  }}
                 >
                   <Edit size={16} />
                   <span>System prompt</span>
@@ -336,12 +341,17 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
             <Card.CardTitle>Configuration</Card.CardTitle>
           </Card.CardHeader>
           <Card.CardContent>
-            <Textarea defaultValue={config.llm.system_prompt} rows={20} />
+            {systemPromptOpen && (
+              <Textarea defaultValue={config.llm.system_prompt} rows={20} />
+            )}
           </Card.CardContent>
           <Card.CardFooter isButtonArray>
             <Button
               variant="outline"
-              onClick={() => systemPromptModalRef.current?.close()}
+              onClick={() => {
+                systemPromptModalRef.current?.close();
+                setSystemPromptOpen(false);
+              }}
             >
               Cancel
             </Button>
@@ -377,6 +387,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                   },
                 ]);
                 systemPromptModalRef.current?.close();
+                setSystemPromptOpen(false);
               }}
             >
               Save
