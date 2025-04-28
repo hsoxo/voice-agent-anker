@@ -14,7 +14,12 @@ import {
 import { Field } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
-import { LANGUAGES, LLM_MODEL_CHOICES, TTS_MODEL_CHOICES } from "@/rtvi.config";
+import {
+  LANGUAGES,
+  LLM_MODEL_CHOICES,
+  TTS_MODEL_CHOICES,
+  BOT_PROMPT,
+} from "@/rtvi.config";
 import { cn } from "@/utils/tailwind";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -81,6 +86,13 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                   options: [
                     { name: "model", value: languageConfig.llm_model },
                     { name: "provider", value: languageConfig.llm_provider },
+                    {
+                      name: "system_prompt",
+                      value:
+                        BOT_PROMPT[
+                          languageConfig.value as keyof typeof BOT_PROMPT
+                        ],
+                    },
                   ],
                 },
                 {
@@ -181,7 +193,10 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                 </Select>
               </Field>
               {showExtra && (
-                <div className="flex gap-2 items-center pt-4 cursor-pointer" onClick={() => systemPromptModalRef.current?.showModal()}>
+                <div
+                  className="flex gap-2 items-center pt-4 cursor-pointer"
+                  onClick={() => systemPromptModalRef.current?.showModal()}
+                >
                   <Edit size={16} />
                   <span>System prompt</span>
                 </div>
@@ -324,32 +339,51 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
             <Textarea defaultValue={config.llm.system_prompt} rows={20} />
           </Card.CardContent>
           <Card.CardFooter isButtonArray>
-            <Button variant="outline" onClick={() => systemPromptModalRef.current?.close()}>
+            <Button
+              variant="outline"
+              onClick={() => systemPromptModalRef.current?.close()}
+            >
               Cancel
             </Button>
-            <Button variant="success" onClick={() => {
-              const llmConfig = clientParams.config.find(({ service }) => service === "llm")!
-              const newOptions = [...llmConfig.options]
-              const systemPromptIndex = newOptions.findIndex(({ name }) => name === "system_prompt")
-              if (systemPromptIndex !== -1) {
-                newOptions[systemPromptIndex] = { name: "system_prompt", value: systemPromptModalRef.current?.querySelector("textarea")?.value }
-              } else {
-                newOptions.push({ name: "system_prompt", value: systemPromptModalRef.current?.querySelector("textarea")?.value })
-              }
-              onConfigUpdate([
-                {
-                  service: "llm",
-                  options: newOptions,
-                },
-              ]);
-              systemPromptModalRef.current?.close();
-            }}
+            <Button
+              variant="success"
+              onClick={() => {
+                const llmConfig = clientParams.config.find(
+                  ({ service }) => service === "llm"
+                )!;
+                const newOptions = [...llmConfig.options];
+                const systemPromptIndex = newOptions.findIndex(
+                  ({ name }) => name === "system_prompt"
+                );
+                if (systemPromptIndex !== -1) {
+                  newOptions[systemPromptIndex] = {
+                    name: "system_prompt",
+                    value:
+                      systemPromptModalRef.current?.querySelector("textarea")
+                        ?.value,
+                  };
+                } else {
+                  newOptions.push({
+                    name: "system_prompt",
+                    value:
+                      systemPromptModalRef.current?.querySelector("textarea")
+                        ?.value,
+                  });
+                }
+                onConfigUpdate([
+                  {
+                    service: "llm",
+                    options: newOptions,
+                  },
+                ]);
+                systemPromptModalRef.current?.close();
+              }}
             >
               Save
             </Button>
           </Card.CardFooter>
         </Card.Card>
-        </dialog>
+      </dialog>
     </>
   );
 };
