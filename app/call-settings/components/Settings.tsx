@@ -11,7 +11,7 @@ import { defaultConfig, defaultServices } from "@/rtvi.config";
 import { toast } from "sonner";
 
 
-export default function Settings({ clientId }: { clientId?: string }) {
+export default function Settings({ clientId, showExtra = false }: { clientId?: string, showExtra?: boolean }) {
   const [language, setLanguage] = useState('en')
   const [clientParams, setClientParams] = useState<null | ClientParams>(null);
 
@@ -73,6 +73,7 @@ export default function Settings({ clientId }: { clientId?: string }) {
               clientParams={clientParams}
               language={language}
               setLanguage={setLanguage}
+              showExtra={showExtra}
             />
           )}
         </section>

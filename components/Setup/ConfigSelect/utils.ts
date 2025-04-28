@@ -4,6 +4,7 @@ export interface ConfigOption {
   llm: {
     model: string;
     provider: string;
+    system_prompt: string;
   };
   tts: {
       language: string;

@@ -16,7 +16,7 @@ export default function Home() {
             <Card.CardHeader>
               <Card.CardTitle>Call Settings {clientId ? `for ${clientId}` : ""}</Card.CardTitle>
             </Card.CardHeader>
-            <Settings clientId={clientId as string} />
+            <Settings clientId={clientId as string} showExtra={true} />
           </Card.Card>
         </TooltipProvider>
       </div>

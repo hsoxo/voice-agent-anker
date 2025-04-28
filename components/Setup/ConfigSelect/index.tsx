@@ -1,7 +1,7 @@
 import { cx } from "class-variance-authority";
-import { Languages } from "lucide-react";
+import { Edit, Languages } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { useRef } from "react";
 import { RTVIClientConfigOption } from "realtime-ai";
 
 import { ClientParams } from "@/components/context";
@@ -16,9 +16,13 @@ import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { LANGUAGES, LLM_MODEL_CHOICES, TTS_MODEL_CHOICES } from "@/rtvi.config";
 import { cn } from "@/utils/tailwind";
+import { Textarea } from "@/components/ui/textarea";
 
 import StopSecs from "../StopSecs";
 import { convertClientParamsToConfigOptions } from "./utils";
+import * as Card from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
 interface ConfigSelectProps {
   clientParams: ClientParams;
   onServiceUpdate: (service: { [key: string]: string }) => void;
@@ -26,6 +30,7 @@ interface ConfigSelectProps {
   language: string;
   setLanguage: (language: string) => void;
   inSession?: boolean;
+  showExtra?: boolean;
 }
 
 const tileCX = cx(
@@ -40,7 +45,9 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
   language,
   setLanguage,
   inSession = false,
+  showExtra = false,
 }) => {
+  const systemPromptModalRef = useRef<HTMLDialogElement>(null);
   const config = convertClientParamsToConfigOptions(clientParams);
 
   return (
@@ -173,6 +180,12 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                   ))}
                 </Select>
               </Field>
+              {showExtra && (
+                <div className="flex gap-2 items-center pt-4 cursor-pointer" onClick={() => systemPromptModalRef.current?.showModal()}>
+                  <Edit size={16} />
+                  <span>System prompt</span>
+                </div>
+              )}
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="tts">
@@ -301,6 +314,42 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
           </AccordionItem>
         </Accordion>
       </div>
+
+      <dialog ref={systemPromptModalRef}>
+        <Card.Card className="w-svw max-w-full md:max-w-lg lg:max-w-xl">
+          <Card.CardHeader>
+            <Card.CardTitle>Configuration</Card.CardTitle>
+          </Card.CardHeader>
+          <Card.CardContent>
+            <Textarea defaultValue={config.llm.system_prompt} rows={20} />
+          </Card.CardContent>
+          <Card.CardFooter isButtonArray>
+            <Button variant="outline" onClick={() => systemPromptModalRef.current?.close()}>
+              Cancel
+            </Button>
+            <Button variant="success" onClick={() => {
+              const llmConfig = clientParams.config.find(({ service }) => service === "llm")!
+              const newOptions = [...llmConfig.options]
+              const systemPromptIndex = newOptions.findIndex(({ name }) => name === "system_prompt")
+              if (systemPromptIndex !== -1) {
+                newOptions[systemPromptIndex] = { name: "system_prompt", value: systemPromptModalRef.current?.querySelector("textarea")?.value }
+              } else {
+                newOptions.push({ name: "system_prompt", value: systemPromptModalRef.current?.querySelector("textarea")?.value })
+              }
+              onConfigUpdate([
+                {
+                  service: "llm",
+                  options: newOptions,
+                },
+              ]);
+              systemPromptModalRef.current?.close();
+            }}
+            >
+              Save
+            </Button>
+          </Card.CardFooter>
+        </Card.Card>
+        </dialog>
     </>
   );
 };
