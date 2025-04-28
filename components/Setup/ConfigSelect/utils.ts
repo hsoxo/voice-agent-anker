@@ -12,10 +12,12 @@ export interface ConfigOption {
       model: string;
   };
   vad: {
-      start_secs: number;
-      stop_secs: number;
-      confidence: number;
-      min_volume: number;
+      params: {
+        start_secs: number;
+        stop_secs: number;
+        confidence: number;
+        min_volume: number;
+      };
   };
   stt: {
       language: string;

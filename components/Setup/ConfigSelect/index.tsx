@@ -1,10 +1,10 @@
 import { cx } from "class-variance-authority";
 import { Languages } from "lucide-react";
 import Image from "next/image";
-import React, { useContext } from "react";
+import React from "react";
 import { RTVIClientConfigOption } from "realtime-ai";
 
-import { AppContext, ClientParams } from "@/components/context";
+import { ClientParams } from "@/components/context";
 import {
   Accordion,
   AccordionContent,
@@ -226,7 +226,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
               <StopSecs
                 label="Speech start timeout"
                 helpText="Timeout (seconds) voice activity detection waits after you start speaking"
-                value={config.vad.start_secs}
+                value={config.vad.params.start_secs}
                 postfix="s"
                 handleChange={(v) => {
                   onConfigUpdate([
@@ -235,7 +235,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                       options: [
                         {
                           name: "params",
-                          value: { ...config.vad, start_secs: v },
+                          value: { ...config.vad.params, start_secs: v },
                         },
                       ],
                     },
@@ -245,7 +245,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
               <StopSecs
                 label="Speech stop timeout"
                 helpText="Timeout (seconds) voice activity detection waits after you stop speaking"
-                value={config.vad.stop_secs}
+                value={config.vad.params.stop_secs}
                 postfix="s"
                 handleChange={(v) => {
                   onConfigUpdate([
@@ -254,7 +254,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                       options: [
                         {
                           name: "params",
-                          value: { ...config.vad, stop_secs: v },
+                          value: { ...config.vad.params, stop_secs: v },
                         },
                       ],
                     },
@@ -264,7 +264,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
               <StopSecs
                 label="Confidence"
                 helpText="Confidence threshold for voice activity detection"
-                value={config.vad.confidence}
+                value={config.vad.params.confidence}
                 handleChange={(v) => {
                   onConfigUpdate([
                     {
@@ -272,7 +272,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                       options: [
                         {
                           name: "params",
-                          value: { ...config.vad, confidence: v },
+                          value: { ...config.vad.params, confidence: v },
                         },
                       ],
                     },
@@ -282,7 +282,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
               <StopSecs
                 label="Minimum volume"
                 helpText="Minimum volume for voice activity detection"
-                value={config.vad.min_volume}
+                value={config.vad.params.min_volume}
                 handleChange={(v) => {
                   onConfigUpdate([
                     {
@@ -290,7 +290,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                       options: [
                         {
                           name: "params",
-                          value: { ...config.vad, min_volume: v },
+                          value: { ...config.vad.params, min_volume: v },
                         },
                       ],
                     },
