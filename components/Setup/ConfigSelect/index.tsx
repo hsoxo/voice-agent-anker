@@ -151,6 +151,10 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                                     name: "model",
                                     value: defaultProviderModel,
                                   },
+                                  {
+                                    name: "system_prompt",
+                                    value: config.llm.system_prompt,
+                                  },
                                 ],
                               },
                             ]);
@@ -179,6 +183,10 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                         options: [
                           { name: "provider", value: config.llm.provider },
                           { name: "model", value: e.currentTarget.value },
+                          {
+                            name: "system_prompt",
+                            value: config.llm.system_prompt,
+                          },
                         ],
                       },
                     ]);
@@ -209,7 +217,10 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                             { name: "provider", value: config.llm.provider },
                             { name: "model", value: config.llm.model },
                             { name: "customer", value: e.currentTarget.value },
-                            { name: "system_prompt", value: config.llm.system_prompt },
+                            {
+                              name: "system_prompt",
+                              value: config.llm.system_prompt,
+                            },
                           ],
                         },
                       ]);
