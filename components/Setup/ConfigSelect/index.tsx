@@ -27,6 +27,7 @@ import StopSecs from "../StopSecs";
 import { convertClientParamsToConfigOptions } from "./utils";
 import * as Card from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface ConfigSelectProps {
   clientParams: ClientParams;
@@ -55,7 +56,6 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
   const systemPromptModalRef = useRef<HTMLDialogElement>(null);
   const [systemPromptOpen, setSystemPromptOpen] = useState(false);
   const config = convertClientParamsToConfigOptions(clientParams);
-  console.log(systemPromptOpen, config.llm.system_prompt);
 
   return (
     <>
@@ -194,17 +194,41 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                   ))}
                 </Select>
               </Field>
-              {showExtra && (
-                <div
-                  className="flex gap-2 items-center pt-4 cursor-pointer"
-                  onClick={() => {
-                    systemPromptModalRef.current?.showModal();
-                    setSystemPromptOpen(true);
-                  }}
-                >
-                  <Edit size={16} />
-                  <span>System prompt</span>
+              {config.llm.provider === "anker" && (
+                <div className="flex gap-4 items-center pt-4 cursor-pointer">
+                  <Label>Customer</Label>
+                  <Input
+                    type="text"
+                    placeholder="anker"
+                    value={config.llm.customer}
+                    onChange={(e) => {
+                      onConfigUpdate([
+                        {
+                          service: "llm",
+                          options: [
+                            { name: "provider", value: config.llm.provider },
+                            { name: "model", value: config.llm.model },
+                            { name: "customer", value: e.currentTarget.value },
+                          ],
+                        },
+                      ]);
+                    }}
+                  />
                 </div>
+              )}
+              {showExtra && (
+                <>
+                  <div
+                    className="flex gap-2 items-center pt-4 cursor-pointer"
+                    onClick={() => {
+                      systemPromptModalRef.current?.showModal();
+                      setSystemPromptOpen(true);
+                    }}
+                  >
+                    <Edit size={16} />
+                    <span>System prompt</span>
+                  </div>
+                </>
               )}
             </AccordionContent>
           </AccordionItem>

@@ -121,6 +121,8 @@ export async function POST(req: NextRequest) {
       (o: any) => o.name === "model"
     )?.value;
 
+    const llmConfig = body.config.find((c: any) => c.service === "llm");
+
     const params = {
       room_url: room.url,
       token: token,
@@ -131,10 +133,12 @@ export async function POST(req: NextRequest) {
         voice: ttsVoice,
       },
       llm_model: {
-        provider: body.services.llm,
-        model: body.config
-          .find((c: any) => c.service === "llm")
-          ?.options.find((o: any) => o.name === "model")?.value,
+        provider: llmConfig?.options.find((o: any) => o.name === "provider")
+          ?.value,
+        model: llmConfig?.options.find((o: any) => o.name === "model")?.value,
+        customer:
+          llmConfig?.options.find((o: any) => o.name === "customer")?.value ??
+          "anker",
       },
       vad_params: body.config
         .find((c: any) => c.service === "vad")
