@@ -139,6 +139,9 @@ export async function POST(req: NextRequest) {
         customer:
           llmConfig?.options.find((o: any) => o.name === "customer")?.value ??
           "anker",
+        system_prompt:
+          llmConfig?.options.find((o: any) => o.name === "system_prompt")
+            ?.value,
       },
       vad_params: body.config
         .find((c: any) => c.service === "vad")

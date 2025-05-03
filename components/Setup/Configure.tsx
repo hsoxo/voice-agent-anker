@@ -51,6 +51,7 @@ export const Configure: React.FC<ConfigureProps> = React.memo(
             clientParams={clientParams}
             language={language}
             setLanguage={setLanguage}
+            showExtra={true}
           />
         </section>
 

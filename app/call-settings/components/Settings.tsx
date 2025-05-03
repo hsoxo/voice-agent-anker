@@ -19,7 +19,6 @@ export default function Settings({
 }) {
   const [language, setLanguage] = useState("en");
   const [clientParams, setClientParams] = useState<null | ClientParams>(null);
-  console.log(clientParams);
 
   const onConfigUpdate = (newConfigs: any[]) => {
     setClientParams((prev) => {
