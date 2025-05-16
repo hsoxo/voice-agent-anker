@@ -311,4 +311,55 @@ export const TTS_MODEL_CHOICES = [
       },
     ],
   },
+  {
+    label: "Azure",
+    value: "azure",
+    models: [
+      {
+        label: "Masaru (M)",
+        value: "ja-JP-MasaruMultilingualNeural",
+        language: "ja",
+      },
+      {
+        label: "Masaru Dragon (M)",
+        value: "ja-JP-Masaru:DragonHDLatestNeural",
+        language: "ja",
+      },
+      {
+        label: "Nanami (F)",
+        value: "ja-JP-NanamiNeural",
+        language: "ja",
+      },
+      {
+        label: "Nanami Dragon (F)",
+        value: "ja-JP-Nanami:DragonHDLatestNeural",
+        language: "ja",
+      },
+      {
+        label: "Keita (M)",
+        value: "ja-JP-KeitaNeural",
+        language: "ja",
+      },
+      {
+        label: "Mayu (F)",
+        value: "ja-JP-MayuNeural",
+        language: "ja",
+      },
+      {
+        label: "Daichi (M)",
+        value: "ja-JP-DaichiNeural",
+        language: "ja",
+      },
+      {
+        label: "Naoki (M)",
+        value: "ja-JP-NaokiNeural",
+        language: "ja",
+      },
+      {
+        label: "Shiori (F)",
+        value: "ja-JP-ShioriNeural",
+        language: "ja",
+      },
+    ],
+  },
 ];
