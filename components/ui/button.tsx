@@ -26,6 +26,10 @@ const buttonVariants = cva(
         icon: "h-12 w-12",
         iconSm: "h-9 w-9",
       },
+      isRound: {
+        true: "rounded-full",
+        false: "rounded-xl",
+      },
     },
     defaultVariants: {
       variant: "primary",
@@ -43,7 +47,7 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { variant, size, fullWidthMobile, className, asChild = false, ...props },
+    { variant, size, fullWidthMobile, className, asChild = false, isRound = false, ...props },
     ref
   ) => {
     const Comp = asChild ? Slot : "button";
@@ -51,7 +55,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         ref={ref}
         className={cn(
-          buttonVariants({ variant, size }),
+          buttonVariants({ variant, size, isRound }),
           fullWidthMobile ? "w-full md:w-auto" : "",
           className
         )}

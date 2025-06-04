@@ -6,7 +6,7 @@ import { useRTVIClientEvent } from "realtime-ai-react";
 
 import styles from "./styles.module.css";
 
-const AudioIndicatorBubble: React.FC = () => {
+export const AudioIndicatorBubble: React.FC = () => {
   const volRef = useRef<HTMLDivElement>(null);
 
   useRTVIClientEvent(
