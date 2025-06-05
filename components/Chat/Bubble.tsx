@@ -27,6 +27,7 @@ const BubbleContainer = styled.div<{ role: 'ai' | 'user' }>`
   max-width: 80%;
   width: fit-content;
   margin-left: ${({ role }) => (role === 'user' ? 'auto' : '10px')};
+  text-align: left;
 `;
 
 const BubbleText = styled.span`

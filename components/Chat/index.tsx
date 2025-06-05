@@ -5,7 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 import Pusher from "pusher-js";
 import ButtonApp from "../ButtonApp";
 import { Button } from "../ui/button";
-import { Mic, SendHorizonal } from "lucide-react";
+import { SendHorizonal } from "lucide-react";
+
 
 interface Chat {
   text: string;
@@ -21,8 +22,8 @@ export const VoiceChat = () => {
 
   const pusher = useMemo(() => {
     if (typeof window === "undefined") return;
-    return new Pusher(String(process.env.PUSHER_KEY), {
-      cluster: String(process.env.PUSHER_CLUSTER),
+    return new Pusher('fb609e51dceb9a27d79c', {
+      cluster: 'mt1',
       channelAuthorization: {
         transport: "ajax",
         endpoint: `https://newcast.ai/api/platform-service/v1/user/pusher/auth`,
@@ -95,7 +96,7 @@ export const VoiceChat = () => {
         </div>
       )}
       <InputWrapper>
-        <div>
+        <div className="w-[320px] flex items-center gap-2">
           <Input
             placeholder="Type a message..."
             value={text}
@@ -113,10 +114,8 @@ export const VoiceChat = () => {
               }
             }}
           />
-          <Button isRound onClick={handleShowVoiceBot}>
-            <Mic />
-          </Button>
-          <Button isRound onClick={handleSend}>
+          <ButtonApp />
+          <Button onClick={handleSend} isRound size="icon" className="flex-shrink-0">
             <SendHorizonal />
           </Button>
         </div>
