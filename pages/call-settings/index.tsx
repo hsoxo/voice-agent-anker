@@ -2,7 +2,7 @@
 
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import * as Card from "@/components/ui/card";
-import Settings from "./components/Settings";
+import Settings from "@/components/CallSettings";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 

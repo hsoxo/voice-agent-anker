@@ -2,7 +2,7 @@
 
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import * as Card from "@/components/ui/card";
-import Settings from "../components/Settings";
+import Settings from "@/components/CallSettings";
 import { useParams } from "next/navigation";
 
 export default function Home() {

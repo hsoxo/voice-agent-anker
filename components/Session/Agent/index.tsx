@@ -1,27 +1,15 @@
 import React, { memo, useCallback, useEffect, useState } from "react";
-import clsx from "clsx";
 import { Loader2 } from "lucide-react";
 import { RTVIEvent } from "realtime-ai";
 import { useRTVIClientEvent, VoiceVisualizer } from "realtime-ai-react";
 
-import ModelBadge from "./model";
-
-import styles from "./styles.module.css";
-
-export const Agent: React.FC<{
-  isReady: boolean;
-  statsAggregator: StatsAggregator;
-  onLeave: () => void;
-}> = memo(
+export const Agent = memo(
   ({ isReady, statsAggregator, onLeave }) => {
-    const [hasStarted, setHasStarted] = useState<boolean>(false);
-    const [botStatus, setBotStatus] = useState<
-      "initializing" | "connected" | "disconnected"
-    >("initializing");
-    const [botIsTalking, setBotIsTalking] = useState<boolean>(false);
+    const [hasStarted, setHasStarted] = useState(false);
+    const [botStatus, setBotStatus] = useState("initializing");
+    const [botIsTalking, setBotIsTalking] = useState(false);
 
     useEffect(() => {
-      // Update the started state when the transport enters the ready state
       if (!isReady) return;
       setHasStarted(true);
       setBotStatus("connected");
@@ -50,20 +38,18 @@ export const Agent: React.FC<{
       }, [])
     );
 
-    // Cleanup
     useEffect(() => () => setHasStarted(false), []);
 
-    const cx = clsx(
-      styles.agentWindow,
-      hasStarted && styles.ready,
-      botIsTalking && styles.talking
-    );
-
     return (
-      <div className={styles.agent}>
-        <div className={cx}>
+      <div className="p-2 relative">
+        <div
+          className={`min-w-[400px] aspect-square rounded-2xl relative flex items-center justify-center overflow-hidden transition-colors duration-1000
+            ${hasStarted ? "bg-gray-600" : "bg-primary-300"}
+            ${botIsTalking ? "bg-primary-950" : ""}
+            max-md:min-w-0`}
+        >
           {!hasStarted ? (
-            <span className={styles.loader}>
+            <span className="p-3 inline-block leading-none bg-primary-600 text-white rounded-full absolute">
               <Loader2 size={32} className="animate-spin" />
             </span>
           ) : (
@@ -73,8 +59,8 @@ export const Agent: React.FC<{
       </div>
     );
   },
-  (p, n) => p.isReady === n.isReady
+  (prev, next) => prev.isReady === next.isReady
 );
-Agent.displayName = "Agent";
 
+Agent.displayName = "Agent";
 export default Agent;

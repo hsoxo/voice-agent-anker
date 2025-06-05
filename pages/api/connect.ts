@@ -1,6 +1,4 @@
-export const runtime = "nodejs"; // Required for SST
-
-import { NextRequest, NextResponse } from "next/server";
+import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
@@ -94,23 +92,25 @@ async function startBot(body: any) {
   return response.data;
 }
 
-export async function POST(req: NextRequest) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method Not Allowed" });
+  }
+
   try {
-    const body = await req.json();
+    const body = req.body;
+
     const room = await getARoom();
     if (!room) {
-      return NextResponse.json(
-        { error: "Failed to create or get a room" },
-        { status: 500 }
-      );
+      return res.status(500).json({ error: "Failed to create or get a room" });
     }
 
     const token = await getToken(room.name);
     if (!token) {
-      return NextResponse.json(
-        { error: "Failed to generate token" },
-        { status: 500 }
-      );
+      return res.status(500).json({ error: "Failed to generate token" });
     }
 
     const ttsConfig = body.config.find((c: any) => c.service === "tts");
@@ -146,16 +146,17 @@ export async function POST(req: NextRequest) {
       vad_params: body.config
         .find((c: any) => c.service === "vad")
         ?.options.find((o: any) => o.name === "params")?.value,
+      chat_id: body.chatId,
+      template: body.requestTemplate,
+      open_statement: body.openStatement,
     };
+
     console.log("============>", params);
     await startBot(params);
 
-    return NextResponse.json({ room_url: room.url, token });
+    return res.status(200).json({ room_url: room.url, token });
   } catch (error) {
     console.error("Error handling request:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 }

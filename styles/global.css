@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --default-font-size: theme(fontSize.sm);
+  --default-font-size: var(--font-size-sm);
   --app-padding: 12px;
   --layout-aside-width: 100%;
 
   @screen md {
     --app-padding: 1rem;
-    --default-font-size: theme(fontSize.base);
+    --default-font-size: var(--font-size-base);
     --layout-aside-width: 320px;
   }
 
@@ -34,13 +34,13 @@ html {
 
 html,
 body {
-  background-color: theme(colors.primary.50);
-  color: theme(colors.primary.900);
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-900);
   overscroll-behavior: none;
 }
 
 body {
-  font-family: theme(fontFamily.sans);
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -63,6 +63,7 @@ main {
   flex-direction: column;
   flex: 1;
   height: 100dvh;
+  width: 100dvw;
 }
 
 #app {
@@ -116,9 +117,9 @@ main {
 }
 
 samp {
-  font-family: theme(fontFamily.mono);
+  font-family: var(--font-family-mono);
   display: inline;
-  font-size: theme(fontSize.xs);
+  font-size: var(--font-size-xs);
   padding: 0 0.4em;
   line-height: 1;
   border-radius: 0.25rem;
@@ -131,15 +132,15 @@ sub {
   margin-left: 2px;
   font-size: 65%;
   bottom: 0 !important;
-  color: theme(colors.primary.500);
+  color: var(--color-primary-500);
 }
 
 /* Dialog (modal) */
 
 dialog {
   background: transparent;
-  box-shadow: theme(boxShadow.long);
-  border-radius: theme(borderRadius.3xl);
+  box-shadow: var(--box-shadow-long);
+  border-radius: var(--border-radius-3xl);
   animation: appear 0.3s ease-out;
 
   @screen md {}

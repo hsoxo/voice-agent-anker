@@ -10,8 +10,6 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/utils/tailwind";
 
-import styles from "./styles.module.css";
-
 const ExpiryTimer: React.FC = () => {
   const voiceClient = useRTVIClient();
   const [exp, setExp] = useState<number | undefined>(undefined);
@@ -37,7 +35,6 @@ const ExpiryTimer: React.FC = () => {
 
     const futureTimestamp = exp;
 
-    // Function to update time
     const updateTime = () => {
       if (noExpiry) clearInterval(interval);
       const currentTimestamp = Math.floor(Date.now() / 1000);
@@ -47,13 +44,9 @@ const ExpiryTimer: React.FC = () => {
       setTime({ minutes, seconds });
     };
 
-    // Update time every second
     const interval = setInterval(updateTime, 1000);
-
-    // Initial update
     updateTime();
 
-    // Clear interval on component unmount
     return () => clearInterval(interval);
   }, [noExpiry, exp]);
 
@@ -64,9 +57,14 @@ const ExpiryTimer: React.FC = () => {
   return (
     <Tooltip>
       <TooltipTrigger>
-        <div className={styles.expiry}>
-          <Timer size={20} />
-          <span className={cn(styles.time, isExpired && styles.expired)}>
+        <div className="ml-auto flex flex-row items-center gap-1.5 rounded-lg bg-primary-100 px-3 py-2 text-sm border-t border-primary-200">
+          <Timer size={20} className="text-primary-400" />
+          <span
+            className={cn(
+              "font-semibold tracking-wider w-20",
+              isExpired && "text-primary-400"
+            )}
+          >
             {isExpired
               ? "--:--"
               : `${time.minutes}m ${time.seconds.toString().padStart(2, "0")}s`}

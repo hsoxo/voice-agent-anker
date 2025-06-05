@@ -3,7 +3,6 @@ import { RTVIClientConfigOption, RTVIEvent } from "realtime-ai";
 import { useRTVIClientEvent } from "realtime-ai-react";
 
 import { AppContext } from "@/components/context";
-import styles from "./styles.module.css";
 
 const ModelBadge: React.FC = () => {
   const { clientParams } = useContext(AppContext);
@@ -25,7 +24,11 @@ const ModelBadge: React.FC = () => {
     }
   );
 
-  return <div className={styles.modelBadge}>{model}</div>;
+  return (
+    <div className="absolute top-3 left-3 right-3 text-center z-[99] uppercase text-[11px] font-semibold text-primary-500">
+      {model}
+    </div>
+  );
 };
 
 export default ModelBadge;
