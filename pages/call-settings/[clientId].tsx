@@ -3,10 +3,9 @@
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import * as Card from "@/components/ui/card";
 import Settings from "@/components/CallSettings";
-import { useParams } from "next/navigation";
+import { GetServerSideProps } from "next";
 
-export default function Home() {
-  const { clientId } = useParams();
+export default function Home({ clientId }: { clientId: string }) {
 
   return (
     <main>
@@ -23,3 +22,13 @@ export default function Home() {
     </main>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { clientId } = context.params!;
+
+  return {
+    props: {
+      clientId,
+    },
+  };
+};

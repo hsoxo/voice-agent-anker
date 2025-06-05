@@ -4,7 +4,7 @@ import { RTVIEvent } from "realtime-ai";
 import { useRTVIClientEvent, VoiceVisualizer } from "realtime-ai-react";
 
 export const Agent = memo(
-  ({ isReady, statsAggregator, onLeave }) => {
+  ({ isReady, statsAggregator, onLeave }: { isReady: boolean, statsAggregator: any, onLeave: () => void }) => {
     const [hasStarted, setHasStarted] = useState(false);
     const [botStatus, setBotStatus] = useState("initializing");
     const [botIsTalking, setBotIsTalking] = useState(false);
