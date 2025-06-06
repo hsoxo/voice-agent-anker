@@ -22,7 +22,7 @@ export const VoiceChat = () => {
 
   const pusher = useMemo(() => {
     if (typeof window === "undefined") return;
-    return new Pusher('fb609e51dceb9a27d79c', {
+    return new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY, {
       cluster: 'mt1',
       channelAuthorization: {
         transport: "ajax",
