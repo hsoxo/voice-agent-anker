@@ -1,6 +1,6 @@
 import { DailyTransport } from "@daily-co/realtime-ai-daily";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { LLMHelper, RTVIClient } from "realtime-ai";
 import { RTVIClientAudio, RTVIClientProvider } from "realtime-ai-react";
 
@@ -11,6 +11,7 @@ import {
   defaultServices,
 } from "@/rtvi.config";
 import ButtonInner from "./ButtonInner";
+import "@/styles/tailwind.css";
 
 export default function ButtonApp({ chatId = "", requestTemplate = null }: { chatId?: string, requestTemplate?: any }) {
   const [showSplash, setShowSplash] = useState(true);
