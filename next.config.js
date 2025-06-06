@@ -17,9 +17,24 @@ module.exports = {
               filename: "static/chunks/remoteEntry.js",
               exposes: {
                 "./ButtonApp": "./components/ButtonApp",
+              },  
+              shared: {
+                react: { singleton: true, requiredVersion: '18.2.0' },
+                'react-dom': { singleton: true, requiredVersion: '18.2.0' },
               },
+              extraOptions: {
+                automaticAsyncBoundary: true,
+              },
+            
             }),
         )
         return config
     },
+    exportPathMap: async function () {
+      return {
+        '/': { page: '/' },
+        '/call-settings': { page: '/call-settings' },
+        // ...
+      }
+    }
 };

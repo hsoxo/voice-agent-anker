@@ -1,31 +1,17 @@
-"use client";
-
-import { TooltipProvider } from "@radix-ui/react-tooltip";
-import * as Card from "@/components/ui/card";
-import Settings from "@/components/CallSettings";
+// pages/call-settings/[clientId].tsx
+import dynamic from "next/dynamic";
 import { GetServerSideProps } from "next";
 
-export default function Home({ clientId }: { clientId: string }) {
+const CallSettingsPage = dynamic(() => import("@/components/CallSettings/client"), {
+  ssr: false,
+});
 
-  return (
-    <main>
-      <div id="app">
-        <TooltipProvider>
-          <Card.Card shadow className="animate-appear max-w-lg">
-            <Card.CardHeader>
-              <Card.CardTitle>Call Settings {clientId ? `for ${clientId}` : ""}</Card.CardTitle>
-            </Card.CardHeader>
-            <Settings clientId={clientId as string} showExtra={true} />
-          </Card.Card>
-        </TooltipProvider>
-      </div>
-    </main>
-  );
+export default function Page({ clientId }: { clientId: string }) {
+  return <CallSettingsPage clientId={clientId} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { clientId } = context.params!;
-
   return {
     props: {
       clientId,
