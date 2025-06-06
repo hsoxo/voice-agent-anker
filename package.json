@@ -1,13 +1,13 @@
 {
-  "name": "nextjs-react_host-app",
+  "name": "newcast-voice-agent",
   "version": "0.1.0",
   "scripts": {
     "dev": "rm -rf ./.next && NEXT_PRIVATE_LOCAL_WEBPACK=true NODE_OPTIONS=\"--max_old_space_size=8000\"  next dev",
     "build": "NEXT_PRIVATE_LOCAL_WEBPACK=true next build",
     "start": "next start",
     "lint": "next lint",
-    "prebuild": "tailwindcss -i ./styles/index.css -o ./lib/style.css --minify",
-    "build:lib": "tsup lib/index.ts --format esm,cjs --dts --external react,react-dom --tsconfig tsconfig.lib.json"
+    "prebuild": "tailwindcss -i ./styles/global.css -o ./lib/style.css --minify",
+    "build:lib": "npm run prebuild & tsup --config tsup.config.ts lib/index.ts --format esm,cjs --dts --external react,react-dom --tsconfig tsconfig.lib.json"
     },
   "dependencies": {
     "@daily-co/realtime-ai-daily": "0.2.0",
