@@ -11,19 +11,15 @@ module.exports = {
       ];
     },
     webpack(config, options) {
-      config.plugins.push(
-        new NextFederationPlugin({
-          name: "newcast-voice-agent",
-          filename: "static/chunks/remoteEntry.js",
-          exposes: {
-            "./ButtonApp": "./components/ButtonApp",
-          },
-          shared: {
-            react: { singleton: true, requiredVersion: false },
-            'react-dom': { singleton: true, requiredVersion: false },
-          }
-        }),
-      )
-      return config
+        config.plugins.push(
+          new NextFederationPlugin({
+              name: "newcastVoiceAgent",
+              filename: "static/chunks/remoteEntry.js",
+              exposes: {
+                "./ButtonApp": "./components/ButtonApp",
+              },
+            }),
+        )
+        return config
     },
 };
