@@ -40,7 +40,7 @@ export default function ButtonApp({ chatId = "", llmUrl = "", requestTemplate = 
           config: defaultConfig,
           chatId,
           llmUrl,
-          requestTemplate: JSON.stringify(requestTemplate),
+          requestTemplate,
           openStatement: false,
         },
       },

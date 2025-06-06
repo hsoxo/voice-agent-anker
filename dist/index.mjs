@@ -753,7 +753,7 @@ function ButtonApp({ chatId = "", llmUrl = "", requestTemplate = null }) {
           config: defaultConfig,
           chatId,
           llmUrl,
-          requestTemplate: JSON.stringify(requestTemplate),
+          requestTemplate,
           openStatement: false
         }
       },
