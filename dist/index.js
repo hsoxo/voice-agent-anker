@@ -776,7 +776,7 @@ function ButtonApp({ chatId = "", llmUrl = "", requestTemplate = null }) {
     const voiceClient = new import_realtime_ai4.RTVIClient({
       transport: new import_realtime_ai_daily.DailyTransport(),
       params: {
-        baseUrl: "/api",
+        baseUrl: "https://voice-agent-dev.newcast.ai/api",
         requestData: {
           services: defaultServices,
           config: defaultConfig,

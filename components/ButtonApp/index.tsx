@@ -34,7 +34,7 @@ export default function ButtonApp({ chatId = "", llmUrl = "", requestTemplate = 
     const voiceClient = new RTVIClient({
       transport: new DailyTransport(),
       params: {
-        baseUrl: "/api",
+        baseUrl: "https://voice-agent-dev.newcast.ai/api",
         requestData: {
           services: defaultServices,
           config: defaultConfig,
