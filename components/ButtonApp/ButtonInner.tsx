@@ -90,7 +90,6 @@ export default function ButtonInner() {
 
   async function leave() {
     await voiceClient.disconnect();
-    window.location.reload();
   }
 
   /**

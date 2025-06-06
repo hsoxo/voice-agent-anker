@@ -708,7 +708,6 @@ function ButtonInner() {
   }
   async function leave() {
     await voiceClient.disconnect();
-    window.location.reload();
   }
   if (error) {
     return /* @__PURE__ */ jsx6(Alert, { intent: "danger", title: "An error occurred", children: error });
