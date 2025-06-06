@@ -29,12 +29,5 @@ module.exports = {
             }),
         )
         return config
-    },
-    exportPathMap: async function () {
-      return {
-        '/': { page: '/' },
-        '/call-settings': { page: '/call-settings' },
-        // ...
-      }
     }
 };
