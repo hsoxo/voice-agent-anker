@@ -1,5 +1,3 @@
-"use client";
-
 import { Loader2, Mic } from "lucide-react";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { RTVIError, RTVIEvent, RTVIMessage } from "realtime-ai";

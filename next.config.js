@@ -19,8 +19,8 @@ module.exports = {
                 "./ButtonApp": "./components/ButtonApp",
               },  
               shared: {
-                react: { singleton: true, requiredVersion: '18.2.0' },
-                'react-dom': { singleton: true, requiredVersion: '18.2.0' },
+                react: { singleton: true, requiredVersion: '18.2.0', eager: true },
+                'react-dom': { singleton: true, requiredVersion: '18.2.0', eager: true },
               },
               extraOptions: {
                 automaticAsyncBoundary: true,
