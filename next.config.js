@@ -25,7 +25,7 @@ module.exports = {
               extraOptions: {
                 automaticAsyncBoundary: true,
               },
-            
+              library: { type: "module" }, // ⭐️ 加上这个
             }),
         )
         return config
