@@ -149,6 +149,7 @@ export default async function handler(
       chat_id: body.chatId,
       template: body.requestTemplate,
       open_statement: body.openStatement,
+      llm_url: body.llmUrl,
     };
 
     console.log("============>", params);

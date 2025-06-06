@@ -12,7 +12,7 @@ import {
 } from "@/rtvi.config";
 import ButtonInner from "./ButtonInner";
 
-export default function ButtonApp({ chatId = "", requestTemplate = null }: { chatId?: string, requestTemplate?: any }) {
+export default function ButtonApp({ chatId = "", llmUrl = "", requestTemplate = null }: { chatId?: string, llmUrl?: string, requestTemplate?: any }) {
   const [showSplash, setShowSplash] = useState(true);
   const voiceClientRef = useRef<RTVIClient | null>(null);
 
@@ -29,6 +29,7 @@ export default function ButtonApp({ chatId = "", requestTemplate = null }: { cha
           services: defaultServices,
           config: defaultConfig,
           chatId,
+          llmUrl,
           requestTemplate: JSON.stringify(requestTemplate),
           openStatement: false,
         },
