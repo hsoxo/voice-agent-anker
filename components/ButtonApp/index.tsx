@@ -11,7 +11,7 @@ import {
   BOT_READY_TIMEOUT,
   defaultConfig,
   defaultServices,
-} from "@/rtvi.config";
+} from "../../rtvi.config";
 import ButtonInner from "./ButtonInner";
 
 export default function ButtonApp({ chatId = "", llmUrl = "", requestTemplate = null }: { chatId?: string, llmUrl?: string, requestTemplate?: any }) {

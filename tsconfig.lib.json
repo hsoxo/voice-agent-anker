@@ -1,0 +1,18 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+      "outDir": "dist",
+      "declaration": true,
+      "emitDeclarationOnly": false,
+      "module": "ESNext",
+      "target": "ESNext",
+      "jsx": "react-jsx",
+      "incremental": false,
+      "moduleResolution": "Node",
+      "paths": {
+        "@/*": ["./*"]
+      }
+    },
+    "include": ["lib"]
+  }
+  

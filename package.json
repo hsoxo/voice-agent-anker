@@ -5,8 +5,10 @@
     "dev": "rm -rf ./.next && NEXT_PRIVATE_LOCAL_WEBPACK=true NODE_OPTIONS=\"--max_old_space_size=8000\"  next dev",
     "build": "NEXT_PRIVATE_LOCAL_WEBPACK=true next build",
     "start": "next start",
-    "lint": "next lint"
-  },
+    "lint": "next lint",
+    "prebuild": "tailwindcss -i ./styles/index.css -o ./lib/style.css --minify",
+    "build:lib": "tsup lib/index.ts --format esm,cjs --dts --external react,react-dom --tsconfig tsconfig.lib.json"
+    },
   "dependencies": {
     "@daily-co/realtime-ai-daily": "0.2.0",
     "@emotion/react": "11.14.0",
@@ -36,6 +38,7 @@
     "realtime-ai-react": "0.2.0",
     "sonner": "2.0.3",
     "tailwind-merge": "2.3.0",
+    "tsup": "^8.5.0",
     "uuid": "11.1.0"
   },
   "devDependencies": {
