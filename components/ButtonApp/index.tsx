@@ -15,6 +15,10 @@ import {
 import ButtonInner from "./ButtonInner";
 
 export default function ButtonApp({ chatId = "", llmUrl = "", requestTemplate = null }: { chatId?: string, llmUrl?: string, requestTemplate?: any }) {
+  const urlParams = new URLSearchParams(window.location.search);
+  console.log('llmUrl', urlParams.get('llmUrl'))
+  console.log('requestTemplate', urlParams.get('requestTemplate'))
+
   const [showSplash, setShowSplash] = useState(true);
   const voiceClientRef = useRef<RTVIClient | null>(null);
 
