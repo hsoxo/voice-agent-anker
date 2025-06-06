@@ -7,7 +7,7 @@
     "start": "next start",
     "lint": "next lint",
     "prebuild": "tailwindcss -i ./styles/global.css -o ./lib/style.css --minify",
-    "build:lib": "npm run prebuild & tsup --config tsup.config.ts lib/index.ts --format esm,cjs --dts --external react,react-dom --tsconfig tsconfig.lib.json"
+    "build:lib": "tsup --config tsup.config.ts lib/index.ts --format esm,cjs --dts --external react,react-dom --tsconfig tsconfig.lib.json"
     },
   "dependencies": {
     "@daily-co/realtime-ai-daily": "0.2.0",
@@ -51,5 +51,18 @@
     "webpack": "5.96.1",
     "webpack-cli": "5.1.4",
     "webpack-dev-server": "5.0.4"
-  }
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./components/CallSettings": {
+      "import": "./dist/components/CallSettings.js",
+      "types": "./dist/components/CallSettings.d.ts"
+    }
+  },
+  "files": ["dist"]
 }
