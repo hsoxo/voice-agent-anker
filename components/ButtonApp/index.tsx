@@ -11,7 +11,6 @@ import {
   defaultServices,
 } from "@/rtvi.config";
 import ButtonInner from "./ButtonInner";
-import "@/styles/tailwind.css";
 
 export default function ButtonApp({ chatId = "", requestTemplate = null }: { chatId?: string, requestTemplate?: any }) {
   const [showSplash, setShowSplash] = useState(true);
