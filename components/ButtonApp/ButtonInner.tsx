@@ -9,7 +9,7 @@ import {
 
 import { AppContext } from "../context";
 import { Alert } from "../ui/alert";
-import { Button } from "../ui/button";
+import { Button } from "./Button";
 import { MinialConfigure } from '../Setup/MinialConfig'
 import {ButtonSession} from "../Session/ButtonSession";
 

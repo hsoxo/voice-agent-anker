@@ -1,8 +1,8 @@
+import React, { useEffect, useRef, useState } from "react";
 console.log('React version:', React.version);
 
 import { DailyTransport } from "@daily-co/realtime-ai-daily";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
-import React, { useEffect, useRef, useState } from "react";
 import { LLMHelper, RTVIClient } from "realtime-ai";
 import { RTVIClientAudio, RTVIClientProvider } from "realtime-ai-react";
 
