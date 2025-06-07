@@ -14,6 +14,22 @@ import { Alert } from "../ui/alert";
 import { Button } from "./Button";
 import { MinialConfigure } from '../Setup/MinialConfig'
 import {ButtonSession} from "./ButtonSession";
+import { keyframes } from "@emotion/react";
+import styled from "@emotion/styled";
+
+const spin = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+// 给 Loader2 包一层 styled 组件
+const SpinningLoader = styled(Loader2)`
+  animation: ${spin} 1s linear infinite;
+`;
 
 export default function ButtonInner() {
   const voiceClient = useRTVIClient()!;
@@ -127,7 +143,7 @@ export default function ButtonInner() {
     <div>
         {/* <MinialConfigure /> */}
         <Button key="start" onClick={() => start()} disabled={!isReady} isRound={true} size="icon">
-          {isReady ? <Mic /> : <Loader2 style={{animation: 'spin 1s linear infinite'}} />}
+          {isReady ? <Mic /> : <SpinningLoader />}
         </Button>
     </div>
   );
