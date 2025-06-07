@@ -119,6 +119,22 @@ const Volume = styled.div`
   background-color: #86efac;
 `;
 
+const SvgIcon = styled.div`
+  width: 2rem;   /* 相当于 Tailwind 的 size-8 */
+  height: 2rem;
+
+  @media (min-width: 768px) {
+    width: 2.5rem; /* md:size-10 */
+    height: 2.5rem;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+
 export const AudioIndicatorBubble: React.FC = () => {
   const volRef = useRef<HTMLDivElement>(null);
 
@@ -153,13 +169,15 @@ export default function UserMicBubble({ active, muted, handleMute }: Props) {
         onClick={() => handleMute()}
       >
         <Icon canTalk={canTalk}>
-          {!active ? (
-            <Pause size={42} className="size-8 md:size-10" />
-          ) : canTalk ? (
-            <Mic size={42} className="size-8 md:size-10" />
-          ) : (
-            <MicOff size={42} className="size-8 md:size-10" />
-          )}
+          <SvgIcon>
+            {!active ? (
+              <Pause />
+            ) : canTalk ? (
+              <Mic />
+            ) : (
+              <MicOff />
+            )}
+          </SvgIcon>
         </Icon>
         {canTalk && <AudioIndicatorBubble />}
       </Bubble>

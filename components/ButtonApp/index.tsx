@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 console.log('React version:', React.version);
+console.log('Remote React instance:', React);
+// @ts-ignore
+console.log('Same instance as host:', React === window.__hostReact__); // 这里应为 true，如果不是说明共享失败
 
 import { DailyTransport } from "@daily-co/realtime-ai-daily";
 import { TooltipProvider } from "@radix-ui/react-tooltip";

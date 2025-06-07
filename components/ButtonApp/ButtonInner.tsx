@@ -1,5 +1,7 @@
+
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+
 import { Loader2, Mic } from "lucide-react";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { RTVIError, RTVIEvent, RTVIMessage } from "realtime-ai";
 import {
   useRTVIClient,
@@ -11,7 +13,7 @@ import { AppContext } from "../context";
 import { Alert } from "../ui/alert";
 import { Button } from "./Button";
 import { MinialConfigure } from '../Setup/MinialConfig'
-import {ButtonSession} from "../Session/ButtonSession";
+import {ButtonSession} from "./ButtonSession";
 
 export default function ButtonInner() {
   const voiceClient = useRTVIClient()!;
@@ -125,7 +127,7 @@ export default function ButtonInner() {
     <div>
         {/* <MinialConfigure /> */}
         <Button key="start" onClick={() => start()} disabled={!isReady} isRound={true} size="icon">
-          {isReady ? <Mic /> : <Loader2 className="animate-spin" />}
+          {isReady ? <Mic /> : <Loader2 style={{animation: 'spin 1s linear infinite'}} />}
         </Button>
     </div>
   );

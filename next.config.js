@@ -11,6 +11,7 @@ module.exports = {
       ];
     },
     webpack(config, options) {
+        const { isServer } = options;
         config.plugins.push(
           new NextFederationPlugin({
               name: "newcastVoiceAgent",
@@ -28,6 +29,13 @@ module.exports = {
               library: { type: "module" }, // ⭐️ 加上这个
             }),
         )
+        if (!isServer) {
+          config.externals = {
+            ...config.externals,
+            react: 'React',
+            'react-dom': 'ReactDOM',
+          };
+        }
         return config
     }
 };
