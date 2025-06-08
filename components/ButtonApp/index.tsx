@@ -12,10 +12,53 @@ import { RTVIClientAudio, RTVIClientProvider } from "realtime-ai-react";
 import { AppProvider } from "@/components/context";
 import {
   BOT_READY_TIMEOUT,
-  defaultConfig,
   defaultServices,
+  BOT_PROMPT
 } from "../../rtvi.config";
 import ButtonInner from "./ButtonInner";
+
+const defaultConfig = [
+  {
+    service: "vad",
+    options: [
+      {
+        name: "params",
+        value: {
+          start_secs: 0.2,
+          stop_secs: 0.8,
+          confidence: 1,
+          min_volume: 0.6,
+        },
+      },
+    ],
+  },
+  {
+    service: "tts",
+    options: [
+      { name: "provider", value: 'cartesia' },
+      { name: "voice", value: 'c59c247b-6aa9-4ab6-91f9-9eabea7dc69e' },
+      { name: "model", value: 'cartesia' },
+      { name: "language", value: 'zh' },
+    ],
+  },
+  {
+    service: "llm",
+    options: [
+      { name: "provider", value: "anker" },
+      { name: "model", value: "anker-prod" },
+      { name: "system_prompt", value: BOT_PROMPT["zh"] },
+      { name: "run_on_config", value: true },
+    ],
+  },
+  {
+    service: "stt",
+    options: [
+      { name: "provider", value: 'deepgram' },
+      { name: "model", value: 'nova-2-general' },
+      { name: "language", value: 'zh' },
+    ],
+  },
+]
 
 export default function ButtonApp({ chatId = "", llmUrl = "", requestTemplate = null }: { chatId?: string, llmUrl?: string, requestTemplate?: any }) {
   const urlParams = new URLSearchParams(window.location.search);
@@ -44,7 +87,7 @@ export default function ButtonApp({ chatId = "", llmUrl = "", requestTemplate = 
           chatId,
           llmUrl,
           requestTemplate,
-          openStatement: false,
+          openStatement: true,
         },
       },
       timeout: BOT_READY_TIMEOUT,
@@ -63,7 +106,7 @@ export default function ButtonApp({ chatId = "", llmUrl = "", requestTemplate = 
   if (showSplash) return null
   return (
     <RTVIClientProvider client={voiceClientRef.current!}>
-      <AppProvider>
+      <AppProvider config={defaultConfig}>
         <TooltipProvider>
           <ButtonInner />
         </TooltipProvider>

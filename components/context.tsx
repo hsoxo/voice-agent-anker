@@ -40,15 +40,16 @@ AppContext.displayName = "AppContext";
 
 type AppContextProps = {
   children: ReactNode;
+  config?: RTVIClientConfigOption[];
 };
 
 export const AppProvider: React.FC<
   React.PropsWithChildren<AppContextProps>
-> = ({ children }) => {
+> = ({ children, config }) => {
   const [character, setCharacter] = useState<number>(0);
   const [language, setLanguage] = useState<string>("en");
   const [clientParams, _setClientParams] = useState<ClientParams>({
-    config: defaultConfig as RTVIClientConfigOption[],
+    config: config ?? defaultConfig as RTVIClientConfigOption[],
     services: defaultServices as { [key: string]: string },
   });
 
