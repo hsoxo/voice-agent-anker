@@ -61,11 +61,6 @@ const defaultConfig = [
 ]
 
 export default function ButtonApp({ chatId = "", llmUrl = "", requestTemplate = null }: { chatId?: string, llmUrl?: string, requestTemplate?: any }) {
-  const urlParams = new URLSearchParams(window.location.search);
-  console.log('llmUrl', urlParams.get('llmUrl'))
-  console.log('requestTemplate', urlParams.get('requestTemplate'))
-  llmUrl =  llmUrl || urlParams.get('llmUrl')
-  requestTemplate = requestTemplate || (urlParams.get('requestTemplate') ? JSON.parse(urlParams.get('requestTemplate')) : null);
   console.log('llmUrl', llmUrl)
   console.log('requestTemplate', requestTemplate)
 
