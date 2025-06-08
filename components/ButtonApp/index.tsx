@@ -36,9 +36,9 @@ const defaultConfig = [
     service: "tts",
     options: [
       { name: "provider", value: 'cartesia' },
-      { name: "voice", value: 'c59c247b-6aa9-4ab6-91f9-9eabea7dc69e' },
+      { name: "voice", value: '8d8ce8c9-44a4-46c4-b10f-9a927b99a853' },
       { name: "model", value: 'cartesia' },
-      { name: "language", value: 'zh' },
+      { name: "language", value: 'en' },
     ],
   },
   {
@@ -46,7 +46,7 @@ const defaultConfig = [
     options: [
       { name: "provider", value: "anker" },
       { name: "model", value: "anker-prod" },
-      { name: "system_prompt", value: BOT_PROMPT["zh"] },
+      { name: "system_prompt", value: BOT_PROMPT["en"] },
       { name: "run_on_config", value: true },
     ],
   },
@@ -54,8 +54,8 @@ const defaultConfig = [
     service: "stt",
     options: [
       { name: "provider", value: 'deepgram' },
-      { name: "model", value: 'nova-2-general' },
-      { name: "language", value: 'zh' },
+      { name: "model", value: 'nova-3-general' },
+      { name: "language", value: 'en' },
     ],
   },
 ]
