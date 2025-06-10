@@ -80,8 +80,9 @@ export default function ButtonApp({ chatId = "", llmUrl = "", requestTemplate = 
           services: defaultServices,
           config: defaultConfig,
           chatId,
-          llmUrl,
-          requestTemplate,
+          llmUrl: null,
+          requestTemplate: null,
+          openStatement: false
         },
       },
       timeout: BOT_READY_TIMEOUT,
