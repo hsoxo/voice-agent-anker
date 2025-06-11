@@ -49,7 +49,7 @@ body {
 
 /* App layout */
 
-body {
+#__next {
   margin: 0 auto;
   text-align: center;
   display: flex;

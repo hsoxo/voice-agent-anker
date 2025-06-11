@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 console.log('React version:', React.version);
 console.log('Remote React instance:', React);
 // @ts-ignore

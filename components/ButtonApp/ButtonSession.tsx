@@ -1,17 +1,13 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Mic } from "lucide-react";
-import {
-  PipecatMetricsData,
-  RTVIClientConfigOption,
-  RTVIEvent,
-  TransportState,
-} from "realtime-ai";
+import { PipecatMetricsData, RTVIEvent, TransportState } from "realtime-ai";
 import { useRTVIClientEvent } from "realtime-ai-react";
 import styled from "@emotion/styled";
 
 import StatsAggregator from "../../utils/stats_aggregator";
 import { Button } from "./Button";
 import { AudioIndicatorBubble } from "@/components/Session/UserMicBubble";
+import Stats from "@/components/Session/Stats";
 
 let stats_aggregator: StatsAggregator;
 
@@ -37,6 +33,7 @@ const StyledButtonWrapper = styled.div`
 
 export const ButtonSession = React.memo(
   ({ state, onLeave, startAudioOff = false }: SessionProps) => {
+    const [showStats, setShowStats] = useState(false);
     // ---- Voice Client Events
     useRTVIClientEvent(
       RTVIEvent.Metrics,
@@ -58,6 +55,13 @@ export const ButtonSession = React.memo(
       }
     }, [state, onLeave]);
 
+    useEffect(() => {
+      setTimeout(
+        () => setShowStats(window.location.search.includes("showStats=true")),
+        500
+      );
+    }, []);
+
     return (
       <Container>
         <AudioIndicatorBubble />
@@ -66,8 +70,25 @@ export const ButtonSession = React.memo(
             <Mic size={16} />
           </Button>
         </StyledButtonWrapper>
+        {showStats && (
+          <TTFBContainer>
+            <Stats statsAggregator={stats_aggregator} />
+          </TTFBContainer>
+        )}
       </Container>
     );
   },
   (p, n) => p.state === n.state
 );
+
+const TTFBContainer = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: fit-content;
+  height: fit-content;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
