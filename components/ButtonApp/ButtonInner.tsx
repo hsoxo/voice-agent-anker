@@ -1,7 +1,12 @@
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
-import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
-
-import { Loader2, Mic } from "lucide-react";
+import { Loader2, AudioLines } from "lucide-react";
 import { RTVIError, RTVIEvent, RTVIMessage } from "realtime-ai";
 import {
   useRTVIClient,
@@ -12,8 +17,8 @@ import {
 import { AppContext } from "../context";
 import { Alert } from "../ui/alert";
 import { Button } from "./Button";
-import { MinialConfigure } from '../Setup/MinialConfig'
-import {ButtonSession} from "./ButtonSession";
+import { MinialConfigure } from "../Setup/MinialConfig";
+import { ButtonSession } from "./ButtonSession";
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 
@@ -31,7 +36,13 @@ const SpinningLoader = styled(Loader2)`
   animation: ${spin} 1s linear infinite;
 `;
 
-export default function ButtonInner() {
+export default function ButtonInner({
+  setVoideBotState,
+  connectedComponent,
+}: {
+  setVoideBotState?: (state: string) => void;
+  connectedComponent?: React.FC<{ onClick: () => void }>;
+}) {
   const voiceClient = useRTVIClient()!;
   const transportState = useRTVIClientTransportState();
 
@@ -77,17 +88,21 @@ export default function ButtonInner() {
       case "initialized":
       case "disconnected":
         setAppState("ready");
+        setVoideBotState("ready");
         break;
       case "authenticating":
       case "connecting":
         setAppState("connecting");
+        setVoideBotState("connecting");
         break;
       case "connected":
       case "ready":
         setAppState("connected");
+        setVoideBotState("connected");
         break;
       default:
         setAppState("idle");
+        setVoideBotState("idle");
     }
   }, [transportState]);
 
@@ -131,6 +146,7 @@ export default function ButtonInner() {
           state={transportState}
           onLeave={() => leave()}
           startAudioOff={startAudioOff}
+          connectedComponent={connectedComponent}
         />
       </div>
     );
@@ -141,10 +157,17 @@ export default function ButtonInner() {
 
   return (
     <div>
-        {/* <MinialConfigure /> */}
-        <Button key="start" onClick={() => start()} disabled={!isReady} isRound={true} size="icon">
-          {isReady ? <Mic /> : <SpinningLoader />}
-        </Button>
+      {/* <MinialConfigure /> */}
+      <Button
+        key="start"
+        onClick={() => start()}
+        disabled={!isReady}
+        isRound={true}
+        variant="icon"
+        size="icon"
+      >
+        {isReady ? <AudioLines /> : <SpinningLoader />}
+      </Button>
     </div>
   );
 }

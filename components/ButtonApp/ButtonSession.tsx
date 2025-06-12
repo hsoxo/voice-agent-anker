@@ -16,23 +16,16 @@ interface SessionProps {
   onLeave: () => void;
   openMic?: boolean;
   startAudioOff?: boolean;
+  connectedComponent?: React.FC<{ onClick: () => void }>;
 }
 
-const Container = styled.div`
-  position: relative;
-  width: 3rem; /* w-12 */
-  height: 3rem; /* h-12 */
-  border: 1px solid #e5e7eb; /* default border color, adjust if themed */
-  border-radius: 9999px; /* rounded-full */
-`;
-
-const StyledButtonWrapper = styled.div`
-  margin-left: auto;
-  z-index: 1000;
-`;
-
 export const ButtonSession = React.memo(
-  ({ state, onLeave, startAudioOff = false }: SessionProps) => {
+  ({
+    state,
+    onLeave,
+    startAudioOff = false,
+    connectedComponent,
+  }: SessionProps) => {
     const [showStats, setShowStats] = useState(false);
     // ---- Voice Client Events
     useRTVIClientEvent(
@@ -62,24 +55,42 @@ export const ButtonSession = React.memo(
       );
     }, []);
 
+    const Component = connectedComponent;
     return (
-      <Container>
-        <AudioIndicatorBubble />
-        <StyledButtonWrapper>
-          <Button onClick={onLeave} isRound size="icon" variant="ghost">
-            <Mic size={16} />
-          </Button>
-        </StyledButtonWrapper>
+      <>
+        {Component ? (
+          <Component onClick={onLeave} />
+        ) : (
+          <Container>
+            <AudioIndicatorBubble />
+            <StyledButtonWrapper onClick={onLeave}>
+              <Button isRound size="icon" variant="ghost">
+                <Mic size={16} />
+              </Button>
+            </StyledButtonWrapper>
+          </Container>
+        )}
         {showStats && (
           <TTFBContainer>
             <Stats statsAggregator={stats_aggregator} />
           </TTFBContainer>
         )}
-      </Container>
+      </>
     );
   },
   (p, n) => p.state === n.state
 );
+
+const Container = styled.div`
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+`;
+
+const StyledButtonWrapper = styled.div`
+  margin-left: auto;
+  z-index: 1000;
+`;
 
 const TTFBContainer = styled.div`
   position: fixed;

@@ -1,10 +1,7 @@
-"use client"
+"use client";
 
-import {LocalChat} from "@/components/Chat/LocalChat";
+import { LocalChat } from "@/components/Chat/LocalChat";
 
-  
 export default function Page() {
-  return (
-    <LocalChat />
-  )
+  return <LocalChat />;
 }

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
-console.log('React version:', React.version);
-console.log('Remote React instance:', React);
+console.log("React version:", React.version);
+console.log("Remote React instance:", React);
 // @ts-ignore
-console.log('Same instance as host:', React === window.__hostReact__); // 这里应为 true，如果不是说明共享失败
+console.log("Same instance as host:", React === window.__hostReact__); // 这里应为 true，如果不是说明共享失败
 
 import { DailyTransport } from "@daily-co/realtime-ai-daily";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
@@ -13,7 +13,7 @@ import { AppProvider } from "@/components/context";
 import {
   BOT_READY_TIMEOUT,
   defaultServices,
-  BOT_PROMPT
+  BOT_PROMPT,
 } from "../../rtvi.config";
 import ButtonInner from "./ButtonInner";
 
@@ -35,10 +35,10 @@ const defaultConfig = [
   {
     service: "tts",
     options: [
-      { name: "provider", value: 'cartesia' },
-      { name: "voice", value: '8d8ce8c9-44a4-46c4-b10f-9a927b99a853' },
-      { name: "model", value: 'cartesia' },
-      { name: "language", value: 'en' },
+      { name: "provider", value: "cartesia" },
+      { name: "voice", value: "8d8ce8c9-44a4-46c4-b10f-9a927b99a853" },
+      { name: "model", value: "cartesia" },
+      { name: "language", value: "en" },
     ],
   },
   {
@@ -53,16 +53,28 @@ const defaultConfig = [
   {
     service: "stt",
     options: [
-      { name: "provider", value: 'deepgram' },
-      { name: "model", value: 'nova-3-general' },
-      { name: "language", value: 'en' },
+      { name: "provider", value: "deepgram" },
+      { name: "model", value: "nova-3-general" },
+      { name: "language", value: "en" },
     ],
   },
-]
+];
 
-export default function ButtonApp({ chatId = "", llmUrl = "", requestTemplate = null }: { chatId?: string, llmUrl?: string, requestTemplate?: any }) {
-  console.log('llmUrl', llmUrl)
-  console.log('requestTemplate', requestTemplate)
+export default function ButtonApp({
+  chatId = "",
+  llmUrl = "",
+  requestTemplate = null,
+  setVoideBotState,
+  connectedComponent,
+}: {
+  chatId?: string;
+  llmUrl?: string;
+  requestTemplate?: any;
+  setVoideBotState?: (state: string) => void;
+  connectedComponent?: React.FC<{ onClick: () => void }>;
+}) {
+  console.log("llmUrl", llmUrl);
+  console.log("requestTemplate", requestTemplate);
 
   const [showSplash, setShowSplash] = useState(true);
   const voiceClientRef = useRef<RTVIClient | null>(null);
@@ -82,7 +94,7 @@ export default function ButtonApp({ chatId = "", llmUrl = "", requestTemplate = 
           chatId,
           llmUrl: null,
           requestTemplate: null,
-          openStatement: false
+          openStatement: false,
         },
       },
       timeout: BOT_READY_TIMEOUT,
@@ -95,15 +107,18 @@ export default function ButtonApp({ chatId = "", llmUrl = "", requestTemplate = 
   }, [showSplash]);
 
   useEffect(() => {
-    setTimeout(() => setShowSplash(false), 10)
-  }, [])
+    setTimeout(() => setShowSplash(false), 10);
+  }, []);
 
-  if (showSplash) return null
+  if (showSplash) return null;
   return (
     <RTVIClientProvider client={voiceClientRef.current!}>
       <AppProvider config={defaultConfig}>
         <TooltipProvider>
-          <ButtonInner />
+          <ButtonInner
+            setVoideBotState={setVoideBotState}
+            connectedComponent={connectedComponent}
+          />
         </TooltipProvider>
       </AppProvider>
       <RTVIClientAudio />

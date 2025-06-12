@@ -1,32 +1,38 @@
-import React from 'react';
-import styled from '@emotion/styled';
+import React from "react";
+import styled from "@emotion/styled";
+import dayjs from "dayjs";
 
 type BubbleProps = {
-  text: string;
-  time: string;
-  role: 'ai' | 'user';
+  text: string | React.ReactNode;
+  time?: string;
+  role: "ai" | "user";
 };
 
 const Bubble: React.FC<BubbleProps> = ({ text, time, role }) => {
   return (
-    <BubbleContainer role={role}>
-      <BubbleText>{text}</BubbleText>
-    </BubbleContainer>
+    <>
+      <BubbleContainer role={role}>
+        <BubbleText>{text}</BubbleText>
+      </BubbleContainer>
+      {time && (
+        <BubbleTime role={role}>{dayjs(time).format("HH:mm")}</BubbleTime>
+      )}
+    </>
   );
 };
 
-const BubbleContainer = styled.div<{ role: 'ai' | 'user' }>`
+const BubbleContainer = styled.div<{ role: "ai" | "user" }>`
   display: flex;
   flex-direction: column;
-  align-items: ${({ role }) => (role === 'ai' ? 'flex-start' : 'flex-end')};
+  align-items: ${({ role }) => (role === "ai" ? "flex-start" : "flex-end")};
   margin-right: 10px;
   padding: 10px;
   border-radius: 10px;
-  background-color: ${({ role }) => (role === 'ai' ? '#f5f5f5' : '#34C759')};
-  color: ${({ role }) => (role === 'ai' ? '#333' : '#fff')};
+  background-color: rgba(242, 243, 255, 0.6);
+  color: #333;
   max-width: 80%;
   width: fit-content;
-  margin-left: ${({ role }) => (role === 'user' ? 'auto' : '10px')};
+  margin-left: ${({ role }) => (role === "user" ? "auto" : "10px")};
   text-align: left;
 `;
 
@@ -35,9 +41,12 @@ const BubbleText = styled.span`
   line-height: 1.5;
 `;
 
-const BubbleTime = styled.span`
+const BubbleTime = styled.span<{ role: "ai" | "user" }>`
   font-size: 12px;
   color: #999;
+  margin-bottom: 8px;
+  padding: 0 16px;
+  align-self: ${({ role }) => (role === "ai" ? "flex-start" : "flex-end")};
 `;
 
 export default Bubble;

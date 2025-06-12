@@ -135,14 +135,14 @@ const SvgIcon = styled.div`
 `;
 
 
-export const AudioIndicatorBubble: React.FC = () => {
+export const AudioIndicatorBubble: React.FC<{ scale?: number }> = ({ scale = 1.75 }) => {
   const volRef = useRef<HTMLDivElement>(null);
 
   useRTVIClientEvent(
     RTVIEvent.LocalAudioLevel,
     useCallback((volume: number) => {
       if (volRef.current) {
-        const v = Number(volume) * 1.75;
+        const v = Number(volume) * scale;
         volRef.current.style.transform = `scale(${Math.max(0.1, v)})`;
       }
     }, [])
