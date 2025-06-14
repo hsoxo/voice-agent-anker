@@ -18,6 +18,7 @@ import {
 
 import VoiceSession from "./VoiceSession";
 import Loading from "./Loading";
+import VoiceSessionFullScreen from "./VoiceSessionFullScreen";
 
 interface Chat {
   text: string;
@@ -358,15 +359,11 @@ export const VoiceChat = () => {
                       <ButtonApp
                         chatId={chatId}
                         setVoiceBotState={setVoiceBotState}
-                        connectedComponent={VoiceSession}
+                        connectedComponent={VoiceSessionFullScreen}
                       />
                     </TooltipTrigger>
                     <TooltipContent>
-                      {isVoiceAgentConnected ? (
-                        <p>End conversation</p>
-                      ) : (
-                        <p>Talk with agent</p>
-                      )}
+                      {isVoiceAgentConnected ? null : <p>Talk with agent</p>}
                     </TooltipContent>
                   </Tooltip>
                 </div>
@@ -434,6 +431,7 @@ const InputWrapper = styled.div`
     margin: 0;
     gap: 4px;
     padding: 4px 4px 4px 16px;
+    min-height: 56px;
   }
 
   input {
@@ -526,6 +524,7 @@ const Products = styled.div<{ show: boolean }>`
   overflow-y: auto;
   height: 680px;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
 
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE 10+ */

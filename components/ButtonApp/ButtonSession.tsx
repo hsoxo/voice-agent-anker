@@ -5,7 +5,7 @@ import { useRTVIClientEvent } from "realtime-ai-react";
 import styled from "@emotion/styled";
 
 import StatsAggregator from "../../utils/stats_aggregator";
-import { Button } from "./Button";
+import { Button } from "../uiStyled/Button";
 import { AudioIndicatorBubble } from "@/components/Session/UserMicBubble";
 import Stats from "@/components/Session/Stats";
 

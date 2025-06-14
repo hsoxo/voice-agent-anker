@@ -16,7 +16,7 @@ import {
 
 import { AppContext } from "../context";
 import { Alert } from "../ui/alert";
-import { Button } from "./Button";
+import { Button } from "../uiStyled/Button";
 import { MinialConfigure } from "../Setup/MinialConfig";
 import { ButtonSession } from "./ButtonSession";
 import { keyframes } from "@emotion/react";

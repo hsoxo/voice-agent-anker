@@ -138,11 +138,7 @@ export const Session = React.memo(
             fullWidthMobile={false}
             className="w-full max-w-[320px] sm:max-w-[420px] mt-auto shadow-long"
           >
-            <Agent
-              isReady={state === "ready"}
-              statsAggregator={stats_aggregator}
-              onLeave={onLeave}
-            />
+            <Agent isReady={state === "ready"} onLeave={onLeave} />
           </Card.Card>
           <UserMicBubble
             active={true}
