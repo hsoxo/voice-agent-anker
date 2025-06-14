@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 
-import { Loader2, AudioLines } from "lucide-react";
+import { AudioLines } from "lucide-react";
 import { RTVIError, RTVIEvent, RTVIMessage } from "realtime-ai";
 import {
   useRTVIClient,
@@ -19,22 +19,7 @@ import { Alert } from "../ui/alert";
 import { Button } from "../uiStyled/Button";
 import { MinialConfigure } from "../Setup/MinialConfig";
 import { ButtonSession } from "./ButtonSession";
-import { keyframes } from "@emotion/react";
-import styled from "@emotion/styled";
-
-const spin = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-// 给 Loader2 包一层 styled 组件
-const SpinningLoader = styled(Loader2)`
-  animation: ${spin} 1s linear infinite;
-`;
+import SpinningLoader from "../uiStyled/SpinningLoading";
 
 export default function ButtonInner({
   setVoiceBotState,

@@ -19,6 +19,7 @@ import {
 import VoiceSession from "./VoiceSession";
 import Loading from "./Loading";
 import VoiceSessionFullScreen from "./VoiceSessionFullScreen";
+import VideoAgentIndex from "../VideoAgent";
 
 interface Chat {
   text: string;
@@ -353,7 +354,11 @@ export const VoiceChat = () => {
                   {!isVoiceAgentConnected && (
                     <div style={{ width: 2, height: 30, background: "#eee" }} />
                   )}
-
+                  <VideoAgentIndex
+                    apiKey="1cc7ee7a-62f7-4af5-91e1-d8d873dda74c"
+                    agentId="shopping-agent-1"
+                    baseUrl=""
+                  />
                   <Tooltip>
                     <TooltipTrigger>
                       <ButtonApp
