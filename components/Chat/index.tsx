@@ -195,10 +195,9 @@ export const VoiceChat = () => {
   ]);
   const [chatOpen, setChatOpen] = useState(false);
   const [showProducts, setShowProducts] = useState(false);
-  const [voideBotState, setVoideBotState] = useState<string>("idle");
+  const [voiceBotState, setVoiceBotState] = useState<string>("idle");
   const [isBotLoading, setIsBotLoading] = useState(false);
 
-  console.log(chats);
   const pusher = useMemo(() => {
     if (typeof window === "undefined") return;
     return new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY, {
@@ -224,18 +223,20 @@ export const VoiceChat = () => {
     channel.bind(`client-message`, (data: any) => {
       console.log(data);
       setChats((prev) => {
-        const existing = prev.find((chat) => chat.time === data.timestamp);
-        if (existing) {
+        const existing = prev.findIndex(
+          (chat) => chat.time === data.timestamp && chat.role === data.role
+        );
+        if (existing > -1) {
           const newChats = [...prev];
-          const index = newChats.findIndex(
-            (chat) => chat.time === data.timestamp
-          );
-          newChats[index] = { ...existing, text: existing.text + data.message };
+          newChats[existing] = {
+            ...newChats[existing],
+            text: newChats[existing].text + " " + data.content,
+          };
           return newChats;
         }
         return [
           ...prev,
-          { text: data.message, time: data.timestamp, role: "ai" },
+          { text: data.content, time: data.timestamp, role: data.role },
         ];
       });
       setIsBotLoading(false);
@@ -296,7 +297,7 @@ export const VoiceChat = () => {
     setShowProducts(false);
   };
 
-  const isVoiceAgentConnected = voideBotState === "connected";
+  const isVoiceAgentConnected = voiceBotState === "connected";
 
   return (
     <TooltipProvider>
@@ -356,7 +357,7 @@ export const VoiceChat = () => {
                     <TooltipTrigger>
                       <ButtonApp
                         chatId={chatId}
-                        setVoideBotState={setVoideBotState}
+                        setVoiceBotState={setVoiceBotState}
                         connectedComponent={VoiceSession}
                       />
                     </TooltipTrigger>

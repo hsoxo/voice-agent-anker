@@ -37,11 +37,15 @@ const SpinningLoader = styled(Loader2)`
 `;
 
 export default function ButtonInner({
-  setVoideBotState,
+  setVoiceBotState,
   connectedComponent,
+  onLeave,
+  error: _error,
 }: {
-  setVoideBotState?: (state: string) => void;
+  setVoiceBotState?: (state: string) => void;
   connectedComponent?: React.FC<{ onClick: () => void }>;
+  onLeave?: () => void;
+  error?: string;
 }) {
   const voiceClient = useRTVIClient()!;
   const transportState = useRTVIClientTransportState();
@@ -62,6 +66,11 @@ export default function ButtonInner({
       setError(errorData.error);
     }, [])
   );
+
+  useEffect(() => {
+    if (!_error) return;
+    setError(_error);
+  }, [_error]);
 
   useEffect(() => {
     // Initialize local audio devices
@@ -88,21 +97,21 @@ export default function ButtonInner({
       case "initialized":
       case "disconnected":
         setAppState("ready");
-        setVoideBotState("ready");
+        setVoiceBotState("ready");
         break;
       case "authenticating":
       case "connecting":
         setAppState("connecting");
-        setVoideBotState("connecting");
+        setVoiceBotState("connecting");
         break;
       case "connected":
       case "ready":
         setAppState("connected");
-        setVoideBotState("connected");
+        setVoiceBotState("connected");
         break;
       default:
         setAppState("idle");
-        setVoideBotState("idle");
+        setVoiceBotState("idle");
     }
   }, [transportState]);
 
@@ -123,6 +132,7 @@ export default function ButtonInner({
 
   async function leave() {
     await voiceClient.disconnect();
+    onLeave?.();
   }
 
   /**
@@ -159,8 +169,8 @@ export default function ButtonInner({
     <div>
       {/* <MinialConfigure /> */}
       <Button
-        key="start"
-        onClick={() => start()}
+        id="voice-start-button"
+        onClick={start}
         disabled={!isReady}
         isRound={true}
         variant="icon"
