@@ -7,11 +7,13 @@ const VideoAgentIndex = ({
   agentId,
   baseUrl,
   width = 270,
+  setVideoBotLoaded,
 }: {
   apiKey: string;
   agentId: string;
   baseUrl: string;
   width?: number;
+  setVideoBotLoaded?: (loaded: boolean) => void;
 }) => {
   const { setApiKey, setAgentId, setBaseUrl } = useVideoAgentStore();
   const [tavusLoaded, setTavusLoaded] = useState(false);
@@ -22,10 +24,15 @@ const VideoAgentIndex = ({
     setBaseUrl(baseUrl);
   }, [setApiKey, setAgentId, setBaseUrl, apiKey, agentId, baseUrl]);
 
+  const handleTavusLoaded = () => {
+    setTavusLoaded(true);
+    setVideoBotLoaded?.(true);
+  };
+
   return (
     <VideoAgent
       tavusLoaded={tavusLoaded}
-      setTavusLoaded={setTavusLoaded}
+      setTavusLoaded={handleTavusLoaded}
       width={width}
     />
   );

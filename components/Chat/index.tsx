@@ -198,6 +198,7 @@ export const VoiceChat = () => {
   const [chatOpen, setChatOpen] = useState(false);
   const [showProducts, setShowProducts] = useState(false);
   const [voiceBotState, setVoiceBotState] = useState<string>("idle");
+  const [videoBotLoaded, setVideoBotLoaded] = useState<boolean>(false);
   const [isBotLoading, setIsBotLoading] = useState(false);
 
   const pusher = useMemo(() => {
@@ -300,6 +301,7 @@ export const VoiceChat = () => {
   };
 
   const isVoiceAgentConnected = voiceBotState === "connected";
+  const botLoaded = isVoiceAgentConnected || videoBotLoaded;
 
   return (
     <TooltipProvider>
@@ -339,7 +341,7 @@ export const VoiceChat = () => {
               <InputWrapper>
                 <div>
                   <input
-                    style={{ width: isVoiceAgentConnected ? 0 : 330 }}
+                    style={{ width: botLoaded ? 0 : 330 }}
                     placeholder="Type a message..."
                     value={text}
                     onChange={(e) => {
@@ -351,26 +353,33 @@ export const VoiceChat = () => {
                       }
                     }}
                   />
-                  {!isVoiceAgentConnected && (
+                  {botLoaded ? null : (
                     <div style={{ width: 2, height: 30, background: "#eee" }} />
                   )}
-                  <VideoAgentIndex
-                    apiKey="1cc7ee7a-62f7-4af5-91e1-d8d873dda74c"
-                    agentId="shopping-agent-1"
-                    baseUrl=""
-                  />
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <ButtonApp
-                        chatId={chatId}
-                        setVoiceBotState={setVoiceBotState}
-                        connectedComponent={VoiceSessionFullScreen}
-                      />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      {isVoiceAgentConnected ? null : <p>Talk with agent</p>}
-                    </TooltipContent>
-                  </Tooltip>
+                  {isVoiceAgentConnected ? null : (
+                    <VideoAgentIndex
+                      apiKey="1cc7ee7a-62f7-4af5-91e1-d8d873dda74c"
+                      agentId="shopping-agent-1"
+                      baseUrl=""
+                      setVideoBotLoaded={setVideoBotLoaded}
+                    />
+                  )}
+                  {botLoaded ? null : (
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <ButtonApp
+                          chatId={chatId}
+                          setVoiceBotState={setVoiceBotState}
+                          connectedComponent={VoiceSessionFullScreen}
+                        />
+                      </TooltipTrigger>
+                      {!isVoiceAgentConnected && (
+                        <TooltipContent>
+                          <p>Talk with agent</p>
+                        </TooltipContent>
+                      )}
+                    </Tooltip>
+                  )}
                 </div>
               </InputWrapper>
               <div className="send-button">
@@ -406,7 +415,7 @@ export const VoiceChat = () => {
             </>
           )}
         </Wrapper>
-        {chatOpen && (
+        {chatOpen && !videoBotLoaded && (
           <Products show={showProducts}>
             {products.map((product) => (
               <Product
