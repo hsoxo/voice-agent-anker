@@ -24,9 +24,9 @@ const VideoAgentIndex = ({
     setBaseUrl(baseUrl);
   }, [setApiKey, setAgentId, setBaseUrl, apiKey, agentId, baseUrl]);
 
-  const handleTavusLoaded = () => {
-    setTavusLoaded(true);
-    setVideoBotLoaded?.(true);
+  const handleTavusLoaded = (loaded: boolean) => {
+    setTavusLoaded(loaded);
+    setVideoBotLoaded?.(loaded);
   };
 
   return (
