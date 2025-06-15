@@ -16,7 +16,7 @@ import {
 import { Canvas } from "@react-three/fiber";
 import { useShallow } from "zustand/shallow";
 import GreenScreenRemoval from "./GreenScreenRemoval";
-import { useVideoAgentStore } from "../../context";
+import { useVideoAgentStore } from "../../store";
 
 function useMergedRef<T>(...refs: React.Ref<T>[]): React.RefCallback<T> {
   return useCallback(

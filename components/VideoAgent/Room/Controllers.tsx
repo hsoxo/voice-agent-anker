@@ -6,7 +6,7 @@ import {
 } from "@daily-co/daily-react";
 import styled from "@emotion/styled";
 
-import { useVideoAgentStore } from "../context";
+import { useVideoAgentStore } from "../store";
 import { Button } from "@/components/uiStyled/Button";
 import { Mic, MicOff, LogOut, Video, VideoOff } from "lucide-react";
 import { useShallow } from "zustand/shallow";

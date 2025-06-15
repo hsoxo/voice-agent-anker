@@ -9,7 +9,7 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 import Agent from "./Agent";
 import Controllers from "./Controllers";
-import { useVideoAgentStore } from "../context";
+import { useVideoAgentStore } from "../store";
 import { useShallow } from "zustand/shallow";
 import BeatLoader from "@/components/uiStyled/BeatLoading";
 

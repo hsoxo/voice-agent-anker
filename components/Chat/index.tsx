@@ -19,7 +19,7 @@ import {
 import VoiceSession from "./VoiceSession";
 import Loading from "./Loading";
 import VoiceSessionFullScreen from "./VoiceSessionFullScreen";
-import VideoAgentIndex from "../VideoAgent";
+import { VideoAgent } from "../VideoAgent";
 
 interface Chat {
   text: string;
@@ -357,11 +357,11 @@ export const VoiceChat = () => {
                     <div style={{ width: 2, height: 30, background: "#eee" }} />
                   )}
                   {isVoiceAgentConnected ? null : (
-                    <VideoAgentIndex
+                    <VideoAgent
                       apiKey="1cc7ee7a-62f7-4af5-91e1-d8d873dda74c"
                       agentId="shopping-agent-1"
                       baseUrl=""
-                      setVideoBotLoaded={setVideoBotLoaded}
+                      onLoaded={setVideoBotLoaded}
                     />
                   )}
                   {botLoaded ? null : (

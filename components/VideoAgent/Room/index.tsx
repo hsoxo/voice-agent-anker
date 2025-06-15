@@ -8,7 +8,7 @@ import {
 import Pusher from "pusher-js";
 
 import FullScreenWrapper from "./FullScreenWrapper";
-import { useVideoAgentStore } from "../context";
+import { useVideoAgentStore } from "../store";
 import { useShallow } from "zustand/shallow";
 
 declare global {
