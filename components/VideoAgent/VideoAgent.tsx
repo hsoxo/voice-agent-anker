@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 
 import SpinningLoader from "@/components/uiStyled/SpinningLoading";
 import { Button } from "@/components/uiStyled/Button";
-import { AudioLines } from "lucide-react";
+import { AudioLines, BotMessageSquare } from "lucide-react";
 import Room from "./Room";
 import { useVideoAgentStore } from "./context";
 import { useShallow } from "zustand/shallow";
@@ -97,7 +97,9 @@ const VideoAgent = ({
     <>
       <Wrapper>
         {tavusLoaded ? null : isLoading ? (
-          <SpinningLoader />
+          <Button key="start" isRound={true} variant="icon" size="icon">
+            <SpinningLoader />
+          </Button>
         ) : (
           <Button
             key="start"
@@ -106,7 +108,7 @@ const VideoAgent = ({
             size="icon"
             onClick={handleJoin}
           >
-            <AudioLines />
+            <BotMessageSquare />
           </Button>
         )}
       </Wrapper>

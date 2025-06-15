@@ -345,7 +345,7 @@ export const DailyVideo = forwardRef<HTMLVideoElement, Props>(
               height: finalCanvasSize.height,
             }}
           >
-            {/* <Canvas
+            <Canvas
               orthographic
               camera={{
                 position: [0, 0, 100],
@@ -365,7 +365,7 @@ export const DailyVideo = forwardRef<HTMLVideoElement, Props>(
                 aspectRatio={aspectRatio}
                 videoId="ai-agent"
               />
-            </Canvas> */}
+            </Canvas>
           </div>
         )}
       </>

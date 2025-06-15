@@ -4,7 +4,14 @@ import { Slot } from "@radix-ui/react-slot";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "success" | "ghost" | "outline" | "light" | "icon";
+  variant?:
+    | "primary"
+    | "success"
+    | "ghost"
+    | "outline"
+    | "light"
+    | "icon"
+    | "danger";
   size?: "default" | "sm" | "lg" | "icon" | "iconSm";
   isRound?: boolean;
   fullWidthMobile?: boolean;
@@ -67,11 +74,22 @@ const variantStyles = {
       background-color: #e5e7eb;
     }
   `,
+  danger: `
+    border: 1px solid #ef4444;
+    background-color: #ef4444;
+    color: white;
+    &:hover {
+      background-color: #dc2626;
+    }
+    &:disabled {
+      color: #9ca3af;
+    }
+  `,
 };
 
 /**
  * CSS styles for different button sizes.
- * 
+ *
  * - `default`: Standard button with height 48px and padding 8px 24px.
  * - `sm`: Small button with height 36px, padding 6px 12px, and font size 14px.
  * - `lg`: Large button with height 44px, padding 8px 32px, and border radius 8px.
@@ -103,7 +121,11 @@ const sizeStyles = {
   `,
 };
 
-const StyledButton = styled.button<Required<Pick<ButtonProps, "variant" | "size" | "isRound">> & { fullWidthMobile?: boolean }>`
+const StyledButton = styled.button<
+  Required<Pick<ButtonProps, "variant" | "size" | "isRound">> & {
+    fullWidthMobile?: boolean;
+  }
+>`
   display: inline-flex;
   gap: 0.5rem;
   align-items: center;
@@ -118,7 +140,10 @@ const StyledButton = styled.button<Required<Pick<ButtonProps, "variant" | "size"
   opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
   ${({ variant }) => variantStyles[variant]}
   ${({ size }) => sizeStyles[size]}
-  ${({ fullWidthMobile }) => fullWidthMobile ? "width: 100%; @media(min-width: 768px) { width: auto; }" : ""}
+  ${({ fullWidthMobile }) =>
+    fullWidthMobile
+      ? "width: 100%; @media(min-width: 768px) { width: auto; }"
+      : ""}
   
   & > svg {
     width: 20px;

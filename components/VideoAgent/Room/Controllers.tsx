@@ -50,7 +50,7 @@ const Controllers = ({
         >
           {camTrack.isOff ? <VideoOff /> : <Video />}
         </Button>
-        <Button isRound={true} variant="icon" size="icon" onClick={onLeave}>
+        <Button isRound={true} variant="danger" size="icon" onClick={onLeave}>
           <LogOut />
         </Button>
       </div>

@@ -11,15 +11,9 @@ import Agent from "./Agent";
 import Controllers from "./Controllers";
 import { useVideoAgentStore } from "../context";
 import { useShallow } from "zustand/shallow";
+import BeatLoader from "@/components/uiStyled/BeatLoading";
 
-const FullScreenWrapper = ({
-  width,
-  onLeave,
-}: {
-  width: number;
-  onLeave: () => void;
-}) => {
-  const isSmallScreen = useMediaQuery("(max-width: 640px)");
+const FullScreenWrapper = ({ onLeave }: { onLeave: () => void }) => {
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [screenHeight, screenWidth] = useWindowSize();
   const callObject = useDaily();
@@ -64,13 +58,7 @@ const FullScreenWrapper = ({
     onLeave();
   }, [callObject, resetCallContext, onLeave]);
 
-  const widthRunning = useMemo(() => {
-    if (isSmallScreen) {
-      return Math.max(270, width);
-    }
-    return Math.max(270, width);
-  }, [width, screenWidth, isSmallScreen]);
-
+  console.log(screenWidth, screenHeight);
   return (
     <Wrapper>
       <div className="controllers-container">
@@ -81,8 +69,11 @@ const FullScreenWrapper = ({
         {videoLoaded ? (
           <Agent width={screenWidth} height={screenHeight} />
         ) : (
-          <div className="flex items-center" style={{ height: screenHeight }}>
-            <Loading />
+          <div
+            className="flex items-center justify-center"
+            style={{ height: screenHeight, width: screenWidth }}
+          >
+            <BeatLoader />
           </div>
         )}
       </div>

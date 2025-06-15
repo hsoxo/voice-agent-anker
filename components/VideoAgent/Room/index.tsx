@@ -36,7 +36,7 @@ const Room = ({ width, onLeave }: { width: number; onLeave: () => void }) => {
     <div className="flex flex-row">
       <DailyProvider callObject={callObject}>
         <DailyAudio />
-        <FullScreenWrapper width={width} onLeave={onLeave} />
+        <FullScreenWrapper onLeave={onLeave} />
       </DailyProvider>
     </div>
   );
