@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, {
   forwardRef,
   useCallback,
@@ -13,8 +14,9 @@ import {
   useParticipantProperty,
 } from "@daily-co/daily-react";
 import { Canvas } from "@react-three/fiber";
+import { useShallow } from "zustand/shallow";
 import GreenScreenRemoval from "./GreenScreenRemoval";
-import { useVideoAgentContext } from "../../context";
+import { useVideoAgentStore } from "../../context";
 
 function useMergedRef<T>(...refs: React.Ref<T>[]): React.RefCallback<T> {
   return useCallback(
@@ -119,9 +121,9 @@ export const DailyVideo = forwardRef<HTMLVideoElement, Props>(
       height: defaultHeight ?? width * (16 / 9),
     });
     const [initailized, setInitailized] = useState(false);
-    const {
-      callContext: { fullScreen },
-    } = useVideoAgentContext();
+    const fullScreen = useVideoAgentStore(
+      useShallow((state) => state.callContext.fullScreen)
+    );
     /**
      * Determine if video needs to be mirrored.
      */
@@ -305,6 +307,8 @@ export const DailyVideo = forwardRef<HTMLVideoElement, Props>(
     const finalCanvasSize = fullScreen
       ? { width: (window.innerHeight / 16) * 9, height: window.innerHeight }
       : canvasSize;
+
+    console.log(finalCanvasSize);
     return (
       <>
         <video
@@ -341,7 +345,7 @@ export const DailyVideo = forwardRef<HTMLVideoElement, Props>(
               height: finalCanvasSize.height,
             }}
           >
-            <Canvas
+            {/* <Canvas
               orthographic
               camera={{
                 position: [0, 0, 100],
@@ -361,7 +365,7 @@ export const DailyVideo = forwardRef<HTMLVideoElement, Props>(
                 aspectRatio={aspectRatio}
                 videoId="ai-agent"
               />
-            </Canvas>
+            </Canvas> */}
           </div>
         )}
       </>

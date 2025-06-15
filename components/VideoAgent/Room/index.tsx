@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import {
   DailyAudio,
@@ -8,7 +8,8 @@ import {
 import Pusher from "pusher-js";
 
 import FullScreenWrapper from "./FullScreenWrapper";
-import { useVideoAgentContext } from "../context";
+import { useVideoAgentStore } from "../context";
+import { useShallow } from "zustand/shallow";
 
 declare global {
   interface Window {
@@ -17,21 +18,11 @@ declare global {
 }
 
 const Room = ({ width, onLeave }: { width: number; onLeave: () => void }) => {
-  const {
-    callInfo,
-    callContext: { showCaption },
-  } = useVideoAgentContext();
-  const [flexColumn, setFlexColumn] = useState(false);
-
-  useEffect(() => {
-    if (showCaption) {
-      setFlexColumn(false);
-    } else {
-      setTimeout(() => {
-        setFlexColumn(!showCaption);
-      }, 300);
-    }
-  }, [showCaption]);
+  const { callInfo } = useVideoAgentStore(
+    useShallow((state) => ({
+      callInfo: state.callInfo,
+    }))
+  );
 
   const callObject = useCallObject({
     options: {
@@ -42,10 +33,7 @@ const Room = ({ width, onLeave }: { width: number; onLeave: () => void }) => {
   });
 
   return (
-    <div
-      className={"flex " + (flexColumn ? `flex-col ` : "flex-row")}
-      style={flexColumn ? { width } : {}}
-    >
+    <div className="flex flex-row">
       <DailyProvider callObject={callObject}>
         <DailyAudio />
         <FullScreenWrapper width={width} onLeave={onLeave} />

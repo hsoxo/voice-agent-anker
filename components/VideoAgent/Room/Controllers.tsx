@@ -6,9 +6,10 @@ import {
 } from "@daily-co/daily-react";
 import styled from "@emotion/styled";
 
-import { useVideoAgentContext } from "../context";
+import { useVideoAgentStore } from "../context";
 import { Button } from "@/components/uiStyled/Button";
 import { Mic, MicOff, LogOut, Video, VideoOff } from "lucide-react";
+import { useShallow } from "zustand/shallow";
 
 const Controllers = ({
   onLeave,
@@ -17,9 +18,9 @@ const Controllers = ({
   onLeave: () => void;
   handleToggleScreen?: () => void;
 }) => {
-  const {
-    callContext: { fullScreen },
-  } = useVideoAgentContext();
+  const fullScreen = useVideoAgentStore(
+    useShallow((state) => state.callContext.fullScreen)
+  );
 
   const daily = useDaily();
 

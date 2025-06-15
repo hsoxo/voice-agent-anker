@@ -1,12 +1,13 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useMemo, useState, useEffect } from "react";
 
 import styled from "@emotion/styled";
 
-import { useVideoAgentContext, VideoAgentProvider } from "./context";
 import SpinningLoader from "@/components/uiStyled/SpinningLoading";
 import { Button } from "@/components/uiStyled/Button";
 import { AudioLines } from "lucide-react";
 import Room from "./Room";
+import { useVideoAgentStore } from "./context";
+import { useShallow } from "zustand/shallow";
 
 declare global {
   interface Window {
@@ -18,7 +19,7 @@ declare global {
   }
 }
 
-const TavusIntegration = ({
+const VideoAgent = ({
   tavusLoaded,
   setTavusLoaded,
   width = 270,
@@ -28,23 +29,43 @@ const TavusIntegration = ({
   width: number;
 }) => {
   const {
-    query,
     apiKey,
     agentId,
     baseUrl,
+    setAgentInfo,
     callInfo,
     setCallInfo,
     removeCallInfo,
-    setAgentInfo,
-  } = useVideoAgentContext();
+  } = useVideoAgentStore(
+    useShallow((state) => ({
+      apiKey: state.apiKey,
+      agentId: state.agentId,
+      baseUrl: state.baseUrl,
+      setAgentInfo: state.setAgentInfo,
+      setCallInfo: state.setCallInfo,
+      removeCallInfo: state.removeCallInfo,
+      callInfo: state.callInfo,
+    }))
+  );
+
   const [isLoading, setIsLoading] = useState(false);
+
+  const query = useMemo(() => {
+    let query = window.location.search;
+    if (!query) {
+      query = `?api_key=${apiKey}&agent_id=${agentId}`;
+    }
+    return query;
+  }, [apiKey, agentId]);
 
   useEffect(() => {
     (async () => {
-      const res = await fetch(`${baseUrl}/api/video-agent/get-agent${query}`);
+      const res = await fetch(
+        `${baseUrl ?? ""}/api/video-agent/get-agent${query}`
+      );
       setAgentInfo(await res.json());
     })();
-  }, [agentId, apiKey, baseUrl]);
+  }, [baseUrl]);
 
   const handleJoin = async () => {
     setIsLoading(true);
@@ -73,7 +94,7 @@ const TavusIntegration = ({
   }, [removeCallInfo, setTavusLoaded]);
 
   return (
-    <VideoAgentProvider>
+    <>
       <Wrapper>
         {tavusLoaded ? null : isLoading ? (
           <SpinningLoader />
@@ -92,7 +113,7 @@ const TavusIntegration = ({
       {tavusLoaded && callInfo ? (
         <Room width={width} onLeave={handleLeave} />
       ) : null}
-    </VideoAgentProvider>
+    </>
   );
 };
 
@@ -102,4 +123,4 @@ const Wrapper = styled.div`
   justify-content: center;
 `;
 
-export default TavusIntegration;
+export default VideoAgent;

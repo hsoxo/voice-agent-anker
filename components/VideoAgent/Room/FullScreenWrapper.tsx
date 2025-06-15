@@ -9,7 +9,8 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 import Agent from "./Agent";
 import Controllers from "./Controllers";
-import { useVideoAgentContext } from "../context";
+import { useVideoAgentStore } from "../context";
+import { useShallow } from "zustand/shallow";
 
 const FullScreenWrapper = ({
   width,
@@ -22,7 +23,9 @@ const FullScreenWrapper = ({
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [screenHeight, screenWidth] = useWindowSize();
   const callObject = useDaily();
-  const { resetCallContext } = useVideoAgentContext();
+  const resetCallContext = useVideoAgentStore(
+    useShallow((state) => state.resetCallContext)
+  );
 
   useEffect(() => {
     if (!callObject) return;

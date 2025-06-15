@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
 
 import { ThreeElements, useThree } from "@react-three/fiber";
@@ -48,7 +49,6 @@ const GreenScreenRemoval = ({
 
   if (!aspectRatio) return null;
   return (
-    // @ts-ignore: TS doesn't know about shaderMaterial
     <mesh ref={meshRef}>
       <planeGeometry args={[width, height]} />
       <shaderMaterial
