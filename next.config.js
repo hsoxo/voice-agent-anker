@@ -31,6 +31,7 @@ module.exports = {
         filename: "static/chunks/remoteEntry.js",
         exposes: {
           "./ButtonApp": "./components/ButtonApp",
+          "./VideoAgent": "./components/VideoAgent",
         },
         shared: {
           react: { singleton: true, requiredVersion: "18.2.0", eager: true },

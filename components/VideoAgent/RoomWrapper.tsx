@@ -16,10 +16,10 @@ declare global {
 
 const RoomWrapper = ({
   width = 270,
-  onLoaded,
+  onLoaded = () => {},
 }: {
-  width: number;
-  onLoaded: (loaded: boolean) => void;
+  width?: number;
+  onLoaded?: (loaded: boolean) => void;
 }) => {
   const { callInfo, removeCallInfo, tavusLoaded, setTavusLoaded } =
     useVideoAgentStore(

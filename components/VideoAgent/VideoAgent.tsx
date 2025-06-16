@@ -13,7 +13,7 @@ const VideoAgent = ({
   apiKey: string;
   agentId: string;
   baseUrl: string;
-  onLoaded: (loaded: boolean) => void;
+  onLoaded?: (loaded: boolean) => void;
   width?: number;
 }) => {
   return (
