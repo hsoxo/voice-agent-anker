@@ -368,7 +368,7 @@ export const VoiceChat = () => {
                       onLoaded={setVideoBotLoaded}
                     />
                   )}
-                  {botLoaded ? null : (
+                  {videoBotLoaded ? null : (
                     <Tooltip>
                       <TooltipTrigger>
                         <ButtonApp
