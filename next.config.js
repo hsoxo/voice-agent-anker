@@ -4,7 +4,7 @@ module.exports = {
   async headers() {
     return [
       {
-        source: "/_next/static/chunks/remoteEntry.js",
+        source: "/static/chunks/remoteEntry.js",
         headers: [
           {
             key: "Cache-Control",

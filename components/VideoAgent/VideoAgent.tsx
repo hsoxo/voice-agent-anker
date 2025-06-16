@@ -18,7 +18,7 @@ const VideoAgent = ({
 }) => {
   return (
     <>
-      <RoomWrapper onLoaded={onLoaded} width={width} />
+      <RoomWrapper onLoaded={onLoaded} width={width} fullScreen />
       <StartButton
         apiKey={apiKey}
         agentId={agentId}
