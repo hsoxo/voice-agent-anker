@@ -3,17 +3,20 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDaily } from "@daily-co/daily-react";
 import styled from "@emotion/styled";
 
-import { useWindowSize } from "@/hooks/useWindowSize";
-
 import Agent from "./Agent";
 import Controllers from "./Controllers";
 import { useVideoAgentStore } from "../store";
 import { useShallow } from "zustand/shallow";
 import BeatLoader from "@/components/uiStyled/BeatLoading";
 
-const FullScreenWrapper = ({ onLeave }: { onLeave: () => void }) => {
+const InlineWrapper = ({
+  width,
+  onLeave,
+}: {
+  width: number;
+  onLeave: () => void;
+}) => {
   const [videoLoaded, setVideoLoaded] = useState(false);
-  const [screenHeight, screenWidth] = useWindowSize();
   const callObject = useDaily();
   const resetCallContext = useVideoAgentStore(
     useShallow((state) => state.resetCallContext)
@@ -56,57 +59,37 @@ const FullScreenWrapper = ({ onLeave }: { onLeave: () => void }) => {
     onLeave();
   }, [callObject, resetCallContext, onLeave]);
 
-  console.log(screenWidth, screenHeight);
+  const height = width * 1.77;
   return (
     <Wrapper>
-      <div className="controllers-container">
-        <Controllers onLeave={handleLeave} />
-      </div>
-
-      <div className={`w-screen h-screen relative backdrop-blur-sm`}>
+      <div className={`w-full h-full relative backdrop-blur-sm`}>
         {videoLoaded ? (
-          <Agent width={screenWidth} height={screenHeight} />
+          <Agent width={width} height={height} />
         ) : (
           <div
             className="flex items-center justify-center"
-            style={{ height: screenHeight, width: screenWidth }}
+            style={{ height, width }}
           >
             <BeatLoader />
           </div>
         )}
+      </div>
+      <div className="controllers-container">
+        <Controllers onLeave={handleLeave} />
       </div>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  backdrop-filter: blur(4px);
-  .text-content-full-screen {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
+  position: relative;
   .controllers-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2000000;
     .inner {
       display: flex;
       gap: 0.5rem;
-      justify-content: flex-end;
+      justify-content: center;
     }
   }
 `;
 
-export default FullScreenWrapper;
+export default InlineWrapper;

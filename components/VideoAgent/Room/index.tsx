@@ -5,19 +5,21 @@ import {
   DailyProvider,
   useCallObject,
 } from "@daily-co/daily-react";
-import Pusher from "pusher-js";
 
 import FullScreenWrapper from "./FullScreenWrapper";
+import InlineWrapper from "./InlineWrapper";
 import { useVideoAgentStore } from "../store";
 import { useShallow } from "zustand/shallow";
 
-declare global {
-  interface Window {
-    pusher?: Pusher;
-  }
-}
-
-const Room = ({ width, onLeave }: { width: number; onLeave: () => void }) => {
+const Room = ({
+  width,
+  fullScreen,
+  onLeave,
+}: {
+  width: number;
+  fullScreen: boolean;
+  onLeave: () => void;
+}) => {
   const { callInfo } = useVideoAgentStore(
     useShallow((state) => ({
       callInfo: state.callInfo,
@@ -36,7 +38,11 @@ const Room = ({ width, onLeave }: { width: number; onLeave: () => void }) => {
     <div className="flex flex-row">
       <DailyProvider callObject={callObject}>
         <DailyAudio />
-        <FullScreenWrapper onLeave={onLeave} />
+        {fullScreen ? (
+          <FullScreenWrapper onLeave={onLeave} />
+        ) : (
+          <InlineWrapper width={width} onLeave={onLeave} />
+        )}
       </DailyProvider>
     </div>
   );

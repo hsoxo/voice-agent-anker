@@ -19,7 +19,7 @@ import {
 import VoiceSession from "./VoiceSession";
 import Loading from "./Loading";
 import VoiceSessionFullScreen from "./VoiceSessionFullScreen";
-import { VideoAgent } from "../VideoAgent";
+import { RoomWrapper, StartButton, VideoAgent } from "../VideoAgent";
 
 interface Chat {
   text: string;
@@ -326,6 +326,11 @@ export const VoiceChat = () => {
               <div className="logo">
                 <Image alt="logo" src={Logo} width={140} />
               </div>
+              {videoBotLoaded ? (
+                <div className="flex items-center justify-center">
+                  <RoomWrapper onLoaded={setVideoBotLoaded} />
+                </div>
+              ) : null}
               <BubbleWrapper>
                 {chats.map((chat, index) => (
                   <Bubble
@@ -357,7 +362,7 @@ export const VoiceChat = () => {
                     <div style={{ width: 2, height: 30, background: "#eee" }} />
                   )}
                   {isVoiceAgentConnected ? null : (
-                    <VideoAgent
+                    <StartButton
                       apiKey="1cc7ee7a-62f7-4af5-91e1-d8d873dda74c"
                       agentId="shopping-agent-1"
                       baseUrl=""

@@ -16,9 +16,11 @@ declare global {
 
 const RoomWrapper = ({
   width = 270,
+  fullScreen = false,
   onLoaded = () => {},
 }: {
   width?: number;
+  fullScreen?: boolean;
   onLoaded?: (loaded: boolean) => void;
 }) => {
   const { callInfo, removeCallInfo, tavusLoaded, setTavusLoaded } =
@@ -40,7 +42,7 @@ const RoomWrapper = ({
   return (
     <>
       {tavusLoaded && callInfo ? (
-        <Room width={width} onLeave={handleLeave} />
+        <Room width={width} onLeave={handleLeave} fullScreen={fullScreen} />
       ) : null}
     </>
   );

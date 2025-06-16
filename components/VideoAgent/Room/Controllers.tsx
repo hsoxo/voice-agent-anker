@@ -58,20 +58,6 @@ const Controllers = ({
   );
 };
 
-const MobileWrapper = styled.div`
-  width: 100%;
-  max-width: 100vw;
-  display: flex;
-  position: absolute;
-  top: 0.5rem;
-  z-index: 20000;
-
-  .button {
-    padding: 0 0.5rem;
-    width: 33.3333%;
-  }
-`;
-
 const Wrapper = styled.div<{
   fullScreen: boolean;
 }>`
@@ -80,12 +66,6 @@ const Wrapper = styled.div<{
   position: absolute;
   z-index: 10;
   ${({ fullScreen }) => (fullScreen ? "top: 1rem" : "0")};
-
-  .inner {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: flex-end;
-  }
 `;
 
 export default Controllers;
