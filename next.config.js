@@ -32,7 +32,7 @@ module.exports = {
         exposes: {
           "./ButtonApp": "./components/ButtonApp",
           "./VideoAgent": "./components/VideoAgent/VideoAgent",
-          "./VideoAgentRoomWrapper": "./components/VideoAgent/RoomWrapper",
+          "./VideoAgentRoom": "./components/VideoAgent/RoomWrapper",
           "./VideoAgentButton": "./components/VideoAgent/StartButton",
         },
         shared: {

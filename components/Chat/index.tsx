@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import Pusher from "pusher-js";
 import ButtonApp from "../ButtonApp";
 import { Button } from "../ui/button";
-import { SendHorizonal, MessageSquare, X, AudioLines } from "lucide-react";
+import { SendHorizonal, MessageSquare, X } from "lucide-react";
 import Logo from "@/assets/icons/logo-dark.svg";
 import Image from "next/image";
 import Product from "./Product";
@@ -16,10 +16,9 @@ import {
   TooltipProvider,
 } from "../ui/tooltip";
 
-import VoiceSession from "./VoiceSession";
 import Loading from "./Loading";
 import VoiceSessionFullScreen from "./VoiceSessionFullScreen";
-import { RoomWrapper, StartButton, VideoAgent } from "../VideoAgent";
+import { VideoAgent } from "../VideoAgent";
 
 interface Chat {
   text: string;
@@ -326,11 +325,11 @@ export const VoiceChat = () => {
               <div className="logo">
                 <Image alt="logo" src={Logo} width={140} />
               </div>
-              {videoBotLoaded ? (
+              {/* {videoBotLoaded ? (
                 <div className="flex items-center justify-center">
                   <RoomWrapper onLoaded={setVideoBotLoaded} />
                 </div>
-              ) : null}
+              ) : null} */}
               <BubbleWrapper>
                 {chats.map((chat, index) => (
                   <Bubble
@@ -362,7 +361,7 @@ export const VoiceChat = () => {
                     <div style={{ width: 2, height: 30, background: "#eee" }} />
                   )}
                   {isVoiceAgentConnected ? null : (
-                    <StartButton
+                    <VideoAgent
                       apiKey="1cc7ee7a-62f7-4af5-91e1-d8d873dda74c"
                       agentId="shopping-agent-1"
                       baseUrl=""
