@@ -26,6 +26,14 @@ module.exports = {
 
   webpack(config, options) {
     const { isServer } = options;
+
+    // ✅ ✅ 移除 react-refresh 插件（最关键）
+    if (!dev) {
+      config.plugins = config.plugins.filter(
+        (plugin) => plugin.constructor.name !== "ReactRefreshWebpackPlugin"
+      );
+    }
+
     config.plugins.push(
       new NextFederationPlugin({
         name: "newcastVoiceAgent",
