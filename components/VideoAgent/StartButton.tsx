@@ -51,11 +51,7 @@ const StartButton = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const query = useMemo(() => {
-    let query = window.location.search;
-    if (!query) {
-      query = `?api_key=${apiKey}&agent_id=${agentId}`;
-    }
-    return query;
+    return `?api_key=${apiKey}&agent_id=${agentId}`;
   }, [apiKey, agentId]);
 
   useEffect(() => {
