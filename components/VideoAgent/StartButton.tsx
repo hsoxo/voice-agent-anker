@@ -13,11 +13,13 @@ const StartButton = ({
   agentId,
   baseUrl,
   onLoaded,
+  autoJoin = false,
 }: {
   apiKey: string;
   agentId: string;
   baseUrl: string;
   onLoaded?: (loaded: boolean) => void;
+  autoJoin?: boolean;
 }) => {
   const {
     setApiKey,
@@ -63,6 +65,11 @@ const StartButton = ({
       setAgentInfo(await res.json());
     })();
   }, [baseUrl, query]);
+
+  useEffect(() => {
+    if (!autoJoin || !query) return;
+    handleJoin();
+  }, [autoJoin, query]);
 
   const handleJoin = async () => {
     setIsLoading(true);
