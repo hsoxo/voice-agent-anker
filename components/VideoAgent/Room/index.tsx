@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 
 import {
   DailyAudio,
@@ -35,16 +35,18 @@ const Room = ({
   });
 
   return (
-    <div className="flex flex-row">
-      <DailyProvider callObject={callObject}>
-        <DailyAudio />
-        {fullScreen ? (
-          <FullScreenWrapper onLeave={onLeave} />
-        ) : (
-          <InlineWrapper width={width} onLeave={onLeave} />
-        )}
-      </DailyProvider>
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="flex flex-row">
+        <DailyProvider callObject={callObject}>
+          <DailyAudio />
+          {fullScreen ? (
+            <FullScreenWrapper onLeave={onLeave} />
+          ) : (
+            <InlineWrapper width={width} onLeave={onLeave} />
+          )}
+        </DailyProvider>
+      </div>
+    </Suspense>
   );
 };
 
