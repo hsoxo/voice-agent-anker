@@ -37,12 +37,8 @@ module.exports = {
           "./VideoAgentButton": "./components/VideoAgent/StartButton",
         },
         shared: {
-          react: { singleton: true, requiredVersion: "18.2.0", eager: true },
-          "react-dom": {
-            singleton: true,
-            requiredVersion: "18.2.0",
-            eager: true,
-          },
+          react: { singleton: true, requiredVersion: "18.2.0" },
+          "react-dom": { singleton: true, requiredVersion: "18.2.0" },
         },
         extraOptions: {
           automaticAsyncBoundary: true,
