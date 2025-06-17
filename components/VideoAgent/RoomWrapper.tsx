@@ -3,26 +3,25 @@ import React, { useCallback } from "react";
 import Room from "./Room";
 import { useVideoAgentStore } from "./store";
 import { useShallow } from "zustand/shallow";
-
-declare global {
-  interface Window {
-    NEWCAST_CONFIG: {
-      baseUrl: string;
-      agentId: string;
-      apiKey: string;
-    };
-  }
-}
+import createCache from "@emotion/cache";
+import { CacheProvider } from "@emotion/react";
 
 const RoomWrapper = ({
   width = 270,
   fullScreen = false,
   onLoaded = () => {},
+  shadowRoot,
 }: {
   width?: number;
   fullScreen?: boolean;
   onLoaded?: (loaded: boolean) => void;
+  shadowRoot?: ShadowRoot;
 }) => {
+  const cache = createCache({
+    key: "shadow",
+    container: shadowRoot ?? document.head,
+  });
+
   const { callInfo, removeCallInfo, tavusLoaded, setTavusLoaded } =
     useVideoAgentStore(
       useShallow((state) => ({
@@ -40,11 +39,11 @@ const RoomWrapper = ({
   }, [removeCallInfo, setTavusLoaded, onLoaded]);
 
   return (
-    <>
+    <CacheProvider value={cache}>
       {tavusLoaded && callInfo ? (
         <Room width={width} onLeave={handleLeave} fullScreen={fullScreen} />
       ) : null}
-    </>
+    </CacheProvider>
   );
 };
 

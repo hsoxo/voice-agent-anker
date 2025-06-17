@@ -364,7 +364,6 @@ export const VoiceChat = () => {
                     <VideoAgent
                       apiKey="1cc7ee7a-62f7-4af5-91e1-d8d873dda74c"
                       agentId="shopping-agent-1"
-                      baseUrl=""
                       onLoaded={setVideoBotLoaded}
                     />
                   )}

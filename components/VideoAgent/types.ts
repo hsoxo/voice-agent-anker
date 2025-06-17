@@ -21,8 +21,8 @@ export interface CallInfo {
   conversation_id: string;
   max_call_duration: number;
   greeting_message: string;
-  product_info: FunctionCallMessage;
-  product_list: FunctionCallMessage[];
+  product_info?: FunctionCallMessage;
+  product_list?: FunctionCallMessage[];
 }
 
 export interface AgentInfo {

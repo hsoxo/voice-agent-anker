@@ -10,9 +10,6 @@ interface VideoAgentContextType {
   agentId: string | undefined;
   setAgentId: (agentId: string) => void;
 
-  baseUrl: string | undefined;
-  setBaseUrl: (baseUrl: string) => void;
-
   callInfo: CallInfo | undefined;
   setCallInfo: (callInfo: CallInfo) => void;
   removeCallInfo: () => void;
@@ -43,8 +40,6 @@ export const useVideoAgentStore = create<VideoAgentContextType>((set) => ({
   setApiKey: (apiKey: string) => set({ apiKey }),
   agentId: undefined,
   setAgentId: (agentId: string) => set({ agentId }),
-  baseUrl: undefined,
-  setBaseUrl: (baseUrl: string) => set({ baseUrl }),
   callInfo: undefined,
   setCallInfo: (callInfo: CallInfo) => set({ callInfo }),
   removeCallInfo: () => set({ callInfo: undefined }),
