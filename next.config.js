@@ -1,4 +1,5 @@
 const { NextFederationPlugin } = require("@module-federation/nextjs-mf");
+const path = require("path");
 
 module.exports = {
   async headers() {
@@ -26,14 +27,6 @@ module.exports = {
 
   webpack(config, options) {
     const { isServer, dev } = options;
-    config.optimization.minimize = false; // 🚫 禁用所有压缩器（包括 remoteEntry）
-
-    // ✅ ✅ 移除 react-refresh 插件（最关键）
-    if (!dev) {
-      config.plugins = config.plugins.filter(
-        (plugin) => plugin.constructor.name !== "ReactRefreshWebpackPlugin"
-      );
-    }
 
     config.plugins.push(
       new NextFederationPlugin({
@@ -56,16 +49,17 @@ module.exports = {
         extraOptions: {
           automaticAsyncBoundary: true,
         },
-        library: { type: "module" },
       })
     );
-    // if (!isServer) {
-    //   config.externals = {
-    //     ...config.externals,
-    //     react: "React",
-    //     "react-dom": "ReactDOM",
-    //   };
-    // }
+    if (!isServer) {
+      config.externals = {
+        ...config.externals,
+        react: "React",
+        "react-dom": "ReactDOM",
+      };
+
+      config.externalsType = "global";
+    }
     return config;
   },
 };

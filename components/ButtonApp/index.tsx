@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-console.log("React version:", React.version);
+console.log("React version:", React.version, window.React.version);
 console.log("Remote React instance:", React);
 // @ts-ignore
-console.log("Same instance as host:", React === window.__hostReact__); // 这里应为 true，如果不是说明共享失败
+console.log("Same instance as host:", React === window.React); // 这里应为 true，如果不是说明共享失败
 
-import { Button } from "../ui/button";
+import { Button } from "../uiStyled/Button";
 import { AudioLines } from "lucide-react";
 import AppWrapper from "./AppWrapper";
 
