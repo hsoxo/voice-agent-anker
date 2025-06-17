@@ -50,13 +50,13 @@ module.exports = {
         library: { type: "module" },
       })
     );
-    if (!isServer) {
-      config.externals = {
-        ...config.externals,
-        react: "React",
-        "react-dom": "ReactDOM",
-      };
-    }
+    // if (!isServer) {
+    //   config.externals = {
+    //     ...config.externals,
+    //     react: "React",
+    //     "react-dom": "ReactDOM",
+    //   };
+    // }
     return config;
   },
 };
