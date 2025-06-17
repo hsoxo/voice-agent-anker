@@ -26,6 +26,7 @@ module.exports = {
 
   webpack(config, options) {
     const { isServer, dev } = options;
+    config.optimization.minimize = false; // 🚫 禁用所有压缩器（包括 remoteEntry）
 
     // ✅ ✅ 移除 react-refresh 插件（最关键）
     if (!dev) {
