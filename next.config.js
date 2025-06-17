@@ -25,7 +25,7 @@ module.exports = {
   },
 
   webpack(config, options) {
-    const { isServer } = options;
+    const { isServer, dev } = options;
 
     // ✅ ✅ 移除 react-refresh 插件（最关键）
     if (!dev) {
