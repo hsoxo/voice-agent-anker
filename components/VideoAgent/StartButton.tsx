@@ -22,11 +22,11 @@ const StartButton = ({
   autoJoin = false,
   shadowRoot,
 }: {
-  apiKey: string;
-  agentId: string;
-  chatId: string;
-  llmUrl: string;
-  requestTemplate: any;
+  apiKey?: string;
+  agentId?: string;
+  chatId?: string;
+  llmUrl?: string;
+  requestTemplate?: any;
   onLoaded?: (loaded: boolean) => void;
   autoJoin?: boolean;
   shadowRoot?: ShadowRoot;
