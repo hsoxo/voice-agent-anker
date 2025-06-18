@@ -33,7 +33,10 @@ const StartButton = ({
 }) => {
   const cache = createCache({
     key: "shadow",
-    container: shadowRoot ?? document.head,
+    container:
+      shadowRoot ??
+      document.querySelector("shulex-chatbot-lancher")?.shadowRoot ??
+      document.head,
   });
 
   const {
