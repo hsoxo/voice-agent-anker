@@ -309,9 +309,6 @@ export const VoiceChat = () => {
     setVideoBotLoaded(state);
   };
 
-  const isVoiceAgentConnected = voiceBotState === "connected";
-  const botLoaded = isVoiceAgentConnected || videoBotLoaded;
-  console.log("voiceBotState", voiceBotState);
   return (
     <TooltipProvider>
       <Wrapper className={chatOpen ? "open" : "close"}>
@@ -323,15 +320,11 @@ export const VoiceChat = () => {
                   handleClose={handleClose}
                   chats={chats}
                   isBotLoading={isBotLoading}
-                  botLoaded={botLoaded}
                   text={text}
                   setText={setText}
                   handleSend={handleSend}
                   handleStartVoiceAgent={handleStartVoiceAgent}
                   handleStartVideoAgent={handleStartVideoAgent}
-                  setVideoBotLoaded={setVideoBotLoaded}
-                  videoBotLoaded={videoBotLoaded}
-                  isVoiceAgentConnected={isVoiceAgentConnected}
                 />
                 <ChatButton open={chatOpen} handler={handleSend} />
               </>

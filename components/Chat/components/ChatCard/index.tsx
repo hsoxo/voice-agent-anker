@@ -8,7 +8,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Loading from "../Loading";
-import { VideoAgent } from "@/components/VideoAgent";
 import { Chat } from "../../types";
 import { Button } from "@/components/uiStyled/Button";
 import { AudioLines, BotMessageSquare } from "lucide-react";
@@ -17,28 +16,20 @@ const ChatCard = ({
   handleClose,
   chats,
   isBotLoading,
-  botLoaded,
   text,
   setText,
   handleSend,
   handleStartVoiceAgent,
   handleStartVideoAgent,
-  setVideoBotLoaded,
-  videoBotLoaded,
-  isVoiceAgentConnected,
 }: {
   handleClose: () => void;
   chats: Chat[];
   isBotLoading: boolean;
-  botLoaded: boolean;
   text: string;
   setText: (text: string) => void;
   handleSend: () => void;
   handleStartVoiceAgent: () => void;
   handleStartVideoAgent: () => void;
-  setVideoBotLoaded: (loaded: boolean) => void;
-  videoBotLoaded: boolean;
-  isVoiceAgentConnected: boolean;
 }) => {
   return (
     <>
@@ -58,7 +49,7 @@ const ChatCard = ({
       <InputWrapper>
         <div>
           <input
-            style={{ width: botLoaded ? 0 : 330 }}
+            style={{ width: 330 }}
             placeholder="Type a message..."
             value={text}
             onChange={(e) => {
@@ -70,45 +61,39 @@ const ChatCard = ({
               }
             }}
           />
-          {botLoaded ? null : (
-            <div style={{ width: 2, height: 30, background: "#eee" }} />
-          )}
-          {isVoiceAgentConnected ? null : (
-            <Tooltip>
-              <TooltipTrigger>
-                <Button
-                  key="start"
-                  isRound={true}
-                  variant="icon"
-                  size="icon"
-                  onClick={handleStartVideoAgent}
-                >
-                  <BotMessageSquare />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Talk with video agent</p>
-              </TooltipContent>
-            </Tooltip>
-          )}
-          {videoBotLoaded ? null : (
-            <Tooltip>
-              <TooltipTrigger>
-                <Button
-                  key="start"
-                  isRound={true}
-                  variant="icon"
-                  size="icon"
-                  onClick={handleStartVoiceAgent}
-                >
-                  <AudioLines />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Talk with agent</p>
-              </TooltipContent>
-            </Tooltip>
-          )}
+          <div style={{ width: 2, height: 30, background: "#eee" }} />
+          <Tooltip>
+            <TooltipTrigger>
+              <Button
+                key="start"
+                isRound={true}
+                variant="icon"
+                size="icon"
+                onClick={handleStartVideoAgent}
+              >
+                <BotMessageSquare />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Talk with video agent</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button
+                key="start"
+                isRound={true}
+                variant="icon"
+                size="icon"
+                onClick={handleStartVoiceAgent}
+              >
+                <AudioLines />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Talk with agent</p>
+            </TooltipContent>
+          </Tooltip>
         </div>
       </InputWrapper>
     </>

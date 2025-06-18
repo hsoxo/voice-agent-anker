@@ -64,7 +64,7 @@ const InlineWrapper = ({
   const height = width * 1.77;
   return (
     <Wrapper>
-      <div className="agent-container">
+      <div className="agent-container" style={{ width, height }}>
         {videoLoaded ? (
           <Agent width={width} height={height} shadowRoot={shadowRoot} />
         ) : (
@@ -73,7 +73,7 @@ const InlineWrapper = ({
           </div>
         )}
       </div>
-      <div className="controllers-container">
+      <div className="controllers-container" style={{ width }}>
         <Controllers onLeave={handleLeave} />
       </div>
     </Wrapper>
@@ -90,8 +90,6 @@ const Wrapper = styled.div`
     }
   }
   .agent-container {
-    width: 100%;
-    height: 100%;
     position: relative;
     backdrop-filter: blur(4px);
     .loading {
