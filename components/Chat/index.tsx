@@ -1,24 +1,15 @@
 import styled from "@emotion/styled";
 import { useState, useEffect, useMemo } from "react";
-import Bubble from "./Bubble";
 import { v4 as uuidv4 } from "uuid";
 import Pusher from "pusher-js";
-import ButtonApp from "../ButtonApp";
+import { TooltipProvider } from "../ui/tooltip";
+import ChatButton from "./components/ChatButton";
+import Trigger from "./components/Trigger";
+import ChatCard from "./components/ChatCard";
+import Products from "./components/Products";
 import { Button } from "../ui/button";
-import { SendHorizonal, MessageSquare, X } from "lucide-react";
-import Logo from "@/assets/icons/logo-dark.svg";
-import Image from "next/image";
-import Product from "./Product";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-  TooltipProvider,
-} from "../ui/tooltip";
-
-import Loading from "./Loading";
-import VoiceSessionFullScreen from "./VoiceSessionFullScreen";
-import { VideoAgent } from "../VideoAgent";
+import ButtonApp from "@/components/ButtonApp";
+import VoiceSession from "./VoiceSession";
 
 interface Chat {
   text: string;
@@ -26,16 +17,6 @@ interface Chat {
   role: "ai" | "user";
 }
 
-// product_info: {
-//   type: "related-products",
-//   href: "https://www.anker.com/products/a1614-b",
-//   text: "Slim, portable magnetic battery with kickstand.",
-//   label: "Anker 622 Magnetic Battery (MagGo)",
-//   postfix: null,
-//   image:
-//     "https://dzqkhoe0j5v3w.cloudfront.net/shoppable-video/anker-622_magnetic_battery.jpg",
-//   callback_response: null,
-// },
 const products = [
   {
     type: "product-info",
@@ -199,6 +180,8 @@ export const VoiceChat = () => {
   const [voiceBotState, setVoiceBotState] = useState<string>("idle");
   const [videoBotLoaded, setVideoBotLoaded] = useState<boolean>(false);
   const [isBotLoading, setIsBotLoading] = useState(false);
+  const [flipped, setFlipped] = useState(false);
+  const [app, setApp] = useState<"voice" | "video" | undefined>(undefined);
 
   const pusher = useMemo(() => {
     if (typeof window === "undefined") return;
@@ -299,168 +282,69 @@ export const VoiceChat = () => {
     setShowProducts(false);
   };
 
+  const handleStartVoiceAgent = () => {
+    setApp("voice");
+    setFlipped(true);
+  };
+
   const isVoiceAgentConnected = voiceBotState === "connected";
   const botLoaded = isVoiceAgentConnected || videoBotLoaded;
 
   return (
     <TooltipProvider>
-      <div style={{ position: "fixed", bottom: 32, right: 32 }}>
-        <Wrapper
-          className={chatOpen ? "open" : "close"}
-          onClick={() => !chatOpen && handleOpen()}
-        >
-          {chatOpen ? (
-            <>
-              <div className="close-button">
-                <Button
-                  onClick={handleClose}
-                  isRound
-                  variant="icon"
-                  size="icon"
-                  className="flex-shrink-0"
-                >
-                  <X />
-                </Button>
-              </div>
-              <div className="logo">
-                <Image alt="logo" src={Logo} width={140} />
-              </div>
-              {/* {videoBotLoaded ? (
-                <div className="flex items-center justify-center">
-                  <RoomWrapper onLoaded={setVideoBotLoaded} />
-                </div>
-              ) : null} */}
-              <BubbleWrapper>
-                {chats.map((chat, index) => (
-                  <Bubble
-                    key={index}
-                    text={chat.text}
-                    time={chat.time}
-                    role={chat.role}
-                  />
-                ))}
-                {isBotLoading && <Bubble text={<Loading />} role="ai" />}
-                <div id="bubble-bottom" />
-              </BubbleWrapper>
-              <InputWrapper>
-                <div>
-                  <input
-                    style={{ width: botLoaded ? 0 : 330 }}
-                    placeholder="Type a message..."
-                    value={text}
-                    onChange={(e) => {
-                      setText(e.target.value);
-                    }}
-                    onKeyUp={(e) => {
-                      if (e.key === "Enter") {
-                        handleSend();
-                      }
-                    }}
-                  />
-                  {botLoaded ? null : (
-                    <div style={{ width: 2, height: 30, background: "#eee" }} />
-                  )}
-                  {isVoiceAgentConnected ? null : (
-                    <VideoAgent
-                      apiKey="1cc7ee7a-62f7-4af5-91e1-d8d873dda74c"
-                      agentId="shopping-agent-1"
-                      onLoaded={setVideoBotLoaded}
-                    />
-                  )}
-                  {videoBotLoaded ? null : (
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <ButtonApp
-                          chatId={chatId}
-                          setVoiceBotState={setVoiceBotState}
-                          connectedComponent={VoiceSessionFullScreen}
-                        />
-                      </TooltipTrigger>
-                      {!isVoiceAgentConnected && (
-                        <TooltipContent>
-                          <p>Talk with agent</p>
-                        </TooltipContent>
-                      )}
-                    </Tooltip>
-                  )}
-                </div>
-              </InputWrapper>
-              <div className="send-button">
-                <Button
-                  onClick={handleSend}
-                  isRound
-                  size="icon"
-                  className="flex-shrink-0 button-color"
-                >
-                  <SendHorizonal />
-                </Button>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="close-text">
-                <div>
-                  Hey there! I'm here to help you with any questions you might
-                  have.
-                </div>
-                <div className="message-area">Enter your message...</div>
-              </div>
-              <div className="send-button">
-                <Button
-                  onClick={handleOpen}
-                  isRound
-                  size="icon"
-                  className="flex-shrink-0 button-color"
-                >
-                  <MessageSquare />
-                </Button>
-              </div>
-            </>
-          )}
-        </Wrapper>
-        {chatOpen && !videoBotLoaded && (
-          <Products show={showProducts}>
-            {products.map((product) => (
-              <Product
-                key={product.href}
-                product={product}
-                handleLearnMore={handleLearnMore}
+      <Wrapper className={chatOpen ? "open" : "close"}>
+        <CardInner flipped={flipped} onClick={() => !chatOpen && handleOpen()}>
+          <CardFront>
+            {chatOpen ? (
+              <>
+                <ChatCard
+                  handleClose={handleClose}
+                  chats={chats}
+                  isBotLoading={isBotLoading}
+                  botLoaded={botLoaded}
+                  text={text}
+                  setText={setText}
+                  handleSend={handleSend}
+                  handleStartVoiceAgent={handleStartVoiceAgent}
+                  setVideoBotLoaded={setVideoBotLoaded}
+                  videoBotLoaded={videoBotLoaded}
+                  isVoiceAgentConnected={isVoiceAgentConnected}
+                />
+                <ChatButton open={chatOpen} handler={handleSend} />
+              </>
+            ) : (
+              <Trigger handleOpen={handleOpen} />
+            )}
+          </CardFront>
+          <CardBack>
+            {app === "voice" ? (
+              <ButtonApp
+                chatId={chatId}
+                setVoiceBotState={setVoiceBotState}
+                connectedComponent={VoiceSession}
+                autoStart={true}
               />
-            ))}
-          </Products>
+            ) : null}
+          </CardBack>
+        </CardInner>
+        {chatOpen && !videoBotLoaded && (
+          <Products
+            show={showProducts}
+            products={products}
+            handleLearnMore={handleLearnMore}
+          />
         )}
-      </div>
+      </Wrapper>
+      <Button onClick={() => setFlipped(!flipped)}>Flip</Button>
     </TooltipProvider>
   );
 };
 
-const InputWrapper = styled.div`
-  position: absolute;
-  bottom: 0;
-  padding: 16px;
-  width: 440px;
-  > div {
-    border-radius: 30px;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    padding: 0;
-    margin: 0;
-    gap: 4px;
-    padding: 4px 4px 4px 16px;
-    min-height: 56px;
-  }
-
-  input {
-    width: 100%;
-    border-radius: 4px;
-    border: none;
-    outline: none;
-    transition: width 0.3s ease;
-  }
-`;
 const Wrapper = styled.div`
-  z-index: 1000;
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  perspective: 3000px;
   transition: all 0.5s ease;
   &.close {
     width: 240px;
@@ -470,6 +354,22 @@ const Wrapper = styled.div`
     width: 460px;
     height: 720px;
   }
+`;
+
+const CardInner = styled.div<{ flipped: boolean }>`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  transform: ${({ flipped }) => (flipped ? "rotateY(180deg)" : "none")};
+`;
+
+const CardFace = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
   border-radius: 28px;
   background: linear-gradient(
     to bottom right,
@@ -478,81 +378,12 @@ const Wrapper = styled.div`
     rgba(242, 243, 255, 0.1) 100%
   );
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
-
-  .logo {
-    padding: 16px;
-  }
-
-  .close-text {
-    padding: 16px 32px 16px 16px;
-    text-align: left;
-    color: #333;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-
-    .message-area {
-      color: #999;
-      border-top: 2px solid #e5e7eb;
-      padding-top: 8px;
-      padding-right: 32px;
-      margin-top: 8px;
-    }
-  }
-  .close-button {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    cursor: pointer;
-    z-index: 1001;
-  }
-  .send-button {
-    position: absolute;
-    right: -16px;
-    bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-    z-index: 1001;
-    border-radius: 50%;
-  }
-
-  .button-color {
-    background: linear-gradient(
-      145.55deg,
-      rgb(95, 88, 255) -12.97%,
-      rgb(172, 0, 216) 103.71%
-    );
-    border: none;
-  }
 `;
 
-const Products = styled.div<{ show: boolean }>`
-  padding: 16px 32px 16px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  position: absolute;
-  width: 200px;
-  transition: opacity 0.3s ease;
-  opacity: ${({ show }) => (show ? 1 : 0)};
-  left: ${({ show }) => (show ? "-180px" : "0")};
-  border-radius: 20px;
-  z-index: -1;
-  top: 16px;
-  overflow-y: auto;
-  height: 680px;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+const CardFront = styled(CardFace)``;
 
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
-`;
-
-const BubbleWrapper = styled.div`
-  padding: 8px 0;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  height: calc(100% - 140px);
+const CardBack = styled(CardFace)`
+  transform: rotateY(180deg);
 `;
 
 export default VoiceChat;

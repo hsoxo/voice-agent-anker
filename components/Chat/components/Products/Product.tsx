@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { Button } from "../ui/button";
+import { Button } from "@/components/uiStyled/Button";
 import { ShoppingCart } from "lucide-react";
 
 const Product = ({

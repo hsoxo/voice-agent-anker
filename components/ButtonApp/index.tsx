@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 console.log("React version:", React.version, window.React.version);
 console.log("Remote React instance:", React);
 // @ts-ignore
@@ -14,16 +14,18 @@ export default function ButtonApp({
   requestTemplate = null,
   setVoiceBotState,
   connectedComponent,
+  autoStart = false,
 }: {
   chatId?: string;
   llmUrl?: string;
   requestTemplate?: any;
   setVoiceBotState?: (state: string) => void;
   connectedComponent?: React.FC<{ onClick: () => void }>;
+  autoStart?: boolean;
 }) {
   console.log("llmUrl", llmUrl);
   console.log("requestTemplate", requestTemplate);
-  const [activate, setActivate] = useState(false);
+  const [activate, setActivate] = useState(autoStart);
   const handleSetVoiceBotState = (state: string) => {
     setVoiceBotState?.(state);
     console.log("state", state);
