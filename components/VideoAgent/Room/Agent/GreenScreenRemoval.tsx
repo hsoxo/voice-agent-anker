@@ -25,16 +25,16 @@ const GreenScreenRemoval = ({
 
   useEffect(() => {
     let video: HTMLVideoElement | null = null;
-    if (shadowRoot) {
-      video = shadowRoot.getElementById(videoId) as HTMLVideoElement;
-    } else {
-      video = document.getElementById(videoId) as HTMLVideoElement;
+    video = document
+      .querySelector("shulex-chatbot-lancher")
+      ?.shadowRoot.getElementById(videoId);
+    if (!video) {
+      if (shadowRoot) {
+        video = shadowRoot.getElementById(videoId) as HTMLVideoElement;
+      } else {
+        video = document.getElementById(videoId) as HTMLVideoElement;
+      }
     }
-    console.log(
-      document
-        .querySelector("shulex-chatbot-lancher")
-        ?.shadowRoot.getElementById(videoId)
-    );
     console.log("video", video);
     if (!video) return;
 
