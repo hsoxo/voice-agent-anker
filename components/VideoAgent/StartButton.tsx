@@ -86,14 +86,10 @@ const StartButton = ({
   const handleJoin = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(`${HOST}/api/video-agent/create-session`, {
-        method: "POST",
-        body: JSON.stringify({
-          chatId,
-          llmUrl,
-          requestTemplate,
-        }),
-      });
+      const res = await fetch(
+        `${HOST}/api/video-agent/create-session${query}`,
+        { method: "POST" }
+      );
       const callInfo = await res.json();
       setCallInfo(callInfo);
       setTimeout(() => {
