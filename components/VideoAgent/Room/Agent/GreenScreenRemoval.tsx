@@ -30,8 +30,13 @@ const GreenScreenRemoval = ({
     } else {
       video = document.getElementById(videoId) as HTMLVideoElement;
     }
-    if (!video) return;
+    console.log(
+      document
+        .querySelector("shulex-chatbot-lancher")
+        ?.shadowRoot.getElementById(videoId)
+    );
     console.log("video", video);
+    if (!video) return;
 
     const handleMetadata = () => {
       setAspectRatio(video.videoWidth / video.videoHeight);
