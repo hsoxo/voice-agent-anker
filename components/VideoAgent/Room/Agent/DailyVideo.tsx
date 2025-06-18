@@ -90,6 +90,7 @@ export const DailyVideo = forwardRef<HTMLVideoElement, Props>(
       type = "video",
       width,
       height: defaultHeight,
+      shadowRoot,
       ...props
     },
     ref

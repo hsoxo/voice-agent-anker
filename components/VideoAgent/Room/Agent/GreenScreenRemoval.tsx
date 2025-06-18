@@ -31,6 +31,7 @@ const GreenScreenRemoval = ({
       video = document.getElementById(videoId) as HTMLVideoElement;
     }
     if (!video) return;
+    console.log("video", video);
 
     const handleMetadata = () => {
       setAspectRatio(video.videoWidth / video.videoHeight);
