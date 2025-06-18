@@ -27,6 +27,7 @@ const Tile = ({
       type="video"
       style={{ maxWidth: "unset", margin: "auto" }}
       className="rounded-2xl"
+      shadowRoot={shadowRoot}
     />
   );
 };
