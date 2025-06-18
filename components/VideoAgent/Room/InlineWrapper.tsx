@@ -64,14 +64,11 @@ const InlineWrapper = ({
   const height = width * 1.77;
   return (
     <Wrapper>
-      <div className={`w-full h-full relative backdrop-blur-sm`}>
+      <div className="agent-container">
         {videoLoaded ? (
           <Agent width={width} height={height} shadowRoot={shadowRoot} />
         ) : (
-          <div
-            className="flex items-center justify-center"
-            style={{ height, width }}
-          >
+          <div className="loading" style={{ height, width }}>
             <BeatLoader />
           </div>
         )}
@@ -89,6 +86,19 @@ const Wrapper = styled.div`
     .inner {
       display: flex;
       gap: 0.5rem;
+      justify-content: center;
+    }
+  }
+  .agent-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    backdrop-filter: blur(4px);
+    .loading {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
       justify-content: center;
     }
   }
