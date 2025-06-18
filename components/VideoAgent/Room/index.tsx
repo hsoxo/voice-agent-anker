@@ -15,10 +15,12 @@ const Room = ({
   width,
   fullScreen,
   onLeave,
+  shadowRoot,
 }: {
   width: number;
   fullScreen: boolean;
   onLeave: () => void;
+  shadowRoot?: ShadowRoot;
 }) => {
   const { callInfo } = useVideoAgentStore(
     useShallow((state) => ({
@@ -40,9 +42,13 @@ const Room = ({
         <DailyProvider callObject={callObject}>
           <DailyAudio />
           {fullScreen ? (
-            <FullScreenWrapper onLeave={onLeave} />
+            <FullScreenWrapper onLeave={onLeave} shadowRoot={shadowRoot} />
           ) : (
-            <InlineWrapper width={width} onLeave={onLeave} />
+            <InlineWrapper
+              width={width}
+              onLeave={onLeave}
+              shadowRoot={shadowRoot}
+            />
           )}
         </DailyProvider>
       </div>

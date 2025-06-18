@@ -44,7 +44,15 @@ const RoomWrapper = ({
   return (
     <CacheProvider value={cache}>
       {tavusLoaded && callInfo ? (
-        <Room width={width} onLeave={handleLeave} fullScreen={fullScreen} />
+        <Room
+          width={width}
+          onLeave={handleLeave}
+          fullScreen={fullScreen}
+          shadowRoot={
+            shadowRoot ??
+            document.querySelector("shulex-chatbot-lancher")?.shadowRoot
+          }
+        />
       ) : null}
     </CacheProvider>
   );

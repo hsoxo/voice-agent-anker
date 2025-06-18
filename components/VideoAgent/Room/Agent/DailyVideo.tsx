@@ -74,6 +74,7 @@ interface Props
   type: "video" | "screenVideo" | "rmpVideo";
   width: number;
   height?: number;
+  shadowRoot?: ShadowRoot;
 }
 
 export const DailyVideo = forwardRef<HTMLVideoElement, Props>(
@@ -364,6 +365,7 @@ export const DailyVideo = forwardRef<HTMLVideoElement, Props>(
                 height={finalCanvasSize.height}
                 aspectRatio={aspectRatio}
                 videoId="ai-agent"
+                shadowRoot={shadowRoot}
               />
             </Canvas>
           </div>

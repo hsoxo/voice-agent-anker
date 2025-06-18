@@ -12,9 +12,11 @@ import BeatLoader from "@/components/uiStyled/BeatLoading";
 const InlineWrapper = ({
   width,
   onLeave,
+  shadowRoot,
 }: {
   width: number;
   onLeave: () => void;
+  shadowRoot?: ShadowRoot;
 }) => {
   const [videoLoaded, setVideoLoaded] = useState(false);
   const callObject = useDaily();
@@ -64,7 +66,7 @@ const InlineWrapper = ({
     <Wrapper>
       <div className={`w-full h-full relative backdrop-blur-sm`}>
         {videoLoaded ? (
-          <Agent width={width} height={height} />
+          <Agent width={width} height={height} shadowRoot={shadowRoot} />
         ) : (
           <div
             className="flex items-center justify-center"

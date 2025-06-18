@@ -9,11 +9,13 @@ const GreenScreenRemoval = ({
   width,
   height,
   aspectRatio: defaultAspectRatio,
+  shadowRoot,
 }: {
   videoId: string;
   width: number;
   height: number;
   aspectRatio: number;
+  shadowRoot?: ShadowRoot;
 }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const textureRef = useRef<VideoTexture | null>(null);
@@ -22,7 +24,12 @@ const GreenScreenRemoval = ({
   const [aspectRatio, setAspectRatio] = useState<number>(defaultAspectRatio);
 
   useEffect(() => {
-    const video = document.getElementById(videoId) as HTMLVideoElement;
+    let video: HTMLVideoElement | null = null;
+    if (shadowRoot) {
+      video = shadowRoot.getElementById(videoId) as HTMLVideoElement;
+    } else {
+      video = document.getElementById(videoId) as HTMLVideoElement;
+    }
     if (!video) return;
 
     const handleMetadata = () => {

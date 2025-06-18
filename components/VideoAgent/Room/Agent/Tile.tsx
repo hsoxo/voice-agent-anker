@@ -8,10 +8,12 @@ const Tile = ({
   width,
   height,
   id,
+  shadowRoot,
 }: {
   width: number;
   height?: number;
   id: string;
+  shadowRoot?: ShadowRoot;
 }) => {
   const username = useParticipantProperty(id, "user_name");
 
