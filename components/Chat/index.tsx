@@ -10,6 +10,7 @@ import Products from "./components/Products";
 import { Button } from "../ui/button";
 import ButtonApp from "@/components/ButtonApp";
 import VoiceSession from "./VoiceSession";
+import { RoomWrapper, StartButton } from "../VideoAgent";
 
 interface Chat {
   text: string;
@@ -287,9 +288,30 @@ export const VoiceChat = () => {
     setFlipped(true);
   };
 
+  const handleVoiceBotStateChange = (state: string) => {
+    if (voiceBotState === "connected" && state !== "connected") {
+      setApp(undefined);
+      setFlipped(false);
+    }
+    setVoiceBotState(state);
+  };
+
+  const handleStartVideoAgent = () => {
+    setApp("video");
+    setFlipped(true);
+  };
+
+  const handleVideoBotStateChange = (state: boolean) => {
+    if (videoBotLoaded && !state) {
+      setApp(undefined);
+      setFlipped(false);
+    }
+    setVideoBotLoaded(state);
+  };
+
   const isVoiceAgentConnected = voiceBotState === "connected";
   const botLoaded = isVoiceAgentConnected || videoBotLoaded;
-
+  console.log("voiceBotState", voiceBotState);
   return (
     <TooltipProvider>
       <Wrapper className={chatOpen ? "open" : "close"}>
@@ -306,6 +328,7 @@ export const VoiceChat = () => {
                   setText={setText}
                   handleSend={handleSend}
                   handleStartVoiceAgent={handleStartVoiceAgent}
+                  handleStartVideoAgent={handleStartVideoAgent}
                   setVideoBotLoaded={setVideoBotLoaded}
                   videoBotLoaded={videoBotLoaded}
                   isVoiceAgentConnected={isVoiceAgentConnected}
@@ -320,10 +343,20 @@ export const VoiceChat = () => {
             {app === "voice" ? (
               <ButtonApp
                 chatId={chatId}
-                setVoiceBotState={setVoiceBotState}
+                setVoiceBotState={handleVoiceBotStateChange}
                 connectedComponent={VoiceSession}
                 autoStart={true}
               />
+            ) : app === "video" ? (
+              <>
+                <StartButton
+                  apiKey="1cc7ee7a-62f7-4af5-91e1-d8d873dda74c"
+                  agentId="shopping-agent-1"
+                  onLoaded={handleVideoBotStateChange}
+                  autoJoin
+                />
+                <RoomWrapper onLoaded={handleVideoBotStateChange} width={270} />
+              </>
             ) : null}
           </CardBack>
         </CardInner>
@@ -335,7 +368,6 @@ export const VoiceChat = () => {
           />
         )}
       </Wrapper>
-      <Button onClick={() => setFlipped(!flipped)}>Flip</Button>
     </TooltipProvider>
   );
 };
@@ -384,6 +416,9 @@ const CardFront = styled(CardFace)``;
 
 const CardBack = styled(CardFace)`
   transform: rotateY(180deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default VoiceChat;

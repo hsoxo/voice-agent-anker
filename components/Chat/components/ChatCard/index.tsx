@@ -11,7 +11,7 @@ import Loading from "../Loading";
 import { VideoAgent } from "@/components/VideoAgent";
 import { Chat } from "../../types";
 import { Button } from "@/components/uiStyled/Button";
-import { AudioLines } from "lucide-react";
+import { AudioLines, BotMessageSquare } from "lucide-react";
 
 const ChatCard = ({
   handleClose,
@@ -22,6 +22,7 @@ const ChatCard = ({
   setText,
   handleSend,
   handleStartVoiceAgent,
+  handleStartVideoAgent,
   setVideoBotLoaded,
   videoBotLoaded,
   isVoiceAgentConnected,
@@ -34,6 +35,7 @@ const ChatCard = ({
   setText: (text: string) => void;
   handleSend: () => void;
   handleStartVoiceAgent: () => void;
+  handleStartVideoAgent: () => void;
   setVideoBotLoaded: (loaded: boolean) => void;
   videoBotLoaded: boolean;
   isVoiceAgentConnected: boolean;
@@ -72,11 +74,22 @@ const ChatCard = ({
             <div style={{ width: 2, height: 30, background: "#eee" }} />
           )}
           {isVoiceAgentConnected ? null : (
-            <VideoAgent
-              apiKey="1cc7ee7a-62f7-4af5-91e1-d8d873dda74c"
-              agentId="shopping-agent-1"
-              onLoaded={setVideoBotLoaded}
-            />
+            <Tooltip>
+              <TooltipTrigger>
+                <Button
+                  key="start"
+                  isRound={true}
+                  variant="icon"
+                  size="icon"
+                  onClick={handleStartVideoAgent}
+                >
+                  <BotMessageSquare />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Talk with video agent</p>
+              </TooltipContent>
+            </Tooltip>
           )}
           {videoBotLoaded ? null : (
             <Tooltip>
@@ -91,11 +104,9 @@ const ChatCard = ({
                   <AudioLines />
                 </Button>
               </TooltipTrigger>
-              {!isVoiceAgentConnected && (
-                <TooltipContent>
-                  <p>Talk with agent</p>
-                </TooltipContent>
-              )}
+              <TooltipContent>
+                <p>Talk with agent</p>
+              </TooltipContent>
             </Tooltip>
           )}
         </div>

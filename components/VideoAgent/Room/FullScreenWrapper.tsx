@@ -11,7 +11,13 @@ import { useVideoAgentStore } from "../store";
 import { useShallow } from "zustand/shallow";
 import BeatLoader from "@/components/uiStyled/BeatLoading";
 
-const FullScreenWrapper = ({ onLeave, shadowRoot }: { onLeave: () => void; shadowRoot?: ShadowRoot }) => {
+const FullScreenWrapper = ({
+  onLeave,
+  shadowRoot,
+}: {
+  onLeave: () => void;
+  shadowRoot?: ShadowRoot;
+}) => {
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [screenHeight, screenWidth] = useWindowSize();
   const callObject = useDaily();
@@ -56,7 +62,6 @@ const FullScreenWrapper = ({ onLeave, shadowRoot }: { onLeave: () => void; shado
     onLeave();
   }, [callObject, resetCallContext, onLeave]);
 
-  console.log(screenWidth, screenHeight);
   return (
     <Wrapper>
       <div className="controllers-container">
@@ -65,7 +70,11 @@ const FullScreenWrapper = ({ onLeave, shadowRoot }: { onLeave: () => void; shado
 
       <div className={`w-screen h-screen relative backdrop-blur-sm`}>
         {videoLoaded ? (
-          <Agent width={screenWidth} height={screenHeight} shadowRoot={shadowRoot} />
+          <Agent
+            width={screenWidth}
+            height={screenHeight}
+            shadowRoot={shadowRoot}
+          />
         ) : (
           <div
             className="flex items-center justify-center"
