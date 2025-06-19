@@ -2,9 +2,12 @@
 import dynamic from "next/dynamic";
 import { GetServerSideProps } from "next";
 
-const CallSettingsPage = dynamic(() => import("@/components/CallSettings/client"), {
-  ssr: false,
-});
+const CallSettingsPage = dynamic(
+  () => import("@/components/CallSettings/client"),
+  {
+    ssr: false,
+  }
+);
 
 export default function Page({ clientId }: { clientId: string }) {
   return <CallSettingsPage clientId={clientId} />;

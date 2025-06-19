@@ -22,7 +22,7 @@ export default function Home() {
               <Card.CardTitle>Call Settings</Card.CardTitle>
             </Card.CardHeader>
             {settings ? (
-              <Settings />
+              <Settings showExtra />
             ) : (
               <div className="flex items-center justify-center h-full">
                 <Loader2 className="animate-spin" />
@@ -39,4 +39,3 @@ async function getCallSettings() {
   const response = await fetch("/voice-api/twilio/call-settings");
   return response.json();
 }
-
