@@ -64,7 +64,7 @@ const InlineWrapper = ({
 
   const height = width * 1.77;
   return (
-    <Wrapper>
+    <Wrapper style={{ width, height: height + 60 }}>
       <div className="agent-container" style={{ width, height }}>
         {videoLoaded ? (
           <Agent width={width} height={height} shadowRoot={shadowRoot} />
@@ -85,18 +85,12 @@ const InlineWrapper = ({
 };
 
 const Wrapper = styled.div`
-  position: absolute;
   .controllers-container {
     position: relative;
     .inner {
       display: flex;
       gap: 0.5rem;
       justify-content: center;
-    }
-    .local-camera {
-      position: absolute;
-      bottom: 0;
-      left: right;
     }
   }
   .agent-container {
@@ -108,6 +102,11 @@ const Wrapper = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+    .local-camera {
+      position: absolute;
+      bottom: 0;
+      right: 0;
     }
   }
 `;

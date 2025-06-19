@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useLocalSessionId, useVideoTrack } from "@daily-co/daily-react";
 
 const LocalCameraFeed = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [permission, setPermission] = useState<
     "granted" | "denied" | "prompt" | "error"
   >("prompt");
+  const localId = useLocalSessionId();
+  const camTrack = useVideoTrack(localId);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     let stream: MediaStream;
@@ -57,16 +61,19 @@ const LocalCameraFeed = () => {
     };
   }, []);
 
-  if (permission === "denied") {
-    return null;
-  }
   return (
     <video
       ref={videoRef}
       autoPlay
       playsInline
       muted
-      style={{ width: "180px", borderRadius: "8px", backgroundColor: "#000" }}
+      style={{
+        width: "100px",
+        borderRadius: "8px",
+        backgroundColor: "#000",
+        visibility:
+          permission !== "granted" || camTrack.isOff ? "hidden" : "visible",
+      }}
     />
   );
 };

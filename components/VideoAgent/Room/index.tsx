@@ -32,7 +32,7 @@ const Room = ({
     options: {
       url: `https://tavus.daily.co/${callInfo!.conversation_id}`,
       userName: "enduser",
-      startVideoOff: true,
+      // startVideoOff: true,
     },
   });
 
