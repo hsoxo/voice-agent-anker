@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useMicVolume } from "../../hooks/useMicVolume";
+import { useFrequencyData } from "../../hooks/useFrequencyData";
 
 const WIDTH = 460;
 const HEIGHT = 720;
@@ -31,6 +32,7 @@ function drawRoundedRect(
 export const VolumeCanvasBubble = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const volume = useMicVolume();
+  const freqs = useFrequencyData(); // 在组件中引入
 
   // 把 [0,255] 左右的音量映射到你想要的阴影范围 (5~40)
   const shadowSize = Math.min(60, Math.max(10, volume / 2 + 10));
@@ -114,6 +116,61 @@ export const VolumeCanvasBubble = () => {
     // ctx.fillStyle = "#333";
     // ctx.font = "20px sans-serif";
     // ctx.fillText(`🎙️ 音量：${volume.toFixed(0)}`, 24, 32);
+
+    // 6. 画波形条 or 静音圆点
+    const isSilent = freqs.reduce((a, b) => a + b, 0) / freqs.length < 5;
+    const centerY = HEIGHT / 2;
+    const centerX = WIDTH / 2;
+    const totalBars = freqs.length;
+    const spacing = 9;
+    const barWidth = 4;
+    const graphWidth = (barWidth + spacing) * totalBars;
+    const startX = centerX - graphWidth / 2;
+
+    if (isSilent) {
+      // 画圆点表示静音
+      for (let i = 0; i < totalBars; i++) {
+        const x = startX + i * (barWidth + spacing);
+        ctx.beginPath();
+        ctx.arc(x, centerY, 2, 0, Math.PI * 2);
+        ctx.fillStyle = "#aaa";
+        ctx.fill();
+      }
+    } else {
+      // 动态柱状条
+      for (let i = 0; i < totalBars; i++) {
+        const value = freqs[i]; // 0~255
+        const height = (value / 255) * 80 + 5; // 最小高度 5
+        const x = startX + i * (barWidth + spacing);
+        const y = centerY - height / 2;
+
+        ctx.fillStyle = "rgba(16, 190, 66, 0.8)";
+
+        const radius = Math.min(barWidth / 2, height / 2); // 防止超过条宽高
+
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y); // 左上角
+        ctx.lineTo(x + barWidth - radius, y);
+        ctx.quadraticCurveTo(x + barWidth, y, x + barWidth, y + radius);
+
+        ctx.lineTo(x + barWidth, y + height - radius);
+        ctx.quadraticCurveTo(
+          x + barWidth,
+          y + height,
+          x + barWidth - radius,
+          y + height
+        );
+
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
   }, [shadowSize]);
 
   return (

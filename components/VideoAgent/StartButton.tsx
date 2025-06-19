@@ -9,6 +9,7 @@ import { useVideoAgentStore } from "./store";
 import { useShallow } from "zustand/shallow";
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
+import LocalCameraFeed from "./Room/LocalCameraFeed";
 
 const HOST = process.env.NEXT_PUBLIC_WEB_URL ?? "";
 

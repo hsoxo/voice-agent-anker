@@ -8,6 +8,7 @@ import Controllers from "./Controllers";
 import { useVideoAgentStore } from "../store";
 import { useShallow } from "zustand/shallow";
 import BeatLoader from "@/components/uiStyled/BeatLoading";
+import LocalCameraFeed from "./LocalCameraFeed";
 
 const InlineWrapper = ({
   width,
@@ -72,6 +73,9 @@ const InlineWrapper = ({
             <BeatLoader />
           </div>
         )}
+        <div className="local-camera">
+          <LocalCameraFeed />
+        </div>
       </div>
       <div className="controllers-container" style={{ width }}>
         <Controllers onLeave={handleLeave} />
@@ -81,12 +85,18 @@ const InlineWrapper = ({
 };
 
 const Wrapper = styled.div`
-  position: relative;
+  position: absolute;
   .controllers-container {
+    position: relative;
     .inner {
       display: flex;
       gap: 0.5rem;
       justify-content: center;
+    }
+    .local-camera {
+      position: absolute;
+      bottom: 0;
+      left: right;
     }
   }
   .agent-container {
