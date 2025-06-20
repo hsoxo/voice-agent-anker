@@ -198,16 +198,16 @@ export const VolumeCanvasBubble = ({ muted }: { muted: boolean }) => {
       const t = performance.now() / 1000;
       const silent = volume < 5;
       const jitterAmp = silent ? 10 : 2 + volume / 10; // 抖动幅度
-      const rotSpeed = silent ? 0.3 : 0.8 + volume / 200; // 旋转速度
+      const rotSpeed = silent ? 0.3 : volume / 200; // 旋转速度
       const prevR = prevRRef.current;
       const smooth = 0.15; // 越小越平滑
 
-      ctx.lineWidth = 2.4;
+      ctx.lineWidth = 3;
       const volNorm = Math.min(volume, 120) / 120; // 0~1 归一化；120 以上透明度不再继续增
 
       const alphaIn =
         (silent
-          ? 0.03 + volNorm * 0.05 // 静音范围：0.03 → 0.08
+          ? 0.02 + volNorm * 0.04 // 静音范围：0.03 → 0.08
           : 0.05 + volNorm * 0.12) * 4; // 说话范围：0.05 → 0.17
 
       const alphaOut =
