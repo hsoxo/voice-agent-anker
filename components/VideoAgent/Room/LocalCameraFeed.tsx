@@ -71,6 +71,7 @@ const LocalCameraFeed = () => {
         width: "100px",
         borderRadius: "8px",
         backgroundColor: "#000",
+        transform: "scaleX(-1)",
         visibility:
           permission !== "granted" || camTrack.isOff ? "hidden" : "visible",
       }}
