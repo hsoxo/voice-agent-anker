@@ -14,7 +14,7 @@ const THEMES = {
 };
 
 const ringCount = 4; // 圈数
-const baseR = 120; // 基础半径
+const baseR = 100; // 基础半径
 const pointCount = 100; // 每环采样点
 
 function drawRoundedRect(
@@ -197,7 +197,7 @@ export const VolumeCanvasBubble = ({ muted }: { muted: boolean }) => {
 
       const t = performance.now() / 1000;
       const silent = volume < 5;
-      const jitterAmp = silent ? 10 : 2 + volume / 15; // 抖动幅度
+      const jitterAmp = silent ? 10 : 2 + volume / 10; // 抖动幅度
       const rotSpeed = silent ? 0.3 : 0.8 + volume / 200; // 旋转速度
       const prevR = prevRRef.current;
       const smooth = 0.15; // 越小越平滑
@@ -216,7 +216,7 @@ export const VolumeCanvasBubble = ({ muted }: { muted: boolean }) => {
           : 0.03 + volNorm * 0.07) * 4; // 说话范围：0.03  → 0.10
 
       for (let k = 0; k < ringCount; k++) {
-        const radius = baseR + k * 6;
+        const radius = baseR + k * 8;
         const phase = k * 0.7; // 相位差
         const rot = t * rotSpeed + phase; // 时间旋转
         const alpha = alphaIn + (alphaOut - alphaIn) * (k / (ringCount - 1));
