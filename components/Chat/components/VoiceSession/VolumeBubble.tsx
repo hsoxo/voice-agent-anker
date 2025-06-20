@@ -29,6 +29,28 @@ function drawRoundedRect(
   ctx.closePath();
 }
 
+function drawRoundedBar(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number
+) {
+  const r = Math.min(w / 2, h / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+  ctx.fill();
+}
+
 export const VolumeCanvasBubble = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const volume = useMicVolume();
@@ -95,80 +117,45 @@ export const VolumeCanvasBubble = () => {
     ctx.fillStyle = makeGrad(WIDTH, 0, WIDTH - thickness, 0);
     ctx.fillRect(WIDTH - thickness, 0, thickness, HEIGHT);
 
-    /* 4. 角落额外柔化：4 个小 radialGradient（可选，不想要可删） */
-    // const corner = (cx: number, cy: number) => {
-    //   const rad = ctx.createRadialGradient(cx, cy, 0, cx, cy, thickness);
-    //   rad.addColorStop(0, `rgba(16,190,66,${alpha})`);
-    //   rad.addColorStop(1, `rgba(16,190,66,0)`);
-    //   ctx.fillStyle = rad;
-    //   ctx.beginPath();
-    //   ctx.arc(cx, cy, thickness, 0, Math.PI * 2);
-    //   ctx.fill();
-    // };
-    // corner(thickness, thickness); // 左上
-    // corner(WIDTH - thickness, thickness); // 右上
-    // corner(thickness, HEIGHT - thickness); // 左下
-    // corner(WIDTH - thickness, HEIGHT - thickness); // 右下
-
     ctx.restore(); // 结束 clip
 
-    /* 5. 可选文字 */
-    // ctx.fillStyle = "#333";
-    // ctx.font = "20px sans-serif";
-    // ctx.fillText(`🎙️ 音量：${volume.toFixed(0)}`, 24, 32);
-
     // 6. 画波形条 or 静音圆点
-    const isSilent = freqs.reduce((a, b) => a + b, 0) / freqs.length < 5;
     const centerY = HEIGHT / 2;
     const centerX = WIDTH / 2;
     const totalBars = freqs.length;
     const spacing = 9;
     const barWidth = 4;
-    const graphWidth = (barWidth + spacing) * totalBars;
-    const startX = centerX - graphWidth / 2;
+    const half = Math.floor(totalBars / 2);
+
+    const avg = freqs.reduce((a, b) => a + b, 0) / totalBars;
+    const isSilent = avg < 5;
 
     if (isSilent) {
-      // 画圆点表示静音
-      for (let i = 0; i < totalBars; i++) {
-        const x = startX + i * (barWidth + spacing);
+      // 圆点模式
+      ctx.fillStyle = "#aaa";
+      for (let i = 0; i < half; i++) {
+        const xL = centerX - (i + 1) * (barWidth + spacing) + barWidth / 2;
+        const xR = centerX + i * (barWidth + spacing) + barWidth / 2;
         ctx.beginPath();
-        ctx.arc(x, centerY, 2, 0, Math.PI * 2);
-        ctx.fillStyle = "#aaa";
+        ctx.arc(xL, centerY, 2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(xR, centerY, 2, 0, Math.PI * 2);
         ctx.fill();
       }
     } else {
-      // 动态柱状条
-      for (let i = 0; i < totalBars; i++) {
-        const value = freqs[i]; // 0~255
-        const height = (value / 255) * 80 + 5; // 最小高度 5
-        const x = startX + i * (barWidth + spacing);
+      // 动态波形柱
+      for (let i = 0; i < half; i++) {
+        const value = freqs[i];
+        const height = (value / 255) * 80 + 5;
         const y = centerY - height / 2;
 
+        const xL = centerX - (i + 1) * (barWidth + spacing);
+        const xR = centerX + i * (barWidth + spacing);
+
         ctx.fillStyle = "rgba(16, 190, 66, 0.8)";
-
-        const radius = Math.min(barWidth / 2, height / 2); // 防止超过条宽高
-
-        ctx.beginPath();
-        ctx.moveTo(x + radius, y); // 左上角
-        ctx.lineTo(x + barWidth - radius, y);
-        ctx.quadraticCurveTo(x + barWidth, y, x + barWidth, y + radius);
-
-        ctx.lineTo(x + barWidth, y + height - radius);
-        ctx.quadraticCurveTo(
-          x + barWidth,
-          y + height,
-          x + barWidth - radius,
-          y + height
-        );
-
-        ctx.lineTo(x + radius, y + height);
-        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-
-        ctx.lineTo(x, y + radius);
-        ctx.quadraticCurveTo(x, y, x + radius, y);
-
-        ctx.closePath();
-        ctx.fill();
+        drawRoundedBar(ctx, xL, y, barWidth, height);
+        drawRoundedBar(ctx, xR, y, barWidth, height);
       }
     }
   }, [shadowSize]);
