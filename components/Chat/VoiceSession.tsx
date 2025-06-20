@@ -2,9 +2,11 @@ import React from "react";
 import styled from "@emotion/styled";
 import VolumeBubble from "./components/VoiceSession/VolumeBubble";
 import { Button } from "../uiStyled/Button";
-import { Redo2, MicOff, Mic, LogOut, UserRound } from "lucide-react";
+import { MicOff, Mic, LogOut, UserRound } from "lucide-react";
 import { useRTVIClient } from "realtime-ai-react";
 import { useState } from "react";
+import Logo from "@/assets/icons/logo-dark.svg";
+import Image from "next/image";
 
 const VoiceSession = ({ onClick }: { onClick: () => void }) => {
   const voiceClient = useRTVIClient()!;
@@ -20,22 +22,32 @@ const VoiceSession = ({ onClick }: { onClick: () => void }) => {
       </div>
       <div className="top">
         <div className="header">
-          <div className="avatar">
-            <UserRound />
-          </div>
-          <div>
-            <div style={{ fontWeight: "bold" }}>Agent</div>
-            <div
-              style={{
-                color: "#999",
-                display: "flex",
-                alignItems: "center",
-                gap: "4px",
-              }}
-            >
-              <div id="dot" />
-              Online
+          <div className="left">
+            <div className="avatar">
+              <UserRound />
             </div>
+            <div>
+              <div style={{ fontWeight: "bold" }}>Agent</div>
+              <div
+                style={{
+                  color: "#999",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "4px",
+                }}
+              >
+                <div id="dot" />
+                Online
+              </div>
+            </div>
+          </div>
+          <div className="right">
+            <div
+              style={{ fontWeight: "bold", fontSize: "10px", color: "#999" }}
+            >
+              Powered by:
+            </div>
+            <Image src={Logo} width={100} alt="alt" />
           </div>
         </div>
       </div>
@@ -81,10 +93,21 @@ const VoiceSessionWrapper = styled.div`
   }
   .header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: space-between;
     gap: 1rem;
     width: 460px;
     padding: 2rem;
+    .left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
     .avatar {
       width: 48px;
       height: 48px;
