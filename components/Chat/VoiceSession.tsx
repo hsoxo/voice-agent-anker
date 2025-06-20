@@ -1,24 +1,52 @@
 import React from "react";
-import { VoiceVisualizer } from "realtime-ai-react";
-import { AudioIndicatorBubble } from "../Session/UserMicBubble";
 import styled from "@emotion/styled";
 import VolumeBubble from "./components/VoiceSession/VolumeBubble";
 import { Button } from "../uiStyled/Button";
-import { Redo2 } from "lucide-react";
+import { Redo2, MicOff, Mic, LogOut, UserRound } from "lucide-react";
+import { useRTVIClient } from "realtime-ai-react";
+import { useState } from "react";
 
 const VoiceSession = ({ onClick }: { onClick: () => void }) => {
+  const voiceClient = useRTVIClient()!;
+  const [muted, setMuted] = useState(false);
+  function toggleMute() {
+    voiceClient.enableMic(muted);
+    setMuted(!muted);
+  }
   return (
     <VoiceSessionWrapper>
-      {/* <AudioIndicatorBubble scale={1.1} /> */}
-      {/* <div className="bot">
-        <VoiceVisualizer participantType="bot" barColor="#eee" />
-      </div> */}
       <div className="volume">
-        <VolumeBubble />
+        <VolumeBubble muted={muted} />
       </div>
-      <Button size="icon" variant="icon" isRound onClick={onClick}>
-        <Redo2 />
-      </Button>
+      <div className="top">
+        <div className="header">
+          <div className="avatar">
+            <UserRound />
+          </div>
+          <div>
+            <div style={{ fontWeight: "bold" }}>Agent</div>
+            <div
+              style={{
+                color: "#999",
+                display: "flex",
+                alignItems: "center",
+                gap: "4px",
+              }}
+            >
+              <div id="dot" />
+              Online
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="controls">
+        <Button isRound={true} variant="icon" size="icon" onClick={toggleMute}>
+          {muted ? <MicOff /> : <Mic />}
+        </Button>
+        <Button isRound={true} variant="danger" size="icon" onClick={onClick}>
+          <LogOut />
+        </Button>
+      </div>
     </VoiceSessionWrapper>
   );
 };
@@ -30,20 +58,48 @@ const VoiceSessionWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 28px;
   .volume {
     position: absolute;
     bottom: 0;
     left: 0;
     z-index: -1;
   }
-  .bot {
+  .top {
+    height: 70%;
     z-index: 1;
-    position: absolute;
-    width: 100%;
-    height: 100%;
+  }
+  .controls {
+    height: 30%;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+  .header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 1rem;
+    width: 460px;
+    padding: 2rem;
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #eee;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: rgb(113, 255, 113);
+    }
   }
 `;
 

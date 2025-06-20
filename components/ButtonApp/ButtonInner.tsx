@@ -38,6 +38,7 @@ export default function ButtonInner({
   const [appState, setAppState] = useState<
     "idle" | "ready" | "connecting" | "connected"
   >("idle");
+  const [startClicked, setStartClicked] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [startAudioOff, setStartAudioOff] = useState<boolean>(false);
   const mountedRef = useRef<boolean>(false);
@@ -91,6 +92,7 @@ export default function ButtonInner({
         break;
       case "connected":
       case "ready":
+        setStartClicked(false);
         setAppState("connected");
         setVoiceBotState("connected");
         break;
@@ -102,7 +104,7 @@ export default function ButtonInner({
 
   async function start() {
     if (!voiceClient) return;
-
+    setStartClicked(true);
     // Join the session
     try {
       // Disable the mic until the bot has joined
@@ -161,8 +163,9 @@ export default function ButtonInner({
         variant="icon"
         size="icon"
       >
-        {isReady ? <AudioLines /> : <SpinningLoader />}
+        {startClicked ? <SpinningLoader /> : <AudioLines />}
       </Button>
+      {startClicked && <div>Connecting...</div>}
     </div>
   );
 }
