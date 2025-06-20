@@ -241,6 +241,21 @@ export const VolumeCanvasBubble = ({ muted }: { muted: boolean }) => {
         ctx.shadowBlur = 25;
         ctx.stroke();
       }
+
+      /* 5. 可选文字 */
+      ctx.fillStyle = theme(0.8);
+      ctx.shadowColor = theme(0.4);
+      ctx.shadowBlur = 15;
+      ctx.font =
+        "20px ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      if (active === "bot") {
+        ctx.fillText(`speaking...`, cx, cy);
+      } else {
+        ctx.fillText(`listening...`, cx, cy);
+      }
+
       // ========= 🔄 替换结束 =====================================
       requestAnimationFrame(draw);
     };
