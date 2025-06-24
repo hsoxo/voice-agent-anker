@@ -11,6 +11,7 @@ interface StopSecsProps {
   value: number;
   handleChange: (value: number) => void;
   postfix?: string;
+  disabled?: boolean;
 }
 
 const StopSecs: React.FC<StopSecsProps> = ({
@@ -19,6 +20,7 @@ const StopSecs: React.FC<StopSecsProps> = ({
   value = 0.3,
   postfix = "",
   handleChange,
+  disabled = false,
 }) => {
   const [stopSecs, setStopSecs] = useState<number>(value);
   const debouncedUpdate = useDebounce(stopSecs, 500);
@@ -47,6 +49,7 @@ const StopSecs: React.FC<StopSecsProps> = ({
           max={2}
           step={0.1}
           onValueChange={handleValueChange}
+          disabled={disabled}
         />
         <div className="w-24">
           {stopSecs}

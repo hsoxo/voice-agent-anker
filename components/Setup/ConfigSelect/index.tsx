@@ -37,6 +37,7 @@ interface ConfigSelectProps {
   setLanguage: (language: string) => void;
   inSession?: boolean;
   showExtra?: boolean;
+  readonly?: boolean;
 }
 
 const tileCX = cx(
@@ -52,6 +53,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
   setLanguage,
   inSession = false,
   showExtra = false,
+  readonly = false,
 }) => {
   const systemPromptModalRef = useRef<HTMLDialogElement>(null);
   const [systemPromptOpen, setSystemPromptOpen] = useState(false);
@@ -62,6 +64,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
       <div className="flex flex-col flex-wrap gap-4">
         <Field label="Language" error={false}>
           <Select
+            disabled={readonly}
             onChange={(e) => {
               const languageConfig = LANGUAGES.find(
                 (l) => l.value === e.currentTarget.value
@@ -135,6 +138,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                           )}
                           key={value}
                           onClick={() => {
+                            if (readonly) return;
                             if (value === config.llm.provider) return;
 
                             const defaultProviderModel = LLM_MODEL_CHOICES.find(
@@ -175,6 +179,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
 
                 <Label>Model</Label>
                 <Select
+                  disabled={readonly}
                   onChange={(e) => {
                     onServiceUpdate({ llm: config.llm.provider });
                     onConfigUpdate([
@@ -209,7 +214,9 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                     type="text"
                     placeholder="anker"
                     value={config.llm.customer}
+                    disabled={readonly}
                     onChange={(e) => {
+                      if (readonly) return;
                       onConfigUpdate([
                         {
                           service: "llm",
@@ -250,7 +257,9 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
               <Field error={false}>
                 <Label>Model</Label>
                 <Select
+                  disabled={readonly}
                   onChange={(e) => {
+                    if (readonly) return;
                     const provider = TTS_MODEL_CHOICES.find(({ models }) =>
                       models.find((m) => m.value === e.currentTarget.value)
                     )!;
@@ -297,7 +306,9 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                 helpText="Timeout (seconds) voice activity detection waits after you start speaking"
                 value={config.vad.params.start_secs}
                 postfix="s"
+                disabled={readonly}
                 handleChange={(v) => {
+                  if (readonly) return;
                   onConfigUpdate([
                     {
                       service: "vad",
@@ -316,7 +327,9 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                 helpText="Timeout (seconds) voice activity detection waits after you stop speaking"
                 value={config.vad.params.stop_secs}
                 postfix="s"
+                disabled={readonly}
                 handleChange={(v) => {
+                  if (readonly) return;
                   onConfigUpdate([
                     {
                       service: "vad",
@@ -334,7 +347,9 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                 label="Confidence"
                 helpText="Confidence threshold for voice activity detection"
                 value={config.vad.params.confidence}
+                disabled={readonly}
                 handleChange={(v) => {
+                  if (readonly) return;
                   onConfigUpdate([
                     {
                       service: "vad",
@@ -352,7 +367,9 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                 label="Minimum volume"
                 helpText="Minimum volume for voice activity detection"
                 value={config.vad.params.min_volume}
+                disabled={readonly}
                 handleChange={(v) => {
+                  if (readonly) return;
                   onConfigUpdate([
                     {
                       service: "vad",
@@ -378,7 +395,11 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
           </Card.CardHeader>
           <Card.CardContent>
             {systemPromptOpen && (
-              <Textarea defaultValue={config.llm.system_prompt} rows={20} />
+              <Textarea
+                defaultValue={config.llm.system_prompt}
+                rows={20}
+                disabled={readonly}
+              />
             )}
           </Card.CardContent>
           <Card.CardFooter isButtonArray>
@@ -393,7 +414,9 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
             </Button>
             <Button
               variant="success"
+              disabled={readonly}
               onClick={() => {
+                if (readonly) return;
                 const llmConfig = clientParams.config.find(
                   ({ service }) => service === "llm"
                 )!;

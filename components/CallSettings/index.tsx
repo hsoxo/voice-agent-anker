@@ -11,9 +11,11 @@ import { toast } from "sonner";
 export default function Settings({
   clientId,
   showExtra = false,
+  readonly = false,
 }: {
   clientId?: string;
   showExtra?: boolean;
+  readonly?: boolean;
 }) {
   const [language, setLanguage] = useState("en");
   const [clientParams, setClientParams] = useState<null | ClientParams>(null);
@@ -88,12 +90,13 @@ export default function Settings({
               language={language}
               setLanguage={setLanguage}
               showExtra={showExtra}
+              readonly={readonly}
             />
           )}
         </section>
       </Card.CardContent>
       <Card.CardFooter isButtonArray>
-        <Button key="start" onClick={handleSave}>
+        <Button key="start" onClick={handleSave} disabled={readonly}>
           Save
         </Button>
       </Card.CardFooter>

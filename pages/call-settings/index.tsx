@@ -5,5 +5,5 @@ const CallSettings = dynamic(
 );
 
 export default function Index() {
-  return <CallSettings />;
+  return <CallSettings title="Anker Settings" readonly />;
 }

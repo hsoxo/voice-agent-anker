@@ -4,7 +4,7 @@ import Settings from "@/components/CallSettings";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 
-export default function Home() {
+export default function Home({ title, readonly }: { title?: string; readonly?: boolean }) {
   const [settings, setSettings] = useState(null);
 
   useEffect(() => {
@@ -19,10 +19,10 @@ export default function Home() {
         <TooltipProvider>
           <Card.Card shadow className="animate-appear max-w-lg">
             <Card.CardHeader>
-              <Card.CardTitle>Call Settings</Card.CardTitle>
+              <Card.CardTitle>{title || "Call Settings"}</Card.CardTitle>
             </Card.CardHeader>
             {settings ? (
-              <Settings showExtra />
+              <Settings showExtra readonly={readonly} />
             ) : (
               <div className="flex items-center justify-center h-full">
                 <Loader2 className="animate-spin" />
