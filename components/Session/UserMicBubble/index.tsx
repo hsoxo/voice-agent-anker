@@ -2,8 +2,8 @@ import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import React, { useCallback, useRef } from "react";
 import { Mic, MicOff, Pause } from "lucide-react";
-import { RTVIEvent } from "realtime-ai";
-import { useRTVIClientEvent } from "realtime-ai-react";
+import { RTVIEvent } from "@pipecat-ai/client-js";
+import { useRTVIClientEvent } from "@pipecat-ai/client-react";
 
 const pulse = keyframes`
   0% { outline-width: 6px; }
@@ -30,7 +30,11 @@ const BubbleContainer = styled.div`
   }
 `;
 
-const Bubble = styled.div<{ canTalk?: boolean; muted?: boolean; inactive?: boolean }>`
+const Bubble = styled.div<{
+  canTalk?: boolean;
+  muted?: boolean;
+  inactive?: boolean;
+}>`
   position: relative;
   cursor: pointer;
   width: 100px;
@@ -120,7 +124,7 @@ const Volume = styled.div`
 `;
 
 const SvgIcon = styled.div`
-  width: 2rem;   /* 相当于 Tailwind 的 size-8 */
+  width: 2rem; /* 相当于 Tailwind 的 size-8 */
   height: 2rem;
 
   @media (min-width: 768px) {
@@ -134,8 +138,9 @@ const SvgIcon = styled.div`
   }
 `;
 
-
-export const AudioIndicatorBubble: React.FC<{ scale?: number }> = ({ scale = 1.75 }) => {
+export const AudioIndicatorBubble: React.FC<{ scale?: number }> = ({
+  scale = 1.75,
+}) => {
   const volRef = useRef<HTMLDivElement>(null);
 
   useRTVIClientEvent(
@@ -170,13 +175,7 @@ export default function UserMicBubble({ active, muted, handleMute }: Props) {
       >
         <Icon canTalk={canTalk}>
           <SvgIcon>
-            {!active ? (
-              <Pause />
-            ) : canTalk ? (
-              <Mic />
-            ) : (
-              <MicOff />
-            )}
+            {!active ? <Pause /> : canTalk ? <Mic /> : <MicOff />}
           </SvgIcon>
         </Icon>
         {canTalk && <AudioIndicatorBubble />}

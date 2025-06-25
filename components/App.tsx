@@ -2,12 +2,12 @@
 
 import { Ear, Loader2 } from "lucide-react";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { RTVIError, RTVIEvent, RTVIMessage } from "realtime-ai";
+import { RTVIError, RTVIEvent, RTVIMessage } from "@pipecat-ai/client-js";
 import {
   useRTVIClient,
   useRTVIClientEvent,
   useRTVIClientTransportState,
-} from "realtime-ai-react";
+} from "@pipecat-ai/client-react";
 
 import { AppContext } from "./context";
 import Session from "./Session";

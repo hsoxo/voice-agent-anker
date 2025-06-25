@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
-import { RTVIEvent } from "realtime-ai";
-import { useRTVIClientEvent, VoiceVisualizer } from "realtime-ai-react";
+import { RTVIEvent } from "@pipecat-ai/client-js";
+import { useRTVIClientEvent, VoiceVisualizer } from "@pipecat-ai/client-react";
 
 export const Agent = memo(
   ({ isReady, onLeave }: { isReady: boolean; onLeave: () => void }) => {
@@ -50,7 +50,11 @@ export const Agent = memo(
               <Loader2 size={32} className="animate-spin" />
             </span>
           ) : (
-            <VoiceVisualizer participantType="bot" barColor="#FFFFFF" />
+            <VoiceVisualizer
+              barCount={5}
+              participantType="bot"
+              barColor="#FFFFFF"
+            />
           )}
         </div>
       </div>

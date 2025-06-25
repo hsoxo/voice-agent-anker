@@ -2,7 +2,7 @@ import { cx } from "class-variance-authority";
 import { Edit, Languages } from "lucide-react";
 import Image from "next/image";
 import React, { useRef, useState } from "react";
-import { RTVIClientConfigOption } from "realtime-ai";
+import { RTVIClientConfigOption } from "@pipecat-ai/client-js";
 
 import { ClientParams } from "@/components/context";
 import {

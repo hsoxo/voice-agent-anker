@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { LLMContextMessage } from "realtime-ai";
-import { useRTVIClient } from "realtime-ai-react";
+import { LLMContextMessage } from "@pipecat-ai/client-js";
+import { useRTVIClient } from "@pipecat-ai/client-react";
 
 import { Button } from "../ui/button";
 import * as Card from "../ui/card";

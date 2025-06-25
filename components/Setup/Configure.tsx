@@ -4,8 +4,8 @@ import HelpTip from "../ui/helptip";
 import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
 
-import { RTVIClientConfigOption } from "realtime-ai";
-import { useRTVIClient } from "realtime-ai-react";
+import { RTVIClientConfigOption } from "@pipecat-ai/client-js";
+import { useRTVIClient } from "@pipecat-ai/client-react";
 import { AppContext } from "../context";
 import ConfigSelect from "./ConfigSelect";
 import DeviceSelect from "./DeviceSelect";
@@ -19,7 +19,8 @@ interface ConfigureProps {
 
 export const Configure: React.FC<ConfigureProps> = React.memo(
   ({ startAudioOff, state, inSession = false, handleStartAudioOff }) => {
-    const { clientParams, setClientParams, language, setLanguage } = useContext(AppContext);
+    const { clientParams, setClientParams, language, setLanguage } =
+      useContext(AppContext);
     const voiceClient = useRTVIClient()!;
 
     const handleServiceUpdate = useCallback(

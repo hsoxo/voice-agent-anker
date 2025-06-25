@@ -2,14 +2,13 @@ import React, { useMemo, useState, useEffect } from "react";
 
 import styled from "@emotion/styled";
 
-import SpinningLoader from "@/components/uiStyled/SpinningLoading";
 import { Button } from "@/components/uiStyled/Button";
 import { BotMessageSquare } from "lucide-react";
 import { useVideoAgentStore } from "./store";
 import { useShallow } from "zustand/shallow";
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
-import LocalCameraFeed from "./Room/LocalCameraFeed";
+import CallingAnimation from "../CallingAnimation";
 
 const HOST = process.env.NEXT_PUBLIC_WEB_URL ?? "";
 
@@ -108,9 +107,7 @@ const StartButton = ({
     <CacheProvider value={cache}>
       <Wrapper>
         {tavusLoaded ? null : isLoading ? (
-          <Button key="start" isRound={true} variant="icon" size="icon">
-            <SpinningLoader />
-          </Button>
+          <CallingAnimation name="Ethan" />
         ) : (
           <Button
             key="start"

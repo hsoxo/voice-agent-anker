@@ -1,6 +1,6 @@
 import { useCallback, useRef } from "react";
-import { RTVIEvent } from "realtime-ai";
-import { useRTVIClientEvent } from "realtime-ai-react";
+import { RTVIEvent } from "@pipecat-ai/client-js";
+import { useRTVIClientEvent } from "@pipecat-ai/client-react";
 
 export const AudioIndicatorBar: React.FC = () => {
   const volRef = useRef<HTMLDivElement>(null);

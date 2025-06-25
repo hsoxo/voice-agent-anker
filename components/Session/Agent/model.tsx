@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { RTVIClientConfigOption, RTVIEvent } from "realtime-ai";
-import { useRTVIClientEvent } from "realtime-ai-react";
+import { RTVIClientConfigOption, RTVIEvent } from "@pipecat-ai/client-js";
+import { useRTVIClientEvent } from "@pipecat-ai/client-react";
 
 import { AppContext } from "@/components/context";
 

@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import { useMicVolume } from "../../hooks/useMicVolume";
 import { useAudioAnalyser } from "../../hooks/useAudioAnalyser";
-import { useRTVIClientMediaTrack } from "realtime-ai-react";
-import { useFrequencyData } from "../../hooks/useFrequencyData";
+import { useRTVIClientMediaTrack } from "@pipecat-ai/client-react";
 
 const WIDTH = 460;
 const HEIGHT = 720;

@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { DailyTransport } from "@daily-co/realtime-ai-daily";
+import { DailyTransport } from "@pipecat-ai/daily-transport";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
-import { LLMHelper, RTVIClient, RTVIError } from "realtime-ai";
-import { RTVIClientAudio, RTVIClientProvider } from "realtime-ai-react";
+import { LLMHelper, RTVIClient, RTVIError } from "@pipecat-ai/client-js";
+import { RTVIClientAudio, RTVIClientProvider } from "@pipecat-ai/client-react";
 
 import { AppProvider } from "@/components/context";
 import {
@@ -71,10 +71,6 @@ export default function AppWrapper({
   connectedComponent?: React.FC<{ onClick: () => void }>;
   onLeave?: () => void;
 }) {
-  console.log("render");
-  // console.log("llmUrl", llmUrl);
-  // console.log("requestTemplate", requestTemplate);
-
   const [showSplash, setShowSplash] = useState(true);
   const voiceClientRef = useRef<RTVIClient | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -129,13 +125,33 @@ export default function AppWrapper({
     }
   }
 
+  const handleLeave = async () => {
+    voiceClientRef.current?.disconnect();
+    voiceClientRef.current.tracks().local.audio?.stop();
+    voiceClientRef.current.tracks().local.screenAudio?.stop();
+    voiceClientRef.current.tracks().local.video?.stop();
+    const allTracks = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+    });
+    allTracks.getTracks().forEach((track) => {
+      track.stop();
+    });
+
+    document.querySelectorAll("audio, video").forEach((el: any) => {
+      el.srcObject = null;
+    });
+
+    voiceClientRef.current = null;
+    onLeave?.();
+  };
+
   if (showSplash) return null;
   return (
     <RTVIClientProvider client={voiceClientRef.current!}>
       <AppProvider config={defaultConfig}>
         <TooltipProvider>
           <ButtonInner
-            onLeave={onLeave}
+            onLeave={handleLeave}
             error={error}
             setVoiceBotState={handleSetVoiceBotState}
             connectedComponent={connectedComponent}

@@ -7,10 +7,10 @@ import ChatButton from "./components/ChatButton";
 import Trigger from "./components/Trigger";
 import ChatCard from "./components/ChatCard";
 import Products from "./components/Products";
-import { Button } from "../ui/button";
 import ButtonApp from "@/components/ButtonApp";
 import VoiceSession from "./VoiceSession";
 import { RoomWrapper, StartButton } from "../VideoAgent";
+import CallingAnimation from "../CallingAnimation";
 
 interface Chat {
   text: string;
@@ -348,7 +348,7 @@ export const VoiceChat = () => {
                   onLoaded={handleVideoBotStateChange}
                   autoJoin
                 />
-                <RoomWrapper onLoaded={handleVideoBotStateChange} width={270} />
+                <RoomWrapper onLoaded={handleVideoBotStateChange} width={320} />
               </>
             ) : null}
           </CardBack>
@@ -412,6 +412,8 @@ const CardBack = styled(CardFace)`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 28px;
+  overflow: hidden;
 `;
 
 export default VoiceChat;

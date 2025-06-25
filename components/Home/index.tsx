@@ -1,8 +1,8 @@
-import { DailyTransport } from "@daily-co/realtime-ai-daily";
+import { DailyTransport } from "@pipecat-ai/daily-transport";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { useEffect, useRef, useState } from "react";
-import { LLMHelper, RTVIClient } from "realtime-ai";
-import { RTVIClientAudio, RTVIClientProvider } from "realtime-ai-react";
+import { LLMHelper, RTVIClient } from "@pipecat-ai/client-js";
+import { RTVIClientAudio, RTVIClientProvider } from "@pipecat-ai/client-react";
 
 import App from "@/components/App";
 import { AppProvider } from "@/components/context";

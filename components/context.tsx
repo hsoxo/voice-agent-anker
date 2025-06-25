@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useCallback, useState } from "react";
-import { RTVIClientConfigOption } from "realtime-ai";
+import { RTVIClientConfigOption } from "@pipecat-ai/client-js";
 import { defaultConfig, defaultServices } from "../rtvi.config";
 
 export type ClientParams = {

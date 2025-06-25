@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import VolumeBubble from "./components/VoiceSession/VolumeBubble";
 import { Button } from "../uiStyled/Button";
 import { MicOff, Mic, LogOut, UserRound } from "lucide-react";
-import { useRTVIClient } from "realtime-ai-react";
+import { useRTVIClient } from "@pipecat-ai/client-react";
 import { useState } from "react";
 import Logo from "@/assets/icons/logo-dark.svg";
 import Image from "next/image";

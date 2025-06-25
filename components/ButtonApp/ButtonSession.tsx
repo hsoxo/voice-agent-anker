@@ -1,7 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Mic } from "lucide-react";
-import { PipecatMetricsData, RTVIEvent, TransportState } from "realtime-ai";
-import { useRTVIClientEvent } from "realtime-ai-react";
+import {
+  PipecatMetricsData,
+  RTVIEvent,
+  TransportState,
+} from "@pipecat-ai/client-js";
+import { useRTVIClientEvent } from "@pipecat-ai/client-react";
 import styled from "@emotion/styled";
 
 import StatsAggregator from "../../utils/stats_aggregator";

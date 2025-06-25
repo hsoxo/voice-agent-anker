@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Timer } from "lucide-react";
-import { RTVIEvent } from "realtime-ai";
-import { useRTVIClient, useRTVIClientEvent } from "realtime-ai-react";
+import { RTVIEvent } from "@pipecat-ai/client-js";
+import { useRTVIClient, useRTVIClientEvent } from "@pipecat-ai/client-react";
 
 import {
   Tooltip,

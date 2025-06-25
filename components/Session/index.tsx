@@ -6,8 +6,8 @@ import {
   RTVIClientConfigOption,
   RTVIEvent,
   TransportState,
-} from "realtime-ai";
-import { useRTVIClient, useRTVIClientEvent } from "realtime-ai-react";
+} from "@pipecat-ai/client-js";
+import { useRTVIClient, useRTVIClientEvent } from "@pipecat-ai/client-react";
 
 import StatsAggregator from "../../utils/stats_aggregator";
 import { Configure } from "../Setup";

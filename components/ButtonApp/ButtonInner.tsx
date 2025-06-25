@@ -7,12 +7,12 @@ import React, {
 } from "react";
 
 import { AudioLines } from "lucide-react";
-import { RTVIError, RTVIEvent, RTVIMessage } from "realtime-ai";
+import { RTVIError, RTVIEvent, RTVIMessage } from "@pipecat-ai/client-js";
 import {
   useRTVIClient,
   useRTVIClientEvent,
   useRTVIClientTransportState,
-} from "realtime-ai-react";
+} from "@pipecat-ai/client-react";
 
 import { AppContext } from "../context";
 import { Alert } from "../ui/alert";
@@ -118,6 +118,7 @@ export default function ButtonInner({
   }
 
   async function leave() {
+    voiceClient.enableMic(false);
     await voiceClient.disconnect();
     onLeave?.();
   }

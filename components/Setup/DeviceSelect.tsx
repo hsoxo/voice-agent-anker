@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Mic } from "lucide-react";
-import { useRTVIClientMediaDevices } from "realtime-ai-react";
+import { useRTVIClientMediaDevices } from "@pipecat-ai/client-react";
 
 import { Field } from "../ui/field";
 import { Select } from "../ui/select";
