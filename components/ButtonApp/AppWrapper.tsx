@@ -57,16 +57,20 @@ const defaultConfig = [
 ];
 
 export default function AppWrapper({
+  appId = "",
   chatId = null,
   llmUrl = null,
   requestTemplate = null,
+  openStatement = false,
   setVoiceBotState: _setVoiceBotState,
   connectedComponent,
   onLeave,
 }: {
+  appId?: string;
   chatId?: string;
   llmUrl?: string;
   requestTemplate?: any;
+  openStatement?: boolean;
   setVoiceBotState?: (state: string) => void;
   connectedComponent?: React.FC<{ onClick: () => void }>;
   onLeave?: () => void;
@@ -89,12 +93,13 @@ export default function AppWrapper({
       params: {
         baseUrl: `${process.env.NEXT_PUBLIC_WEB_URL}/api`,
         requestData: {
+          appId,
           services: defaultServices,
           config: defaultConfig,
           chatId,
           llmUrl,
           requestTemplate,
-          openStatement: false,
+          openStatement: openStatement,
         },
       },
       timeout: BOT_READY_TIMEOUT,

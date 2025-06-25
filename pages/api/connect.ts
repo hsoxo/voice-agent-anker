@@ -141,6 +141,7 @@ export default async function handler(
     const llmConfig = body.config.find((c: any) => c.service === "llm");
 
     const params = {
+      app_id: body.appId,
       room_url: room.url,
       token: token,
       language: ttsConfig?.options.find((o: any) => o.name === "language")
@@ -156,9 +157,9 @@ export default async function handler(
         customer:
           llmConfig?.options.find((o: any) => o.name === "customer")?.value ??
           "anker",
-        system_prompt:
-          llmConfig?.options.find((o: any) => o.name === "system_prompt")
-            ?.value,
+        system_prompt: llmConfig?.options.find(
+          (o: any) => o.name === "system_prompt"
+        )?.value,
       },
       vad_params: body.config
         .find((c: any) => c.service === "vad")

@@ -335,10 +335,12 @@ export const VoiceChat = () => {
           <CardBack>
             {app === "voice" ? (
               <ButtonApp
+                appId="chat"
                 chatId={chatId}
                 setVoiceBotState={handleVoiceBotStateChange}
                 connectedComponent={VoiceSession}
                 autoStart={true}
+                openStatement={true}
               />
             ) : app === "video" ? (
               <>

@@ -9,19 +9,23 @@ import { AudioLines } from "lucide-react";
 import AppWrapper from "./AppWrapper";
 
 export default function ButtonApp({
+  appId = "",
   chatId = "",
   llmUrl = "",
   requestTemplate = null,
   setVoiceBotState,
   connectedComponent,
   autoStart = false,
+  openStatement = false,
 }: {
+  appId?: string;
   chatId?: string;
   llmUrl?: string;
   requestTemplate?: any;
   setVoiceBotState?: (state: string) => void;
   connectedComponent?: React.FC<{ onClick: () => void }>;
   autoStart?: boolean;
+  openStatement?: boolean;
 }) {
   console.log("llmUrl", llmUrl);
   console.log("requestTemplate", requestTemplate);
@@ -40,6 +44,7 @@ export default function ButtonApp({
     <>
       {activate ? (
         <AppWrapper
+          appId={appId}
           chatId={chatId}
           llmUrl={llmUrl}
           requestTemplate={requestTemplate}
@@ -47,6 +52,7 @@ export default function ButtonApp({
             setActivate(false);
             setVoiceBotState?.("idle");
           }}
+          openStatement={true}
           setVoiceBotState={handleSetVoiceBotState}
           connectedComponent={connectedComponent}
         />
