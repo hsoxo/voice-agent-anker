@@ -355,13 +355,13 @@ export const VoiceChat = () => {
             ) : null}
           </CardBack>
         </CardInner>
-        {chatOpen && !videoBotLoaded && (
+        {/* {chatOpen && !videoBotLoaded && (
           <Products
             show={showProducts}
             products={products}
             handleLearnMore={handleLearnMore}
           />
-        )}
+        )} */}
       </Wrapper>
     </TooltipProvider>
   );
