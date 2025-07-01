@@ -100,7 +100,7 @@ export const VoiceChat = () => {
   const _handleSend = (text: string) => {
     setIsBotLoading(true);
     fetch(
-      `https://${process.env.NEXT_PUBLIC_BACKEND_URL}/llm/chat/${chatId}/chat/completions`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/llm/chat/${chatId}/chat/completions`,
       {
         method: "POST",
         headers: {
