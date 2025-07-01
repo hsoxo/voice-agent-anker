@@ -55,7 +55,7 @@ export const useChatStore = create<ChatContext>((set) => ({
         chats: [...prev, chat],
       };
     }),
-  followUpQuestions: ["hello"],
+  followUpQuestions: [],
   setFollowUpQuestions: (questions: string[]) =>
     set({ followUpQuestions: questions }),
   setChatId: (chatId: string) => set({ chatId }),

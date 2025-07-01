@@ -72,20 +72,24 @@ const VoiceSession = ({ onClick }: { onClick: () => void }) => {
         </div>
       </div>
       <div className="controls">
-        {/* {followUpQuestions.length > 0 ? (
+        {followUpQuestions.length > 0 && (
           <div style={{ width: "100%", padding: "12px" }}>
             <FollowUpQuestions show={true} handleSend={handleSend} />
           </div>
-        ) : (
-          <> */}
-        <Button isRound={true} variant="icon" size="icon" onClick={toggleMute}>
-          {muted ? <MicOff /> : <Mic />}
-        </Button>
-        <Button isRound={true} variant="danger" size="icon" onClick={onClick}>
-          <LogOut />
-        </Button>
-        {/* </> */}
-        {/* )} */}
+        )}
+        <div className="buttons">
+          <Button
+            isRound={true}
+            variant="icon"
+            size="icon"
+            onClick={toggleMute}
+          >
+            {muted ? <MicOff /> : <Mic />}
+          </Button>
+          <Button isRound={true} variant="danger" size="icon" onClick={onClick}>
+            <LogOut />
+          </Button>
+        </div>
       </div>
     </VoiceSessionWrapper>
   );
@@ -118,6 +122,13 @@ const VoiceSessionWrapper = styled.div`
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    flex-direction: column;
+    .buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
   }
   .header {
     display: flex;
