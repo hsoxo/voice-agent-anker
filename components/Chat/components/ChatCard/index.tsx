@@ -11,6 +11,7 @@ import Loading from "../Loading";
 import { Chat } from "../../types";
 import { Button } from "@/components/uiStyled/Button";
 import { AudioLines, BotMessageSquare } from "lucide-react";
+import FollowUpQuestions from "../FollowUpQuestions";
 
 const ChatCard = ({
   handleClose,
@@ -18,6 +19,7 @@ const ChatCard = ({
   isBotLoading,
   text,
   setText,
+  followUpQuestions,
   handleSend,
   handleStartVoiceAgent,
   handleStartVideoAgent,
@@ -27,6 +29,7 @@ const ChatCard = ({
   isBotLoading: boolean;
   text: string;
   setText: (text: string) => void;
+  followUpQuestions: string[];
   handleSend: () => void;
   handleStartVoiceAgent: () => void;
   handleStartVideoAgent: () => void;
@@ -44,6 +47,9 @@ const ChatCard = ({
           />
         ))}
         {isBotLoading && <Bubble text={<Loading />} role="ai" />}
+        <div style={{ margin: "12px" }}>
+          <FollowUpQuestions show={true} handleSend={handleSend}/>
+        </div>
         <div id="bubble-bottom" />
       </BubbleWrapper>
       <InputWrapper>

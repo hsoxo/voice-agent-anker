@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
+import FadeInContainer from "../FadeInContainer";
 
 type BubbleProps = {
   text: string | React.ReactNode;
@@ -10,14 +11,14 @@ type BubbleProps = {
 
 const Bubble: React.FC<BubbleProps> = ({ text, time, role }) => {
   return (
-    <>
+    <FadeInContainer>
       <BubbleContainer role={role}>
         <BubbleText>{text}</BubbleText>
       </BubbleContainer>
       {time && (
         <BubbleTime role={role}>{dayjs(time).format("HH:mm")}</BubbleTime>
       )}
-    </>
+    </FadeInContainer>
   );
 };
 

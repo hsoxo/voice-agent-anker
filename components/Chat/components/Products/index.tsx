@@ -1,16 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import Product from "./Product";
 
 const Products = ({
   products,
-  show,
+  show: _show,
   handleLearnMore,
 }: {
   products: any;
   show: boolean;
   handleLearnMore: (text: string) => void;
 }) => {
+  const [show, setShow] = React.useState(false);
+
+  useEffect(() => {
+    if (!_show || !products.length) {
+      setShow(false);
+      return;
+    }
+    setShow(true);
+  }, [_show, products]);
+
   return (
     <Wrapper show={show}>
       {products.map((product) => (
@@ -38,7 +48,8 @@ const Wrapper = styled.div<{ show: boolean }>`
   z-index: -1;
   top: 16px;
   overflow-y: auto;
-  height: 680px;
+  height: fit-content;
+  max-height: 680px;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
   background-color: #fff;
 
