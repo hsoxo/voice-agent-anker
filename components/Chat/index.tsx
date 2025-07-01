@@ -100,7 +100,7 @@ export const VoiceChat = () => {
   const _handleSend = (text: string) => {
     setIsBotLoading(true);
     fetch(
-      `https://newcast-dev-test.hhe.by/llm/chat/${chatId}/chat/completions`,
+      `https://${process.env.NEXT_PUBLIC_BACKEND_URL}/llm/chat/${chatId}/chat/completions`,
       {
         method: "POST",
         headers: {
