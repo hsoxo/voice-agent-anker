@@ -73,7 +73,7 @@ const VoiceSession = ({ onClick }: { onClick: () => void }) => {
       </div>
       <div className="controls">
         {followUpQuestions.length > 0 && (
-          <div style={{ width: "100%", padding: "12px" }}>
+          <div style={{ width: "100%", padding: "12px 12px 0 12px" }}>
             <FollowUpQuestions show={true} handleSend={handleSend} />
           </div>
         )}
