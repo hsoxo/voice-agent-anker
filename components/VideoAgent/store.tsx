@@ -20,6 +20,9 @@ interface VideoAgentContextType {
   tavusLoaded: boolean;
   setTavusLoaded: (loaded: boolean) => void;
 
+  agentVideoLoaded: boolean;
+  setAgentVideoLoaded: (loaded: boolean) => void;
+
   callContext: CallContext;
   resetCallContext: () => void;
 }
@@ -47,6 +50,8 @@ export const useVideoAgentStore = create<VideoAgentContextType>((set) => ({
   setAgentInfo: (agentInfo: AgentInfo) => set({ agentInfo }),
   tavusLoaded: false,
   setTavusLoaded: (loaded: boolean) => set({ tavusLoaded: loaded }),
+  agentVideoLoaded: false,
+  setAgentVideoLoaded: (loaded: boolean) => set({ agentVideoLoaded: loaded }),
   callContext: DEFAULT_CALL_CONTEXT,
   resetCallContext: () => set({ callContext: DEFAULT_CALL_CONTEXT }),
 }));

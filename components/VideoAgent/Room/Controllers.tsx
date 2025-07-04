@@ -28,8 +28,6 @@ const Controllers = ({
   const camTrack = useVideoTrack(localId);
   const micTrack = useAudioTrack(localId);
 
-  console.log(micTrack);
-  console.log(camTrack);
   const handleMute = () => {
     daily?.setLocalAudio(micTrack.isOff);
   };

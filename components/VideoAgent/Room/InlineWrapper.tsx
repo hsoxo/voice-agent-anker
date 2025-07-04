@@ -21,8 +21,11 @@ const InlineWrapper = ({
 }) => {
   const [videoLoaded, setVideoLoaded] = useState(false);
   const callObject = useDaily();
-  const resetCallContext = useVideoAgentStore(
-    useShallow((state) => state.resetCallContext)
+  const { resetCallContext, agentVideoLoaded } = useVideoAgentStore(
+    useShallow((state) => ({
+      resetCallContext: state.resetCallContext,
+      agentVideoLoaded: state.agentVideoLoaded,
+    }))
   );
 
   useEffect(() => {
@@ -73,9 +76,11 @@ const InlineWrapper = ({
             <BeatLoader />
           </div>
         )}
-        <div className="local-camera">
-          <LocalCameraFeed />
-        </div>
+        {agentVideoLoaded && (
+          <div className="local-camera">
+            <LocalCameraFeed />
+          </div>
+        )}
       </div>
       <div className="controllers-container" style={{ width }}>
         <Controllers onLeave={handleLeave} />

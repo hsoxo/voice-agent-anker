@@ -43,6 +43,7 @@ export default function ButtonInner({
   const [startAudioOff, setStartAudioOff] = useState<boolean>(false);
   const mountedRef = useRef<boolean>(false);
   const { clientParams } = useContext(AppContext);
+  const [botReady, setBotReady] = useState(false);
 
   useRTVIClientEvent(
     RTVIEvent.Error,
@@ -51,6 +52,19 @@ export default function ButtonInner({
       if (!errorData.fatal) return;
       setError(errorData.error);
     }, [])
+  );
+
+  useRTVIClientEvent(
+    RTVIEvent.BotReady,
+    useCallback(() => {
+      console.log(`Bot ready`);
+
+      if (!voiceClient) return;
+      setBotReady(true);
+      return () => {
+        setBotReady(false);
+      };
+    }, [voiceClient])
   );
 
   useEffect(() => {
@@ -137,7 +151,7 @@ export default function ButtonInner({
   }
 
   // Connected: show session view
-  if (appState === "connected") {
+  if (appState === "connected" && botReady) {
     return (
       <div>
         <ButtonSession
@@ -152,6 +166,7 @@ export default function ButtonInner({
 
   // Default: show setup view
   const isReady = appState === "ready";
+  const isLoading = !botReady;
 
   return (
     <div>
@@ -164,9 +179,9 @@ export default function ButtonInner({
         variant="icon"
         size="icon"
       >
-        {startClicked ? <SpinningLoader /> : <AudioLines />}
+        {isLoading ? <SpinningLoader /> : <AudioLines />}
       </Button>
-      {startClicked && <div>Connecting...</div>}
+      {isLoading && <div>Connecting...</div>}
     </div>
   );
 }

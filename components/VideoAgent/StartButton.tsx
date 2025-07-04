@@ -45,6 +45,7 @@ const StartButton = ({
     setAgentInfo,
     setCallInfo,
     tavusLoaded,
+    agentVideoLoaded,
     setTavusLoaded,
   } = useVideoAgentStore(
     useShallow((state) => ({
@@ -55,6 +56,7 @@ const StartButton = ({
       setAgentInfo: state.setAgentInfo,
       setCallInfo: state.setCallInfo,
       tavusLoaded: state.tavusLoaded,
+      agentVideoLoaded: state.agentVideoLoaded,
       setTavusLoaded: state.setTavusLoaded,
     }))
   );
@@ -102,11 +104,11 @@ const StartButton = ({
       setIsLoading(false);
     }
   };
-
+  const isReady = tavusLoaded && agentVideoLoaded;
   return (
     <CacheProvider value={cache}>
       <Wrapper>
-        {tavusLoaded ? null : isLoading ? (
+        {isReady ? null : isLoading || (tavusLoaded && !agentVideoLoaded) ? (
           <CallingAnimation name="Ethan" />
         ) : (
           <Button

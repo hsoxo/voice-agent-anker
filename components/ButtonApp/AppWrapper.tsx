@@ -135,6 +135,7 @@ export default function AppWrapper({
     voiceClientRef.current.tracks().local.audio?.stop();
     voiceClientRef.current.tracks().local.screenAudio?.stop();
     voiceClientRef.current.tracks().local.video?.stop();
+    (voiceClientRef.current.transport as any)._daily.destroy();
     const allTracks = await navigator.mediaDevices.getUserMedia({
       audio: true,
     });

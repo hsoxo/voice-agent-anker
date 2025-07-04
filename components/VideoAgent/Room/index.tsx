@@ -22,9 +22,10 @@ const Room = ({
   onLeave: () => void;
   shadowRoot?: ShadowRoot;
 }) => {
-  const { callInfo } = useVideoAgentStore(
+  const { callInfo, agentVideoLoaded } = useVideoAgentStore(
     useShallow((state) => ({
       callInfo: state.callInfo,
+      agentVideoLoaded: state.agentVideoLoaded,
     }))
   );
 
@@ -38,7 +39,12 @@ const Room = ({
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <div className="flex flex-row">
+      <div
+        className="flex flex-row"
+        style={{
+          visibility: agentVideoLoaded ? "visible" : "hidden",
+        }}
+      >
         <DailyProvider callObject={callObject}>
           <DailyAudio />
           {fullScreen ? (

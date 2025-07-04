@@ -41,9 +41,10 @@ const RoomWrapper = ({
     onLoaded?.(false);
   }, [removeCallInfo, setTavusLoaded, onLoaded]);
 
+  const isReady = tavusLoaded;
   return (
     <CacheProvider value={cache}>
-      {tavusLoaded && callInfo ? (
+      {isReady && callInfo ? (
         <Room
           width={width}
           onLeave={handleLeave}

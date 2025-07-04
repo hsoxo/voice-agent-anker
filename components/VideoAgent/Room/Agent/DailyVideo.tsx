@@ -114,6 +114,7 @@ export const DailyVideo = forwardRef<HTMLVideoElement, Props>(
     const isPlayable = isLocalCam || isScreen || !videoState.isOff;
     const trackState = useParticipantProperty(sessionId, `tracks.${type}`);
     const subscribedState = trackState?.subscribed;
+
     const [aspectRatio, setAspectRatio] = useState<number>(0);
     const [canvasSize, setCanvasSize] = useState<{
       width: number;
@@ -123,8 +124,11 @@ export const DailyVideo = forwardRef<HTMLVideoElement, Props>(
       height: defaultHeight ?? width * (16 / 9),
     });
     const [initailized, setInitailized] = useState(false);
-    const fullScreen = useVideoAgentStore(
-      useShallow((state) => state.callContext.fullScreen)
+    const { fullScreen, setAgentVideoLoaded } = useVideoAgentStore(
+      useShallow((state) => ({
+        fullScreen: state.callContext.fullScreen,
+        setAgentVideoLoaded: state.setAgentVideoLoaded,
+      }))
     );
     /**
      * Determine if video needs to be mirrored.
@@ -150,7 +154,17 @@ export const DailyVideo = forwardRef<HTMLVideoElement, Props>(
       function setupVideoEvents() {
         const video = videoEl.current;
         if (!video) return;
+        video.addEventListener("canplay", () => {
+          console.log("▶️ video canPlay");
+          setAgentVideoLoaded(true);
+        });
+        video.addEventListener("loadedmetadata", () => {
+          console.log("👌 video loadedmetadata");
+        });
 
+        video.addEventListener("timeupdate", () => {
+          console.log("✅ video timeupdate");
+        });
         const playVideo = () => {
           const promise = video.play();
           if (promise !== undefined) {
@@ -310,7 +324,6 @@ export const DailyVideo = forwardRef<HTMLVideoElement, Props>(
       ? { width: (window.innerHeight / 16) * 9, height: window.innerHeight }
       : canvasSize;
 
-    console.log(finalCanvasSize);
     return (
       <>
         <video
