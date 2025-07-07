@@ -213,9 +213,11 @@ export const VoiceChat = () => {
             ) : app === "video" ? (
               <>
                 <StartButton
-                  apiKey="1cc7ee7a-62f7-4af5-91e1-d8d873dda74c"
-                  agentId="shopping-agent-1"
+                  apiKey="f2288322-bb47-4e68-a405-607f6ba27fa1"
+                  agentId="cb34df69-b0a3-4dd1-b2d5-390d0eefa6e4"
                   onLoaded={handleVideoBotStateChange}
+                  appId="chat"
+                  chatId={chatId}
                   autoJoin
                 />
                 <RoomWrapper onLoaded={handleVideoBotStateChange} width={320} />

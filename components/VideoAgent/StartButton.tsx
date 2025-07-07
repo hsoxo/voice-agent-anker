@@ -15,6 +15,7 @@ const HOST = process.env.NEXT_PUBLIC_WEB_URL ?? "";
 const StartButton = ({
   apiKey,
   agentId,
+  appId,
   chatId = "",
   llmUrl = "",
   requestTemplate = null,
@@ -24,6 +25,7 @@ const StartButton = ({
 }: {
   apiKey?: string;
   agentId?: string;
+  appId?: string;
   chatId?: string;
   llmUrl?: string;
   requestTemplate?: any;
@@ -69,8 +71,11 @@ const StartButton = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const query = useMemo(() => {
-    return `?api_key=${apiKey}&agent_id=${agentId}`;
-  }, [apiKey, agentId]);
+    let query = `?api_key=${apiKey}&agent_id=${agentId}`;
+    if (appId) query += `&app_id=${appId}`;
+    if (chatId) query += `&chat_id=${chatId}`;
+    return query;
+  }, [apiKey, agentId, appId, chatId]);
 
   useEffect(() => {
     if (!query) return;
