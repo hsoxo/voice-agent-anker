@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import { Button } from "@/components/uiStyled/Button";
 import { SendHorizonal } from "lucide-react";
@@ -18,6 +18,12 @@ const FollowUpQuestions = ({
       followUpQuestions: state.followUpQuestions,
     }))
   );
+
+  useEffect(() => {
+    document.getElementById("bubble-bottom")?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [questions]);
 
   if (!show) return null;
   return (

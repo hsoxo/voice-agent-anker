@@ -38,6 +38,7 @@ export const VoiceChat = () => {
     chats,
     isBotLoading,
     setIsBotLoading,
+    setButtons,
   } = useChatStore(
     useShallow((state) => ({
       chats: state.chats,
@@ -48,6 +49,7 @@ export const VoiceChat = () => {
       setFollowUpQuestions: state.setFollowUpQuestions,
       isBotLoading: state.isBotLoading,
       setIsBotLoading: state.setIsBotLoading,
+      setButtons: state.setButtons,
     }))
   );
 
@@ -94,6 +96,10 @@ export const VoiceChat = () => {
     channel.bind(`follow-up-questions`, (data: any) => {
       console.log("follow-up-questions", data);
       setFollowUpQuestions(data);
+    });
+    channel.bind(`button`, (data: any) => {
+      console.log("button", data);
+      setButtons(data);
     });
   }, [chatId, channel]);
 

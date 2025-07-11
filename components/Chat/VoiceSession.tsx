@@ -11,6 +11,7 @@ import FollowUpQuestions from "./components/FollowUpQuestions";
 import { useChatStore } from "./store";
 import { useShallow } from "zustand/shallow";
 import { DailyTransport } from "@pipecat-ai/daily-transport";
+import { LastestButtons } from "./components/Buttons/LastestButtons";
 
 const VoiceSession = ({ onClick }: { onClick: () => void }) => {
   const { followUpQuestions } = useChatStore(
@@ -77,6 +78,7 @@ const VoiceSession = ({ onClick }: { onClick: () => void }) => {
             <FollowUpQuestions show={true} handleSend={handleSend} />
           </div>
         )}
+        <LastestButtons show={true} />
         <div className="buttons">
           <Button
             isRound={true}

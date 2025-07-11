@@ -3,7 +3,7 @@ export const BOT_READY_TIMEOUT = 15 * 1000; // 15 seconds
 export const defaultMaxDuration = 600;
 
 export const BOT_PROMPT = {
-  "en": `Role: 
+  en: `Role: 
 - You are a voice customer service. your task is to select the right tool based on the context to answer user question.
 - Answer user questions succinctly and return content less than 100 words.
 Style Guide:
@@ -38,7 +38,7 @@ Respond to what the user said in a creative and helpful way, but keep your respo
 Start by introducing yourself.
 
 Respond only in English please.`,
-  "ja": `役割：
+  ja: `役割：
 あなたは音声カスタマーサポートです。ユーザーの質問に最適なツールを選んで、適切に回答するのがあなたの仕事です。
 回答は簡潔に、100語以内でまとめてください。
 スタイルガイド：
@@ -69,7 +69,7 @@ URL：英語部分はカタカナでゆっくり読み、「.」は『ドット�
 最初のメッセージでは、自分の紹介から始めてください。
 
 日本語のみで応答してください。`,
-  "zh": `角色设定：
+  zh: `角色设定：
 - 你是一名语音客服，任务是根据用户的问题背景选择合适的工具进行回答。
 - 回答需要简洁明了，内容控制在100个字以内。
 风格指南：
@@ -98,7 +98,7 @@ URL：英語部分はカタカナでゆっくり読み、「.」は『ドット�
 特别要求：
 - 从自我介绍开始你的第一句对话。
 - 只使用中文回答。`,
-}
+};
 
 export const LANGUAGES = [
   {

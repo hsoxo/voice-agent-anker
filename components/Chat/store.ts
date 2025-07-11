@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { Button, Product } from "./types";
 
 interface Chat {
   text: string;
@@ -15,6 +16,10 @@ interface ChatContext {
   addChat: (chat: Chat) => void;
   followUpQuestions: string[];
   setFollowUpQuestions: (questions: string[]) => void;
+  products: Product[];
+  setProducts: (products: Product[]) => void;
+  buttons: Button[];
+  setButtons: (buttons: Button[]) => void;
   setChatId: (chatId: string) => void;
   setAppId: (appId: string) => void;
 }
@@ -45,7 +50,7 @@ export const useChatStore = create<ChatContext>((set) => ({
         const newChats = [...prev];
         newChats[existing] = {
           ...newChats[existing],
-          text: newChats[existing].text + " " + chat.text,
+          text: newChats[existing].text + chat.text,
         };
         return {
           chats: newChats,
@@ -55,9 +60,32 @@ export const useChatStore = create<ChatContext>((set) => ({
         chats: [...prev, chat],
       };
     }),
-  followUpQuestions: [],
+  followUpQuestions: ["I want to book an appointment", "I want to learn more"],
   setFollowUpQuestions: (questions: string[]) =>
     set({ followUpQuestions: questions }),
+  products: [],
+  setProducts: (products: Product[]) => set({ products }),
+  buttons: [],
+  setButtons: (buttons: Button[]) =>
+    set((state) => {
+      const prev = state.buttons;
+      console.log(state.chats);
+      if (state.chats.slice(-1)[0].role === "user") {
+        return {
+          buttons: [
+            ...prev,
+            ...buttons.map((b) => ({ ...b, position: state.chats.length })),
+          ],
+        };
+      } else {
+        return {
+          buttons: [
+            ...prev,
+            ...buttons.map((b) => ({ ...b, position: state.chats.length - 1 })),
+          ],
+        };
+      }
+    }),
   setChatId: (chatId: string) => set({ chatId }),
   setAppId: (appId: string) => set({ appId }),
 }));

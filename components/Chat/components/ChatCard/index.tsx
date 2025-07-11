@@ -41,14 +41,17 @@ const ChatCard = ({
         {chats.map((chat, index) => (
           <Bubble
             key={index}
+            position={index}
             text={chat.text}
             time={chat.time}
             role={chat.role}
           />
         ))}
-        {isBotLoading && <Bubble text={<Loading />} role="ai" />}
+        {isBotLoading && (
+          <Bubble text={<Loading />} role="ai" position={chats.length} />
+        )}
         <div style={{ margin: "12px" }}>
-          <FollowUpQuestions show={true} handleSend={handleSend}/>
+          <FollowUpQuestions show={true} handleSend={handleSend} />
         </div>
         <div id="bubble-bottom" />
       </BubbleWrapper>

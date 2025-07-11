@@ -2,19 +2,22 @@ import React from "react";
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
 import FadeInContainer from "../FadeInContainer";
+import { Buttons } from "../Buttons";
 
 type BubbleProps = {
   text: string | React.ReactNode;
   time?: string;
   role: "ai" | "user";
+  position: number;
 };
 
-const Bubble: React.FC<BubbleProps> = ({ text, time, role }) => {
+const Bubble: React.FC<BubbleProps> = ({ text, time, role, position }) => {
   return (
     <FadeInContainer>
       <BubbleContainer role={role}>
         <BubbleText>{text}</BubbleText>
       </BubbleContainer>
+      <Buttons show={role === "ai"} position={position} />
       {time && (
         <BubbleTime role={role}>{dayjs(time).format("HH:mm")}</BubbleTime>
       )}
