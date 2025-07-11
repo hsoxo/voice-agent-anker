@@ -60,7 +60,7 @@ export const useChatStore = create<ChatContext>((set) => ({
         chats: [...prev, chat],
       };
     }),
-  followUpQuestions: ["I want to book an appointment", "I want to learn more"],
+  followUpQuestions: [],
   setFollowUpQuestions: (questions: string[]) =>
     set({ followUpQuestions: questions }),
   products: [],
