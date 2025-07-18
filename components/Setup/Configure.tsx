@@ -15,10 +15,17 @@ interface ConfigureProps {
   startAudioOff?: boolean;
   inSession?: boolean;
   handleStartAudioOff?: () => void;
+  disabled?: boolean;
 }
 
 export const Configure: React.FC<ConfigureProps> = React.memo(
-  ({ startAudioOff, state, inSession = false, handleStartAudioOff }) => {
+  ({
+    startAudioOff,
+    state,
+    inSession = false,
+    handleStartAudioOff,
+    disabled = false,
+  }) => {
     const { clientParams, setClientParams, language, setLanguage } =
       useContext(AppContext);
     const voiceClient = useRTVIClient()!;
@@ -53,6 +60,7 @@ export const Configure: React.FC<ConfigureProps> = React.memo(
             language={language}
             setLanguage={setLanguage}
             showExtra={true}
+            readonly={disabled}
           />
         </section>
 

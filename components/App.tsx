@@ -24,7 +24,11 @@ const status_text = {
   disconnected: "Start",
 };
 
-export default function App() {
+export default function App({
+  allowConfigChange = true,
+}: {
+  allowConfigChange?: boolean;
+}) {
   const voiceClient = useRTVIClient()!;
   const transportState = useRTVIClientTransportState();
 
@@ -145,6 +149,7 @@ export default function App() {
           startAudioOff={startAudioOff}
           handleStartAudioOff={() => setStartAudioOff(!startAudioOff)}
           state={appState}
+          disabled={!allowConfigChange}
         />
       </Card.CardContent>
       <Card.CardFooter isButtonArray>

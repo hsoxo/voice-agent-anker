@@ -41,16 +41,18 @@ AppContext.displayName = "AppContext";
 type AppContextProps = {
   children: ReactNode;
   config?: RTVIClientConfigOption[];
+  services?: { [key: string]: string };
+  language?: string;
 };
 
 export const AppProvider: React.FC<
   React.PropsWithChildren<AppContextProps>
-> = ({ children, config }) => {
+> = ({ children, config, services, language: lang }) => {
   const [character, setCharacter] = useState<number>(0);
-  const [language, setLanguage] = useState<string>("en");
+  const [language, setLanguage] = useState<string>(lang ?? "en");
   const [clientParams, _setClientParams] = useState<ClientParams>({
-    config: config ?? defaultConfig as RTVIClientConfigOption[],
-    services: defaultServices as { [key: string]: string },
+    config: config ?? (defaultConfig as RTVIClientConfigOption[]),
+    services: services ?? (defaultServices as { [key: string]: string }),
   });
 
   const setClientParams = useCallback(
