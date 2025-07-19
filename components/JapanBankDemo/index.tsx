@@ -139,7 +139,7 @@ export default function Home() {
     const voiceClient = new RTVIClient({
       transport: new DailyTransport(),
       params: {
-        baseUrl: "/api",
+        baseUrl: "/api/demo/ja-bank",
         requestData: {
           services: defaultServices,
           config: defaultConfig,
@@ -154,8 +154,7 @@ export default function Home() {
     voiceClientRef.current = voiceClient;
   }, [showSplash]);
 
-  console.log(Logo);
-  useEffect(() => {});
+  useEffect(() => { });
   if (showSplash) {
     return <Splash handleReady={() => setShowSplash(false)} />;
   }

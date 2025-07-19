@@ -95,7 +95,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                       name: "system_prompt",
                       value:
                         BOT_PROMPT[
-                          languageConfig.value as keyof typeof BOT_PROMPT
+                        languageConfig.value as keyof typeof BOT_PROMPT
                         ],
                     },
                   ],
@@ -257,7 +257,6 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
               <Field error={false}>
                 <Label>Model</Label>
                 <Select
-                  disabled={readonly}
                   onChange={(e) => {
                     if (readonly) return;
                     const provider = TTS_MODEL_CHOICES.find(({ models }) =>
