@@ -154,7 +154,7 @@ export default function Home() {
     voiceClientRef.current = voiceClient;
   }, [showSplash]);
 
-  useEffect(() => { });
+  useEffect(() => {});
   if (showSplash) {
     return <Splash handleReady={() => setShowSplash(false)} />;
   }
@@ -168,12 +168,6 @@ export default function Home() {
       >
         <TooltipProvider>
           <main>
-            <Image
-              src={Logo}
-              alt="logo"
-              width={180}
-              className="absolute top-4 left-4"
-            />
             <Header />
             <div id="app">
               <App allowConfigChange={false} />
