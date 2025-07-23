@@ -84,9 +84,9 @@ async function getToken(roomName: string, expiryTime = 600, owner = false) {
   }
 }
 
-async function startBot(body: any) {
+async function startBot(projectId: string, body: any) {
   const response = await axios.post(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/start-ja-bank`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/start/${projectId}`,
     body
   );
   return response.data;
@@ -97,7 +97,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const origin = req.headers.origin || "";
-
+  const projectId = req.query.projectId as string;
+  console.log(projectId);
   const allowOrigin =
     origin.includes("localhost") || origin.includes("shulex.com");
 
@@ -141,7 +142,7 @@ export default async function handler(
     const llmConfig = body.config.find((c: any) => c.service === "llm");
 
     const params = {
-      app_id: body.appId,
+      app_id: projectId,
       room_url: room.url,
       token: token,
       language: ttsConfig?.options.find((o: any) => o.name === "language")
@@ -171,7 +172,7 @@ export default async function handler(
     };
 
     console.log("============>", params);
-    await startBot(params);
+    await startBot(projectId, params);
 
     return res.status(200).json({ room_url: room.url, token });
   } catch (error) {
