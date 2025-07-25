@@ -15,6 +15,8 @@ import { Configure } from "./Setup";
 import { Alert } from "./ui/alert";
 import { Button } from "./ui/button";
 import * as Card from "./ui/card";
+import { toast } from "sonner";
+import { updateProjectCallSettings } from "@/services/projects";
 
 const status_text = {
   idle: "Initializing...",
@@ -26,8 +28,12 @@ const status_text = {
 
 export default function App({
   allowConfigChange = true,
+  allowSave = false,
+  projectId = null,
 }: {
   allowConfigChange?: boolean;
+  allowSave?: boolean;
+  projectId?: string;
 }) {
   const voiceClient = useRTVIClient()!;
   const transportState = useRTVIClientTransportState();
@@ -39,6 +45,11 @@ export default function App({
   const [startAudioOff, setStartAudioOff] = useState<boolean>(false);
   const mountedRef = useRef<boolean>(false);
   const { clientParams } = useContext(AppContext);
+
+  const handleSave = () => {
+    updateProjectCallSettings(projectId, clientParams.config);
+    toast.success("Settings saved");
+  };
 
   useRTVIClientEvent(
     RTVIEvent.Error,
@@ -153,6 +164,11 @@ export default function App({
         />
       </Card.CardContent>
       <Card.CardFooter isButtonArray>
+        {allowSave && projectId && (
+          <Button key="start" onClick={handleSave}>
+            Save
+          </Button>
+        )}
         <Button key="start" onClick={() => start()} disabled={!isReady}>
           {!isReady && <Loader2 className="animate-spin" />}
           {status_text[transportState as keyof typeof status_text]}

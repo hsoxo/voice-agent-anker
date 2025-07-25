@@ -155,3 +155,19 @@ dialog::backdrop {
   overflow: hidden;
   height: 100dvh;
 }
+
+code {
+  text-align: left;
+  white-space: pre-wrap;
+  word-break: break-all !important;         /* ⚠️ 更激进：允许在任何字符后换行 */
+}
+
+code > span {
+  display: block !important;
+  text-align: left !important;
+  white-space: pre-wrap;             /* 防止 span 被断开 */
+  text-indent: -8ch !important;          /* 第一行缩回 */
+  padding-left: 10ch !important;         /* 所有行向右缩进，模拟冒号后对齐 */
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+}

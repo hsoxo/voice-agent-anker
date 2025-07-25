@@ -4,10 +4,10 @@ const BASIC_AUTH_USER = "admin";
 const BASIC_AUTH_PASS = "newcast";
 
 export function middleware(request: NextRequest) {
-  const protectedPaths = ["/admin"]; // add more protected routes as needed
   const path = request.nextUrl.pathname;
 
-  if (!protectedPaths.includes(path)) {
+  console.log(path);
+  if (!path.startsWith("/admin")) {
     return NextResponse.next();
   }
 
@@ -33,5 +33,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin"], // protect /admin and subroutes like /admin/*
+  matcher: ["/admin"],
 };

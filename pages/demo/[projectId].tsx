@@ -6,8 +6,6 @@ const HomePage = dynamic(() => import("@/components/JapanBankDemo"), {
 });
 
 export default function Index({ projectId, settings, services }: any) {
-  console.log("settings", settings);
-  console.log("services", services);
   return (
     <HomePage
       projectId={projectId}
