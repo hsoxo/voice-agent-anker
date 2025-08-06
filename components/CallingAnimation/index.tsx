@@ -89,7 +89,7 @@ const Dots = styled.span`
 `;
 
 export const CallingAnimation: React.FC<{ name?: string }> = ({
-  name = "Ethan",
+  name = "Evelyn",
 }) => {
   return (
     <Overlay>

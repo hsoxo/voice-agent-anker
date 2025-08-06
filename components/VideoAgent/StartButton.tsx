@@ -114,7 +114,7 @@ const StartButton = ({
     <CacheProvider value={cache}>
       <Wrapper>
         {isReady ? null : isLoading || (tavusLoaded && !agentVideoLoaded) ? (
-          <CallingAnimation name="Ethan" />
+          <CallingAnimation name="Evelyn" />
         ) : (
           <Button
             key="start"
