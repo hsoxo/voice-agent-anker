@@ -16,6 +16,7 @@ interface ConfigureProps {
   inSession?: boolean;
   handleStartAudioOff?: () => void;
   disabled?: boolean;
+  voiceOnly?: boolean;
 }
 
 export const Configure: React.FC<ConfigureProps> = React.memo(
@@ -25,6 +26,7 @@ export const Configure: React.FC<ConfigureProps> = React.memo(
     inSession = false,
     handleStartAudioOff,
     disabled = false,
+    voiceOnly = false,
   }) => {
     const { clientParams, setClientParams, language, setLanguage } =
       useContext(AppContext);
@@ -43,6 +45,7 @@ export const Configure: React.FC<ConfigureProps> = React.memo(
           newConfigOptions,
           clientParams.config
         );
+        console.log(newConfig);
         setClientParams({ config: newConfig });
       },
       [voiceClient, clientParams.config, setClientParams]
@@ -61,6 +64,7 @@ export const Configure: React.FC<ConfigureProps> = React.memo(
             setLanguage={setLanguage}
             showExtra={true}
             readonly={disabled}
+            voiceOnly={voiceOnly}
           />
         </section>
 

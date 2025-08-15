@@ -38,6 +38,7 @@ interface ConfigSelectProps {
   inSession?: boolean;
   showExtra?: boolean;
   readonly?: boolean;
+  voiceOnly?: boolean;
 }
 
 const tileCX = cx(
@@ -54,6 +55,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
   inSession = false,
   showExtra = false,
   readonly = false,
+  voiceOnly = false,
 }) => {
   const systemPromptModalRef = useRef<HTMLDialogElement>(null);
   const [systemPromptOpen, setSystemPromptOpen] = useState(false);
@@ -62,168 +64,135 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
   return (
     <>
       <div className="flex flex-col flex-wrap gap-4">
-        <Field label="Language" error={false}>
-          <Select
-            disabled={readonly}
-            onChange={(e) => {
-              const languageConfig = LANGUAGES.find(
-                (l) => l.value === e.currentTarget.value
-              )!;
-              setLanguage(languageConfig.value);
-              onServiceUpdate({
-                tts: languageConfig.tts_model,
-                llm: languageConfig.llm_provider,
-                stt: languageConfig.stt_provider,
-              });
+        {!voiceOnly && (
+          <Field label="Language" error={false}>
+            <Select
+              disabled={readonly}
+              onChange={(e) => {
+                const languageConfig = LANGUAGES.find(
+                  (l) => l.value === e.currentTarget.value
+                )!;
+                setLanguage(languageConfig.value);
+                onServiceUpdate({
+                  tts: languageConfig.tts_model,
+                  llm: languageConfig.llm_provider,
+                  stt: languageConfig.stt_provider,
+                });
 
-              onConfigUpdate([
-                {
-                  service: "tts",
-                  options: [
-                    { name: "language", value: languageConfig.value },
-                    { name: "provider", value: languageConfig.tts_model },
-                    { name: "voice", value: languageConfig.default_voice },
-                    { name: "model", value: languageConfig.tts_model },
-                  ],
-                },
-                {
-                  service: "llm",
-                  options: [
-                    { name: "model", value: languageConfig.llm_model },
-                    { name: "provider", value: languageConfig.llm_provider },
-                    {
-                      name: "system_prompt",
-                      value:
-                        BOT_PROMPT[
-                        languageConfig.value as keyof typeof BOT_PROMPT
-                        ],
-                    },
-                  ],
-                },
-                {
-                  service: "stt",
-                  options: [
-                    { name: "model", value: languageConfig.stt_model },
-                    { name: "provider", value: languageConfig.stt_provider },
-                    { name: "language", value: languageConfig.value },
-                  ],
-                },
-              ]);
-            }}
-            value={config.tts.language}
-            icon={<Languages size={24} />}
-          >
-            {LANGUAGES.map((lang, i) => (
-              <option key={lang.label} value={lang.value}>
-                {lang.label}
-              </option>
-            ))}
-          </Select>
-        </Field>
-        <Accordion type="single" collapsible>
-          <AccordionItem value="llm">
-            <AccordionTrigger>LLM options</AccordionTrigger>
-            <AccordionContent>
-              <Field error={false}>
-                {!inSession && (
-                  <>
-                    <Label>Provider</Label>
-                    <div className="grid grid-cols-3 gap-2">
-                      {LLM_MODEL_CHOICES.map(({ value, label }) => (
-                        <div
-                          tabIndex={0}
-                          className={cn(
-                            tileCX,
-                            value === config.llm.provider && tileActiveCX
-                          )}
-                          key={value}
-                          onClick={() => {
-                            if (readonly) return;
-                            if (value === config.llm.provider) return;
-
-                            const defaultProviderModel = LLM_MODEL_CHOICES.find(
-                              (p) => p.value === value
-                            )?.models[0].value!;
-
-                            onServiceUpdate({ llm: value });
-                            onConfigUpdate([
-                              {
-                                service: "llm",
-                                options: [
-                                  { name: "provider", value: value },
-                                  {
-                                    name: "model",
-                                    value: defaultProviderModel,
-                                  },
-                                  {
-                                    name: "system_prompt",
-                                    value: config.llm.system_prompt,
-                                  },
-                                ],
-                              },
-                            ]);
-                          }}
-                        >
-                          <Image
-                            src={`/logo-${value}.svg`}
-                            alt={label}
-                            width="200"
-                            height="60"
-                            className="user-select-none pointer-events-none"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                )}
-
-                <Label>Model</Label>
-                <Select
-                  disabled={readonly}
-                  onChange={(e) => {
-                    onServiceUpdate({ llm: config.llm.provider });
-                    onConfigUpdate([
+                onConfigUpdate([
+                  {
+                    service: "tts",
+                    options: [
+                      { name: "language", value: languageConfig.value },
+                      { name: "provider", value: languageConfig.tts_model },
+                      { name: "voice", value: languageConfig.default_voice },
+                      { name: "model", value: languageConfig.tts_model },
+                    ],
+                  },
+                  {
+                    service: "llm",
+                    options: [
+                      { name: "model", value: languageConfig.llm_model },
+                      { name: "provider", value: languageConfig.llm_provider },
                       {
-                        service: "llm",
-                        options: [
-                          { name: "provider", value: config.llm.provider },
-                          { name: "model", value: e.currentTarget.value },
-                          {
-                            name: "system_prompt",
-                            value: config.llm.system_prompt,
-                          },
-                        ],
+                        name: "system_prompt",
+                        value:
+                          BOT_PROMPT[
+                            languageConfig.value as keyof typeof BOT_PROMPT
+                          ],
                       },
-                    ]);
-                  }}
-                  value={config.llm.model}
-                >
-                  {LLM_MODEL_CHOICES.find(
-                    ({ value }) => value === config.llm.provider
-                  )?.models.map(({ value, label }) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
-                  ))}
-                </Select>
-              </Field>
-              {config.llm.provider === "anker" && (
-                <div className="flex gap-4 items-center pt-4 cursor-pointer">
-                  <Label>Customer</Label>
-                  <Input
-                    type="text"
-                    placeholder="anker"
-                    value={config.llm.customer}
+                    ],
+                  },
+                  {
+                    service: "stt",
+                    options: [
+                      { name: "model", value: languageConfig.stt_model },
+                      { name: "provider", value: languageConfig.stt_provider },
+                      { name: "language", value: languageConfig.value },
+                    ],
+                  },
+                ]);
+              }}
+              value={config.tts.language}
+              icon={<Languages size={24} />}
+            >
+              {LANGUAGES.map((lang, i) => (
+                <option key={lang.label} value={lang.value}>
+                  {lang.label}
+                </option>
+              ))}
+            </Select>
+          </Field>
+        )}
+        <Accordion type="single" collapsible>
+          {!voiceOnly && (
+            <AccordionItem value="llm">
+              <AccordionTrigger>LLM options</AccordionTrigger>
+              <AccordionContent>
+                <Field error={false}>
+                  {!inSession && (
+                    <>
+                      <Label>Provider</Label>
+                      <div className="grid grid-cols-3 gap-2">
+                        {LLM_MODEL_CHOICES.map(({ value, label }) => (
+                          <div
+                            tabIndex={0}
+                            className={cn(
+                              tileCX,
+                              value === config.llm.provider && tileActiveCX
+                            )}
+                            key={value}
+                            onClick={() => {
+                              if (readonly) return;
+                              if (value === config.llm.provider) return;
+
+                              const defaultProviderModel =
+                                LLM_MODEL_CHOICES.find((p) => p.value === value)
+                                  ?.models[0].value!;
+
+                              onServiceUpdate({ llm: value });
+                              onConfigUpdate([
+                                {
+                                  service: "llm",
+                                  options: [
+                                    { name: "provider", value: value },
+                                    {
+                                      name: "model",
+                                      value: defaultProviderModel,
+                                    },
+                                    {
+                                      name: "system_prompt",
+                                      value: config.llm.system_prompt,
+                                    },
+                                  ],
+                                },
+                              ]);
+                            }}
+                          >
+                            <Image
+                              src={`/logo-${value}.svg`}
+                              alt={label}
+                              width="200"
+                              height="60"
+                              className="user-select-none pointer-events-none"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  )}
+
+                  <Label>Model</Label>
+                  <Select
                     disabled={readonly}
                     onChange={(e) => {
-                      if (readonly) return;
+                      onServiceUpdate({ llm: config.llm.provider });
                       onConfigUpdate([
                         {
                           service: "llm",
                           options: [
                             { name: "provider", value: config.llm.provider },
-                            { name: "model", value: config.llm.model },
-                            { name: "customer", value: e.currentTarget.value },
+                            { name: "model", value: e.currentTarget.value },
                             {
                               name: "system_prompt",
                               value: config.llm.system_prompt,
@@ -232,25 +201,66 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                         },
                       ]);
                     }}
-                  />
-                </div>
-              )}
-              {showExtra && (
-                <>
-                  <div
-                    className="flex gap-2 items-center pt-4 cursor-pointer"
-                    onClick={() => {
-                      systemPromptModalRef.current?.showModal();
-                      setSystemPromptOpen(true);
-                    }}
+                    value={config.llm.model}
                   >
-                    <Edit size={16} />
-                    <span>System prompt</span>
+                    {LLM_MODEL_CHOICES.find(
+                      ({ value }) => value === config.llm.provider
+                    )?.models.map(({ value, label }) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </Select>
+                </Field>
+                {config.llm.provider === "anker" && (
+                  <div className="flex gap-4 items-center pt-4 cursor-pointer">
+                    <Label>Customer</Label>
+                    <Input
+                      type="text"
+                      placeholder="anker"
+                      value={config.llm.customer}
+                      disabled={readonly}
+                      onChange={(e) => {
+                        if (readonly) return;
+                        onConfigUpdate([
+                          {
+                            service: "llm",
+                            options: [
+                              { name: "provider", value: config.llm.provider },
+                              { name: "model", value: config.llm.model },
+                              {
+                                name: "customer",
+                                value: e.currentTarget.value,
+                              },
+                              {
+                                name: "system_prompt",
+                                value: config.llm.system_prompt,
+                              },
+                            ],
+                          },
+                        ]);
+                      }}
+                    />
                   </div>
-                </>
-              )}
-            </AccordionContent>
-          </AccordionItem>
+                )}
+                {showExtra && (
+                  <>
+                    <div
+                      className="flex gap-2 items-center pt-4 cursor-pointer"
+                      onClick={() => {
+                        systemPromptModalRef.current?.showModal();
+                        setSystemPromptOpen(true);
+                      }}
+                    >
+                      <Edit size={16} />
+                      <span>System prompt</span>
+                    </div>
+                  </>
+                )}
+              </AccordionContent>
+            </AccordionItem>
+          )}
+
           <AccordionItem value="tts">
             <AccordionTrigger>TTS options</AccordionTrigger>
             <AccordionContent>
@@ -258,7 +268,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                 <Label>Model</Label>
                 <Select
                   onChange={(e) => {
-                    if (readonly) return;
+                    if (readonly && !voiceOnly) return;
                     const provider = TTS_MODEL_CHOICES.find(({ models }) =>
                       models.find((m) => m.value === e.currentTarget.value)
                     )!;
@@ -297,93 +307,96 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
               </Field>
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="voice">
-            <AccordionTrigger>VAD config</AccordionTrigger>
-            <AccordionContent>
-              <StopSecs
-                label="Speech start timeout"
-                helpText="Timeout (seconds) voice activity detection waits after you start speaking"
-                value={config.vad.params.start_secs}
-                postfix="s"
-                disabled={readonly}
-                handleChange={(v) => {
-                  if (readonly) return;
-                  onConfigUpdate([
-                    {
-                      service: "vad",
-                      options: [
-                        {
-                          name: "params",
-                          value: { ...config.vad.params, start_secs: v },
-                        },
-                      ],
-                    },
-                  ]);
-                }}
-              />
-              <StopSecs
-                label="Speech stop timeout"
-                helpText="Timeout (seconds) voice activity detection waits after you stop speaking"
-                value={config.vad.params.stop_secs}
-                postfix="s"
-                disabled={readonly}
-                handleChange={(v) => {
-                  if (readonly) return;
-                  onConfigUpdate([
-                    {
-                      service: "vad",
-                      options: [
-                        {
-                          name: "params",
-                          value: { ...config.vad.params, stop_secs: v },
-                        },
-                      ],
-                    },
-                  ]);
-                }}
-              />
-              <StopSecs
-                label="Confidence"
-                helpText="Confidence threshold for voice activity detection"
-                value={config.vad.params.confidence}
-                disabled={readonly}
-                handleChange={(v) => {
-                  if (readonly) return;
-                  onConfigUpdate([
-                    {
-                      service: "vad",
-                      options: [
-                        {
-                          name: "params",
-                          value: { ...config.vad.params, confidence: v },
-                        },
-                      ],
-                    },
-                  ]);
-                }}
-              />
-              <StopSecs
-                label="Minimum volume"
-                helpText="Minimum volume for voice activity detection"
-                value={config.vad.params.min_volume}
-                disabled={readonly}
-                handleChange={(v) => {
-                  if (readonly) return;
-                  onConfigUpdate([
-                    {
-                      service: "vad",
-                      options: [
-                        {
-                          name: "params",
-                          value: { ...config.vad.params, min_volume: v },
-                        },
-                      ],
-                    },
-                  ]);
-                }}
-              />
-            </AccordionContent>
-          </AccordionItem>
+
+          {!voiceOnly && (
+            <AccordionItem value="voice">
+              <AccordionTrigger>VAD config</AccordionTrigger>
+              <AccordionContent>
+                <StopSecs
+                  label="Speech start timeout"
+                  helpText="Timeout (seconds) voice activity detection waits after you start speaking"
+                  value={config.vad.params.start_secs}
+                  postfix="s"
+                  disabled={readonly}
+                  handleChange={(v) => {
+                    if (readonly) return;
+                    onConfigUpdate([
+                      {
+                        service: "vad",
+                        options: [
+                          {
+                            name: "params",
+                            value: { ...config.vad.params, start_secs: v },
+                          },
+                        ],
+                      },
+                    ]);
+                  }}
+                />
+                <StopSecs
+                  label="Speech stop timeout"
+                  helpText="Timeout (seconds) voice activity detection waits after you stop speaking"
+                  value={config.vad.params.stop_secs}
+                  postfix="s"
+                  disabled={readonly}
+                  handleChange={(v) => {
+                    if (readonly) return;
+                    onConfigUpdate([
+                      {
+                        service: "vad",
+                        options: [
+                          {
+                            name: "params",
+                            value: { ...config.vad.params, stop_secs: v },
+                          },
+                        ],
+                      },
+                    ]);
+                  }}
+                />
+                <StopSecs
+                  label="Confidence"
+                  helpText="Confidence threshold for voice activity detection"
+                  value={config.vad.params.confidence}
+                  disabled={readonly}
+                  handleChange={(v) => {
+                    if (readonly) return;
+                    onConfigUpdate([
+                      {
+                        service: "vad",
+                        options: [
+                          {
+                            name: "params",
+                            value: { ...config.vad.params, confidence: v },
+                          },
+                        ],
+                      },
+                    ]);
+                  }}
+                />
+                <StopSecs
+                  label="Minimum volume"
+                  helpText="Minimum volume for voice activity detection"
+                  value={config.vad.params.min_volume}
+                  disabled={readonly}
+                  handleChange={(v) => {
+                    if (readonly) return;
+                    onConfigUpdate([
+                      {
+                        service: "vad",
+                        options: [
+                          {
+                            name: "params",
+                            value: { ...config.vad.params, min_volume: v },
+                          },
+                        ],
+                      },
+                    ]);
+                  }}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          )}
         </Accordion>
       </div>
 

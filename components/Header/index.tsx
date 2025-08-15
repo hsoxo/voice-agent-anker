@@ -10,8 +10,7 @@ export function Header() {
     <header
       id="header"
       className="w-full flex self-start items-center p-[--app-padding] pb-0 justify-between"
-    >
-    </header>
+    ></header>
   );
 }
 

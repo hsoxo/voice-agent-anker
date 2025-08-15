@@ -149,7 +149,7 @@ export const Session = React.memo(
 
         <footer className="w-full flex flex-row mt-auto self-end md:w-auto">
           <div className="flex flex-row justify-between gap-3 w-full md:w-auto">
-            <Tooltip>
+            {/* <Tooltip>
               <TooltipContent>Interrupt bot</TooltipContent>
               <TooltipTrigger asChild>
                 <Button
@@ -166,7 +166,7 @@ export const Session = React.memo(
                   <StopCircle />
                 </Button>
               </TooltipTrigger>
-            </Tooltip>
+            </Tooltip> */}
 
             <Tooltip>
               <TooltipContent>Show bot statistics panel</TooltipContent>
@@ -180,7 +180,7 @@ export const Session = React.memo(
                 </Button>
               </TooltipTrigger>
             </Tooltip>
-            <Tooltip>
+            {/* <Tooltip>
               <TooltipContent>Configure</TooltipContent>
               <TooltipTrigger asChild>
                 <Button
@@ -191,7 +191,7 @@ export const Session = React.memo(
                   <Settings />
                 </Button>
               </TooltipTrigger>
-            </Tooltip>
+            </Tooltip> */}
             <Button onClick={() => onLeave()} className="ml-auto">
               <LogOut size={16} />
               End

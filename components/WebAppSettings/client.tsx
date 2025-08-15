@@ -1,13 +1,15 @@
 // components/CallSettingsPage.tsx
 "use client";
-import { TooltipProvider } from "@radix-ui/react-tooltip";
+import { Toaster } from "sonner";
 import * as Card from "@/components/ui/card";
 import Settings from "@/components/WebAppSettings";
+import { TooltipProvider } from "@radix-ui/react-tooltip";
 
 export default function CallSettingsPage({ clientId }: { clientId: string }) {
   return (
     <main>
       <div id="app">
+        <Toaster />
         <TooltipProvider>
           <Card.Card shadow className="animate-appear max-w-lg">
             <Card.CardHeader>

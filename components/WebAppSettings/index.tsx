@@ -7,6 +7,7 @@ import { ClientParams } from "@/components/context";
 import ConfigSelect from "@/components/Setup/ConfigSelect";
 import { defaultConfig, defaultServices } from "@/rtvi.config";
 import { toast } from "sonner";
+import { getWebSettings, updateWebSettings } from "@/services/web-settings";
 
 export default function Settings({
   clientId,
@@ -59,7 +60,8 @@ export default function Settings({
 
   useEffect(() => {
     async function fetchCallSettings() {
-      const callSettings = await getCallSettings(clientId);
+      const callSettings = await getWebSettings(clientId);
+      console.log(callSettings);
       if (!callSettings.config) {
         setClientParams({
           config: defaultConfig,
@@ -67,13 +69,14 @@ export default function Settings({
         });
       } else {
         setClientParams(callSettings);
+        setLanguage(callSettings.language);
       }
     }
     fetchCallSettings();
   }, []);
 
   const handleSave = () => {
-    updateCallSettings(clientParams, clientId);
+    updateWebSettings(clientParams, clientId);
     toast.success("Settings saved");
   };
 
@@ -102,22 +105,4 @@ export default function Settings({
       </Card.CardFooter>
     </>
   );
-}
-
-export async function getCallSettings(clientId: string) {
-  const url = `/voice-api/web-app-settings/${clientId}`;
-  const response = await fetch(url);
-  return response.json();
-}
-
-export async function updateCallSettings(settings: any, clientId: string) {
-  const url = `/voice-api/web-app-settings/${clientId}`;
-  const response = await fetch(url, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(settings),
-  });
-  return response.json();
 }

@@ -57,6 +57,7 @@ type ServicesMapping = {
 export type CallSettings = {
   config: ServiceConfig[];
   services: ServicesMapping;
+  language: string;
 };
 
 export type Project = {
