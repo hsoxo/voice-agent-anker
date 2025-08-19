@@ -86,7 +86,7 @@ async function getToken(roomName: string, expiryTime = 600, owner = false) {
 
 async function startBot(projectId: string, body: any) {
   const response = await axios.post(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/start/${projectId}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/start`,
     body
   );
   return response.data;
