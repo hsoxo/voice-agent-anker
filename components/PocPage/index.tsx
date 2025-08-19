@@ -28,7 +28,7 @@ const PocPage = ({
     const voiceClient = new RTVIClient({
       transport: new DailyTransport(),
       params: {
-        baseUrl: "/api",
+        baseUrl: "/api/project/" + appId,
         requestData: {
           appId,
           config: settings.config,
