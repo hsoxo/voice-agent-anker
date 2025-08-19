@@ -91,7 +91,7 @@ export default function AppWrapper({
     const voiceClient = new RTVIClient({
       transport: new DailyTransport(),
       params: {
-        baseUrl: `${process.env.NEXT_PUBLIC_WEB_URL}/api`,
+        baseUrl: "/api",
         requestData: {
           appId,
           services: defaultServices,
