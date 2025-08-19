@@ -184,16 +184,6 @@ export const defaultConfig = [
 
 export const LLM_MODEL_CHOICES = [
   {
-    label: "Anker",
-    value: "anker",
-    models: [
-      {
-        label: "Anker Llm Prod",
-        value: "anker-prod",
-      },
-    ],
-  },
-  {
     label: "Groq",
     value: "groq",
     models: [
@@ -224,8 +214,12 @@ export const LLM_MODEL_CHOICES = [
         value: "gpt-4o",
       },
       {
-        label: "GPT-4o Mini",
-        value: "gpt-4o-mini",
+        label: "GPT-5 Mini",
+        value: "gpt-5-mini",
+      },
+      {
+        label: "GPT-5 Nano",
+        value: "gpt-5-nano",
       },
     ],
   },

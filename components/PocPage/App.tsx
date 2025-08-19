@@ -106,6 +106,9 @@ export default function App({ projectId = null }: { projectId?: string }) {
     window.location.reload();
   }
 
+  useEffect(() => {
+    start();
+  }, []);
   /**
    * UI States
    */
@@ -132,10 +135,15 @@ export default function App({ projectId = null }: { projectId?: string }) {
 
   // Default: show setup view
   const isReady = appState === "ready";
-
+  return (
+    <Button key="start" onClick={() => start()} disabled={!isReady}>
+      {!isReady && <Loader2 className="animate-spin" />}
+      {status_text[transportState as keyof typeof status_text]}
+    </Button>
+  );
   return (
     <Card.Card shadow className="animate-appear max-w-lg">
-      <Card.CardHeader>
+      {/* <Card.CardHeader>
         <Card.CardTitle>Configuration</Card.CardTitle>
       </Card.CardHeader>
       <Card.CardContent stack>
@@ -150,13 +158,9 @@ export default function App({ projectId = null }: { projectId?: string }) {
           disabled={true}
           voiceOnly
         />
-      </Card.CardContent>
-      <Card.CardFooter isButtonArray>
-        <Button key="start" onClick={() => start()} disabled={!isReady}>
-          {!isReady && <Loader2 className="animate-spin" />}
-          {status_text[transportState as keyof typeof status_text]}
-        </Button>
-      </Card.CardFooter>
+      </Card.CardContent> */}
+      {/* <Card.CardFooter isButtonArray> */}
+      {/* </Card.CardFooter> */}
     </Card.Card>
   );
 }
