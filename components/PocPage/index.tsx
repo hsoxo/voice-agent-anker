@@ -2,13 +2,15 @@ import Splash from "./Splash";
 import { DailyTransport } from "@pipecat-ai/daily-transport";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { useEffect, useRef, useState } from "react";
-import { LLMHelper, RTVIClient } from "@pipecat-ai/client-js";
+import { RTVIClient } from "@pipecat-ai/client-js";
 import { RTVIClientAudio, RTVIClientProvider } from "@pipecat-ai/client-react";
 import { BOT_READY_TIMEOUT } from "@/rtvi.config";
 import { AppProvider } from "../context";
 import App from "./App";
 import { CallSettings } from "@/types/projects";
-import { config } from "@/middleware";
+
+import Logo from "@/assets/icons/voc.svg";
+import Image from "next/image";
 
 const PocPage = ({
   appId,
@@ -40,24 +42,30 @@ const PocPage = ({
 
     voiceClientRef.current = voiceClient;
   }, [showSplash]);
-
-  if (showSplash) {
-    return <Splash handleReady={() => setShowSplash(false)} />;
-  }
+  console.log(11);
   return (
-    <RTVIClientProvider client={voiceClientRef.current!}>
-      <AppProvider {...settings}>
-        <TooltipProvider>
-          <main>
-            <div id="app">
-              <App />
-            </div>
-          </main>
-          <aside id="tray" />
-        </TooltipProvider>
-      </AppProvider>
-      <RTVIClientAudio />
-    </RTVIClientProvider>
+    <div className="flex w-full h-full relative">
+      <div className="absolute top-6 left-6">
+        <Image alt="logo" src={Logo} width={140} />
+      </div>
+      {showSplash ? (
+        <Splash handleReady={() => setShowSplash(false)} />
+      ) : (
+        <RTVIClientProvider client={voiceClientRef.current!}>
+          <AppProvider {...settings}>
+            <TooltipProvider>
+              <main className="flex-row">
+                <div id="app">
+                  <App />
+                </div>
+                <aside id="tray" />
+              </main>
+            </TooltipProvider>
+          </AppProvider>
+          <RTVIClientAudio />
+        </RTVIClientProvider>
+      )}
+    </div>
   );
 };
 
