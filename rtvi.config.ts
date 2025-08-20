@@ -214,13 +214,9 @@ export const LLM_MODEL_CHOICES = [
         value: "gpt-4o",
       },
       {
-        label: "GPT-5 Mini",
-        value: "gpt-5-mini",
-      },
-      {
-        label: "GPT-5 Nano",
-        value: "gpt-5-nano",
-      },
+        label: "GPT-4o Mini",
+        value: "gpt-4o-mini",
+      }
     ],
   },
 ];
