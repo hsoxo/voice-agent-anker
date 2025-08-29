@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Timer } from "lucide-react";
 import { RTVIEvent } from "@pipecat-ai/client-js";
-import { useRTVIClient, useRTVIClientEvent } from "@pipecat-ai/client-react";
+import { usePipecatClient, useRTVIClientEvent } from "@pipecat-ai/client-react";
 
 import {
   Tooltip,
@@ -11,7 +11,7 @@ import {
 import { cn } from "@/utils/tailwind";
 
 const ExpiryTimer: React.FC = () => {
-  const voiceClient = useRTVIClient();
+  const voiceClient = usePipecatClient();
   const [exp, setExp] = useState<number | undefined>(undefined);
   const [time, setTime] = useState({ minutes: 0, seconds: 0 });
 

@@ -2,9 +2,8 @@ import { cx } from "class-variance-authority";
 import { Edit, Languages } from "lucide-react";
 import Image from "next/image";
 import React, { useRef, useState } from "react";
-import { RTVIClientConfigOption } from "@pipecat-ai/client-js";
 
-import { ClientParams } from "@/components/context";
+import { ClientParams, RTVIConfig } from "@/components/context";
 import {
   Accordion,
   AccordionContent,
@@ -32,7 +31,7 @@ import { Input } from "@/components/ui/input";
 interface ConfigSelectProps {
   clientParams: ClientParams;
   onServiceUpdate: (service: { [key: string]: string }) => void;
-  onConfigUpdate: (configOption: RTVIClientConfigOption[]) => void;
+  onConfigUpdate: (configOption: RTVIConfig[]) => void;
   language: string;
   setLanguage: (language: string) => void;
   inSession?: boolean;
@@ -60,6 +59,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
   const systemPromptModalRef = useRef<HTMLDialogElement>(null);
   const [systemPromptOpen, setSystemPromptOpen] = useState(false);
   const config = convertClientParamsToConfigOptions(clientParams);
+  console.log(config, clientParams)
 
   return (
     <>
@@ -98,7 +98,7 @@ export const ConfigSelect: React.FC<ConfigSelectProps> = ({
                         name: "system_prompt",
                         value:
                           BOT_PROMPT[
-                            languageConfig.value as keyof typeof BOT_PROMPT
+                          languageConfig.value as keyof typeof BOT_PROMPT
                           ],
                       },
                     ],

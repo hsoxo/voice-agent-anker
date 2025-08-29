@@ -67,10 +67,10 @@
     "dist"
   ],
   "dependencies": {
-    "@daily-co/daily-react": "0.22.0",
-    "@pipecat-ai/client-js": "0.4.1",
-    "@pipecat-ai/client-react": "0.4.1",
-    "@pipecat-ai/daily-transport": "0.4.0",
+    "@daily-co/daily-react": "0.23.2",
+    "@pipecat-ai/client-js": "1.2.0",
+    "@pipecat-ai/client-react": "1.0.1",
+    "@pipecat-ai/daily-transport": "1.2.1",
     "@react-three/fiber": "8.17.10",
     "@types/three": "0.171.0",
     "critters": "0.0.25",

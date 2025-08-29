@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useAudioAnalyser } from "../../hooks/useAudioAnalyser";
-import { useRTVIClientMediaTrack } from "@pipecat-ai/client-react";
+import { usePipecatClientMediaTrack } from "@pipecat-ai/client-react";
 
 const WIDTH = 460;
 const HEIGHT = 720;
@@ -60,7 +60,7 @@ function drawRoundedBar(
 
 export const VolumeCanvasBubble = ({ muted }: { muted: boolean }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const botTrack = useRTVIClientMediaTrack("audio", "bot");
+  const botTrack = usePipecatClientMediaTrack("audio", "bot");
   const botRef = useAudioAnalyser(botTrack);
   const userRef = useAudioAnalyser(null, { muted });
   const prevRRef = useRef<number[]>(
@@ -100,8 +100,8 @@ export const VolumeCanvasBubble = ({ muted }: { muted: boolean }) => {
         bot.volume > user.volume + margin
           ? "bot"
           : user.volume > bot.volume + margin
-          ? "user"
-          : undefined; // 都很小 => 静音
+            ? "user"
+            : undefined; // 都很小 => 静音
 
       const theme = active ? THEMES[active] : THEMES.user; // 静音时保持上一次 or 默认绿色
       const freqs = active === "bot" ? bot.freqs : user.freqs;

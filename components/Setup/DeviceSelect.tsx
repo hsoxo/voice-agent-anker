@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Mic } from "lucide-react";
-import { useRTVIClientMediaDevices } from "@pipecat-ai/client-react";
+import { usePipecatClientMediaDevices } from "@pipecat-ai/client-react";
 
 import { Field } from "../ui/field";
 import { Select } from "../ui/select";
@@ -14,7 +14,7 @@ interface DeviceSelectProps {
 export const DeviceSelect: React.FC<DeviceSelectProps> = ({
   hideMeter = false,
 }) => {
-  const { availableMics, selectedMic, updateMic } = useRTVIClientMediaDevices();
+  const { availableMics, selectedMic, updateMic } = usePipecatClientMediaDevices();
 
   useEffect(() => {
     updateMic(selectedMic?.deviceId);

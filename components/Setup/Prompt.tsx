@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { LLMContextMessage } from "@pipecat-ai/client-js";
-import { useRTVIClient } from "@pipecat-ai/client-react";
+import { usePipecatClient } from "@pipecat-ai/client-react";
 
 import { Button } from "../ui/button";
 import * as Card from "../ui/card";
@@ -17,7 +17,7 @@ const Prompt: React.FC<PromptProps> = ({
   handleClose,
   characterPrompt,
 }) => {
-  const voiceClient = useRTVIClient()!;
+  const voiceClient = usePipecatClient()!;
   const [prompt, setPrompt] = useState<LLMContextMessage[] | undefined>(
     undefined
   );

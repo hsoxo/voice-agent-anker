@@ -112,10 +112,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@daily-co/daily-js@^0.77.0":
-  version "0.77.0"
-  resolved "https://registry.yarnpkg.com/@daily-co/daily-js/-/daily-js-0.77.0.tgz#31d8619561332e2ae28a05f4f546ea92a5cfe0c2"
-  integrity sha512-icNXKieKAkRR/C5dcPjrCkL1jQGFp5C5WtLHy5uHAdTztm+mo9wlPJuehbWaGOM3TV24mgWHZ/+8jOys1G0I4w==
+"@daily-co/daily-js@^0.83.1":
+  version "0.83.1"
+  resolved "https://registry.yarnpkg.com/@daily-co/daily-js/-/daily-js-0.83.1.tgz#e9f170ccd40cc20eb4ceabdb9d6dbae2639c7e30"
+  integrity sha512-KXA3zrSnNPZONwhip4TI6ayD3huumI1QBD/xPAjFArvHuFFB7t0QTOS2oxH1bXvdOBJ6XnY08vdlJslTVi2/2w==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@sentry/browser" "^8.33.1"
@@ -123,10 +123,10 @@
     dequal "^2.0.3"
     events "^3.1.0"
 
-"@daily-co/daily-react@0.22.0":
-  version "0.22.0"
-  resolved "https://registry.yarnpkg.com/@daily-co/daily-react/-/daily-react-0.22.0.tgz#7c90ea60ef98c9794f201eaa65b56a87a13b0535"
-  integrity sha512-dcAyLLybPmIhOxm7JUBfzcyijYqIySL8rpyyiA7g1AH71QhMCVQNHC+9fIuOyAJuwoQM9QaFmmriCeSGgHswUg==
+"@daily-co/daily-react@0.23.2":
+  version "0.23.2"
+  resolved "https://registry.yarnpkg.com/@daily-co/daily-react/-/daily-react-0.23.2.tgz#1b45cecb129b667b01979c5306e8cd1e6997c6b8"
+  integrity sha512-LDmAfgEYTGoPJYZYBtWfMoXLl6MJJq1Rf4kukPW1NgFO443om99mHEcw33seV8PRXUl+JUmcpXnSmkX2pqEB9g==
   dependencies:
     fast-deep-equal "^3.1.3"
     lodash.throttle "^4.1.1"
@@ -839,30 +839,31 @@
   resolved "https://registry.yarnpkg.com/@nolyfill/is-core-module/-/is-core-module-1.0.39.tgz#3dc35ba0f1e66b403c00b39344f870298ebb1c8e"
   integrity sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==
 
-"@pipecat-ai/client-js@0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@pipecat-ai/client-js/-/client-js-0.4.1.tgz#eff8caedc76a63f134af6b237c5ded70df50b496"
-  integrity sha512-3jLKRzeryqLxtkqvr4Bvxe2OxoI7mdOFecm6iolZizXnk/BE480SEg2oAKyov3b5oT6+jmPlT+1HRBlTzEtL7A==
+"@pipecat-ai/client-js@1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@pipecat-ai/client-js/-/client-js-1.2.0.tgz#1bc9183ee7ed568de7302aa803cdf1a994d7dde7"
+  integrity sha512-T1RQE7bBD35vq6RHA8Oc1NyBOCOR7FqvpTGH1+e24n4TbXspz9jK4kuj1CoBK02BTKZ+UHJlkHnG9DRLtxpf+A==
   dependencies:
     "@types/events" "^3.0.3"
+    bowser "^2.11.0"
     clone-deep "^4.0.1"
     events "^3.3.0"
     typed-emitter "^2.1.0"
     uuid "^10.0.0"
 
-"@pipecat-ai/client-react@0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@pipecat-ai/client-react/-/client-react-0.4.1.tgz#a7f2815dbf1670c038a44750d31c83e9fc20d431"
-  integrity sha512-7bzSOma8L2UPW/Cp8uOFEDbggRMm/XErzkQNopXYfr4/5QMmLikAuzJOCwwXo5zewVczUUFtinFmqZT2B5VwDQ==
+"@pipecat-ai/client-react@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@pipecat-ai/client-react/-/client-react-1.0.1.tgz#8fefc21929b31b38611258d0336d2f586cbbf654"
+  integrity sha512-ziW7OnBB/FGN/TLHB00KJcVU+6HToS82CSpJJrqm9dBP54hFxQ/iTjkmTnDyMRftv57HTPqbw4klqhjvJDLANQ==
   dependencies:
     jotai "^2.9.0"
 
-"@pipecat-ai/daily-transport@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@pipecat-ai/daily-transport/-/daily-transport-0.4.0.tgz#b312a8d937d4333082e47983dbfed05dbb66edb9"
-  integrity sha512-qPiLwAILBpPY3nUYxpEl4bdvtP+qIb/GwjKugyw3LVbC4HkD5Q5nav0GgKMPNTXIbK08YDCJbAWZhnqzTcmuyw==
+"@pipecat-ai/daily-transport@1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@pipecat-ai/daily-transport/-/daily-transport-1.2.1.tgz#74ed10ca68d503431b61c5eb63d520930fca378d"
+  integrity sha512-uNcDQ10qKToHovZPXAyc1btXt9/56b1HTWOQI7M/obfviL5TxF2LspzanjjwntuLCgjQ7iBk7XL+Cwnwl5oqJQ==
   dependencies:
-    "@daily-co/daily-js" "^0.77.0"
+    "@daily-co/daily-js" "^0.83.1"
 
 "@pkgjs/parseargs@^0.11.0":
   version "0.11.0"
@@ -2478,6 +2479,11 @@ boolbase@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==
+
+bowser@^2.11.0:
+  version "2.12.1"
+  resolved "https://registry.yarnpkg.com/bowser/-/bowser-2.12.1.tgz#f9ad78d7aebc472feb63dd9635e3ce2337e0e2c1"
+  integrity sha512-z4rE2Gxh7tvshQ4hluIT7XcFrgLIQaw9X3A+kTTRdovCz5PMukm/0QC/BKSYPj3omF5Qfypn9O/c5kgpmvYUCw==
 
 bowser@^2.8.1:
   version "2.11.0"

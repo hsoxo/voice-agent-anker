@@ -9,9 +9,9 @@ import React, {
 import { AudioLines } from "lucide-react";
 import { RTVIError, RTVIEvent, RTVIMessage } from "@pipecat-ai/client-js";
 import {
-  useRTVIClient,
+  usePipecatClient,
   useRTVIClientEvent,
-  useRTVIClientTransportState,
+  usePipecatClientTransportState,
 } from "@pipecat-ai/client-react";
 
 import { AppContext } from "../context";
@@ -32,8 +32,8 @@ export default function ButtonInner({
   onLeave?: () => void;
   error?: string;
 }) {
-  const voiceClient = useRTVIClient()!;
-  const transportState = useRTVIClientTransportState();
+  const voiceClient = usePipecatClient()!;
+  const transportState = usePipecatClientTransportState();
 
   const [appState, setAppState] = useState<
     "idle" | "ready" | "connecting" | "connected"
@@ -78,16 +78,6 @@ export default function ButtonInner({
     mountedRef.current = true;
     voiceClient.initDevices();
   }, [appState, voiceClient]);
-
-  useEffect(() => {
-    voiceClient.params = {
-      ...voiceClient.params,
-      requestData: {
-        ...voiceClient.params.requestData,
-        ...clientParams,
-      },
-    };
-  }, [voiceClient, appState, clientParams]);
 
   useEffect(() => {
     // Update app state based on voice client transport state.

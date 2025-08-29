@@ -1,13 +1,12 @@
-import { LineChart, Loader2, LogOut, Settings, StopCircle } from "lucide-react";
+import { LineChart, LogOut } from "lucide-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import {
   PipecatMetricsData,
-  RTVIClientConfigOption,
   RTVIEvent,
   TransportState,
 } from "@pipecat-ai/client-js";
-import { useRTVIClient, useRTVIClientEvent } from "@pipecat-ai/client-react";
+import { usePipecatClient, useRTVIClientEvent } from "@pipecat-ai/client-react";
 
 import StatsAggregator from "../../utils/stats_aggregator";
 import { Configure } from "../Setup";
@@ -30,14 +29,9 @@ interface SessionProps {
 
 export const Session = React.memo(
   ({ state, onLeave, startAudioOff = false }: SessionProps) => {
-    const voiceClient = useRTVIClient()!;
-    const [showConfig, setShowConfig] = useState<boolean>(false);
+    const voiceClient = usePipecatClient()!;
     const [showStats, setShowStats] = useState<boolean>(false);
     const [muted, setMuted] = useState(startAudioOff);
-    const [runtimeConfigUpdate, setRuntimeConfigUpdate] = useState<
-      RTVIClientConfigOption[] | null
-    >(null);
-    const [updatingConfig, setUpdatingConfig] = useState<boolean>(false);
 
     const modalRef = useRef<HTMLDialogElement>(null);
     //const bingSoundRef = useRef<HTMLAudioElement>(null);
@@ -67,19 +61,6 @@ export const Session = React.memo(
       }
     }, [state, onLeave]);
 
-    useEffect(() => {
-      // Modal effect
-      // Note: backdrop doesn't currently work with dialog open, so we use setModal instead
-      const current = modalRef.current;
-
-      if (current && showConfig) {
-        current.inert = true;
-        current.showModal();
-        current.inert = false;
-      }
-      return () => current?.close();
-    }, [showConfig]);
-
     function toggleMute() {
       voiceClient.enableMic(muted);
       setMuted(!muted);
@@ -87,43 +68,6 @@ export const Session = React.memo(
 
     return (
       <>
-        <dialog ref={modalRef}>
-          <Card.Card className="w-svw max-w-full md:max-w-md lg:max-w-lg">
-            <Card.CardHeader>
-              <Card.CardTitle>Configuration</Card.CardTitle>
-            </Card.CardHeader>
-            <Card.CardContent>
-              <Configure state={state} inSession={true} />
-            </Card.CardContent>
-            <Card.CardFooter isButtonArray>
-              <Button variant="outline" onClick={() => setShowConfig(false)}>
-                Cancel
-              </Button>
-              <Button
-                variant="success"
-                disabled={updatingConfig}
-                onClick={async () => {
-                  const config: RTVIClientConfigOption[] = (
-                    voiceClient.params.requestData as {
-                      config: RTVIClientConfigOption[];
-                    }
-                  )?.config;
-                  if (!config) return;
-
-                  setUpdatingConfig(true);
-                  await voiceClient.updateConfig(config);
-                  // On update, reset state
-                  setUpdatingConfig(false);
-                  setShowConfig(false);
-                }}
-              >
-                {updatingConfig && <Loader2 className="animate-spin" />}
-                {updatingConfig ? "Updating..." : "Save Changes"}
-              </Button>
-            </Card.CardFooter>
-          </Card.Card>
-        </dialog>
-
         {showStats &&
           createPortal(
             <Stats

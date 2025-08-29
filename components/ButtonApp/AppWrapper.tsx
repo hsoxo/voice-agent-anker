@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { DailyTransport } from "@pipecat-ai/daily-transport";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
-import { LLMHelper, RTVIClient, RTVIError } from "@pipecat-ai/client-js";
-import { RTVIClientAudio, RTVIClientProvider } from "@pipecat-ai/client-react";
+import { PipecatClient, RTVIError } from "@pipecat-ai/client-js";
+import { PipecatClientAudio, PipecatClientProvider } from "@pipecat-ai/client-react";
 
 import { AppProvider } from "@/components/context";
 import {
@@ -76,7 +76,7 @@ export default function AppWrapper({
   onLeave?: () => void;
 }) {
   const [showSplash, setShowSplash] = useState(true);
-  const voiceClientRef = useRef<RTVIClient | null>(null);
+  const voiceClientRef = useRef<PipecatClient | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleSetVoiceBotState = (state: string) => {
@@ -88,25 +88,11 @@ export default function AppWrapper({
       return;
     }
 
-    const voiceClient = new RTVIClient({
+    const voiceClient = new PipecatClient({
       transport: new DailyTransport(),
-      params: {
-        baseUrl: "/api",
-        requestData: {
-          appId,
-          services: defaultServices,
-          config: defaultConfig,
-          chatId,
-          llmUrl,
-          requestTemplate,
-          openStatement: openStatement,
-        },
-      },
-      timeout: BOT_READY_TIMEOUT,
+      enableMic: true,
+      enableCam: false,
     });
-
-    const llmHelper = new LLMHelper({});
-    voiceClient.registerHelper("llm", llmHelper);
 
     voiceClientRef.current = voiceClient;
   }, [showSplash]);
@@ -123,7 +109,18 @@ export default function AppWrapper({
       // Disable the mic until the bot has joined
       // to avoid interrupting the bot's welcome message
       voiceClientRef.current.enableMic(true);
-      await voiceClientRef.current.connect();
+      await voiceClientRef.current.startBotAndConnect({
+        endpoint: "/api/connect",
+        requestData: {
+          appId,
+          services: defaultServices,
+          config: defaultConfig,
+          chatId,
+          llmUrl,
+          requestTemplate,
+          openStatement: openStatement,
+        },
+      });
     } catch (e) {
       setError((e as RTVIError).message || "Unknown error occured");
       voiceClientRef.current.disconnect();
@@ -153,7 +150,7 @@ export default function AppWrapper({
 
   if (showSplash) return null;
   return (
-    <RTVIClientProvider client={voiceClientRef.current!}>
+    <PipecatClientProvider client={voiceClientRef.current!}>
       <AppProvider config={defaultConfig}>
         <TooltipProvider>
           <ButtonInner
@@ -164,7 +161,7 @@ export default function AppWrapper({
           />
         </TooltipProvider>
       </AppProvider>
-      <RTVIClientAudio />
-    </RTVIClientProvider>
+      <PipecatClientAudio />
+    </PipecatClientProvider>
   );
 }

@@ -4,9 +4,8 @@ import HelpTip from "../ui/helptip";
 import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
 
-import { RTVIClientConfigOption } from "@pipecat-ai/client-js";
-import { useRTVIClient } from "@pipecat-ai/client-react";
-import { AppContext } from "../context";
+import { usePipecatClient } from "@pipecat-ai/client-react";
+import { AppContext, RTVIConfig } from "../context";
 import ConfigSelect from "./ConfigSelect";
 import DeviceSelect from "./DeviceSelect";
 
@@ -30,7 +29,7 @@ export const Configure: React.FC<ConfigureProps> = React.memo(
   }) => {
     const { clientParams, setClientParams, language, setLanguage } =
       useContext(AppContext);
-    const voiceClient = useRTVIClient()!;
+    const voiceClient = usePipecatClient()!;
 
     const handleServiceUpdate = useCallback(
       (newService: { [key: string]: string }) => {
@@ -40,13 +39,8 @@ export const Configure: React.FC<ConfigureProps> = React.memo(
     );
 
     const handleConfigOptionUpdate = useCallback(
-      async (newConfigOptions: RTVIClientConfigOption[]) => {
-        const newConfig = await voiceClient.setConfigOptions(
-          newConfigOptions,
-          clientParams.config
-        );
-        console.log(newConfig);
-        setClientParams({ config: newConfig });
+      async (newConfigOptions: RTVIConfig[]) => {
+        setClientParams({ config: newConfigOptions });
       },
       [voiceClient, clientParams.config, setClientParams]
     );

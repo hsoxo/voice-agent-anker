@@ -1,8 +1,8 @@
 import { DailyTransport } from "@pipecat-ai/daily-transport";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
-import { use, useEffect, useRef, useState } from "react";
-import { LLMHelper, RTVIClient } from "@pipecat-ai/client-js";
-import { RTVIClientAudio, RTVIClientProvider } from "@pipecat-ai/client-react";
+import { useEffect, useRef, useState } from "react";
+import { PipecatClient } from "@pipecat-ai/client-js";
+import { PipecatClientAudio, PipecatClientProvider } from "@pipecat-ai/client-react";
 
 import App from "@/components/App";
 import { AppProvider } from "@/components/context";
@@ -12,38 +12,29 @@ import { BOT_READY_TIMEOUT } from "@/rtvi.config";
 
 export default function Home({ projectId, defaultConfig, defaultServices }) {
   const [showSplash, setShowSplash] = useState(true);
-  const voiceClientRef = useRef<RTVIClient | null>(null);
+  const voiceClientRef = useRef<PipecatClient | null>(null);
 
   useEffect(() => {
     if (!showSplash || voiceClientRef.current) {
       return;
     }
 
-    const voiceClient = new RTVIClient({
+    const voiceClient = new PipecatClient({
       transport: new DailyTransport(),
-      params: {
-        baseUrl: `/api/project/${projectId}`,
-        requestData: {
-          services: defaultServices,
-          config: defaultConfig,
-        },
-      },
-      timeout: BOT_READY_TIMEOUT,
+      enableMic: true,
+      enableCam: false,
     });
-
-    const llmHelper = new LLMHelper({});
-    voiceClient.registerHelper("llm", llmHelper);
 
     voiceClientRef.current = voiceClient;
   }, [showSplash]);
 
-  useEffect(() => {});
+  useEffect(() => { });
   if (showSplash) {
     return <Splash handleReady={() => setShowSplash(false)} />;
   }
 
   return (
-    <RTVIClientProvider client={voiceClientRef.current!}>
+    <PipecatClientProvider client={voiceClientRef.current!}>
       <AppProvider
         config={defaultConfig}
         services={defaultServices}
@@ -53,13 +44,13 @@ export default function Home({ projectId, defaultConfig, defaultServices }) {
           <main>
             <Header />
             <div id="app">
-              <App allowConfigChange={false} />
+              <App allowConfigChange={false} endpoint={`/api/project/${projectId}/connect`} />
             </div>
           </main>
           <aside id="tray" />
         </TooltipProvider>
       </AppProvider>
-      <RTVIClientAudio />
-    </RTVIClientProvider>
+      <PipecatClientAudio />
+    </PipecatClientProvider>
   );
 }

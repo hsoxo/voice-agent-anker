@@ -1,8 +1,8 @@
 import { DailyTransport } from "@pipecat-ai/daily-transport";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { useEffect, useRef, useState } from "react";
-import { LLMHelper, RTVIClient } from "@pipecat-ai/client-js";
-import { RTVIClientAudio, RTVIClientProvider } from "@pipecat-ai/client-react";
+import { PipecatClient } from "@pipecat-ai/client-js";
+import { PipecatClientAudio, PipecatClientProvider } from "@pipecat-ai/client-react";
 
 import App from "@/components/App";
 import { AppProvider } from "@/components/context";
@@ -19,7 +19,7 @@ export default function Home({
   defaultConfig: ServiceConfig[];
   defaultServices: { [key: string]: string };
 }) {
-  const voiceClientRef = useRef<RTVIClient | null>(null);
+  const voiceClientRef = useRef<PipecatClient | null>(null);
   const [initDone, setInitDone] = useState(false);
 
   useEffect(() => {
@@ -27,20 +27,11 @@ export default function Home({
       return;
     }
 
-    const voiceClient = new RTVIClient({
+    const voiceClient = new PipecatClient({
       transport: new DailyTransport(),
-      params: {
-        baseUrl: `/api/project/${projectId}`,
-        requestData: {
-          services: defaultServices,
-          config: defaultConfig,
-        },
-      },
-      timeout: BOT_READY_TIMEOUT,
+      enableMic: true,
+      enableCam: false,
     });
-
-    const llmHelper = new LLMHelper({});
-    voiceClient.registerHelper("llm", llmHelper);
 
     voiceClientRef.current = voiceClient;
     setInitDone(true);
@@ -54,18 +45,18 @@ export default function Home({
     return null;
   }
   return (
-    <RTVIClientProvider client={voiceClientRef.current!}>
+    <PipecatClientProvider client={voiceClientRef.current!}>
       <AppProvider
         config={defaultConfig}
         services={defaultServices}
         language={language ?? "en"}
       >
         <TooltipProvider>
-          <App projectId={projectId} allowSave />
+          <App projectId={projectId} allowSave endpoint={`/api/project/${projectId}/connect`} />
           <Toaster position="top-center" />
         </TooltipProvider>
       </AppProvider>
-      <RTVIClientAudio />
-    </RTVIClientProvider>
+      <PipecatClientAudio />
+    </PipecatClientProvider>
   );
 }

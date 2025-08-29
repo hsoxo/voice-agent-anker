@@ -4,9 +4,9 @@ import { Ear, Loader2 } from "lucide-react";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { RTVIError, RTVIEvent, RTVIMessage } from "@pipecat-ai/client-js";
 import {
-  useRTVIClient,
+  usePipecatClient,
   useRTVIClientEvent,
-  useRTVIClientTransportState,
+  usePipecatClientTransportState,
 } from "@pipecat-ai/client-react";
 
 import { AppContext } from "../context";
@@ -26,9 +26,9 @@ const status_text = {
   disconnected: "Start",
 };
 
-export default function App({ projectId = null }: { projectId?: string }) {
-  const voiceClient = useRTVIClient()!;
-  const transportState = useRTVIClientTransportState();
+export default function App({ appId = null }: { appId?: string }) {
+  const voiceClient = usePipecatClient()!;
+  const transportState = usePipecatClientTransportState();
 
   const [appState, setAppState] = useState<
     "idle" | "ready" | "connecting" | "connected"
@@ -53,16 +53,6 @@ export default function App({ projectId = null }: { projectId?: string }) {
     mountedRef.current = true;
     voiceClient.initDevices();
   }, [appState, voiceClient]);
-
-  useEffect(() => {
-    voiceClient.params = {
-      ...voiceClient.params,
-      requestData: {
-        ...voiceClient.params.requestData,
-        ...clientParams,
-      },
-    };
-  }, [voiceClient, appState, clientParams]);
 
   useEffect(() => {
     // Update app state based on voice client transport state.
@@ -94,7 +84,10 @@ export default function App({ projectId = null }: { projectId?: string }) {
       // Disable the mic until the bot has joined
       // to avoid interrupting the bot's welcome message
       voiceClient.enableMic(true);
-      await voiceClient.connect();
+      await voiceClient.startBotAndConnect({
+        endpoint: '/api/connect',
+        requestData: clientParams as any
+      });
     } catch (e) {
       setError((e as RTVIError).message || "Unknown error occured");
       voiceClient.disconnect();
