@@ -85,8 +85,8 @@ export default function App({ appId = null }: { appId?: string }) {
       // to avoid interrupting the bot's welcome message
       voiceClient.enableMic(true);
       await voiceClient.startBotAndConnect({
-        endpoint: '/api/connect',
-        requestData: clientParams as any
+        endpoint: "/api/project/" + appId + "/connect",
+        requestData: clientParams as any,
       });
     } catch (e) {
       setError((e as RTVIError).message || "Unknown error occured");
