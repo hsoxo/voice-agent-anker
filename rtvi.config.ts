@@ -208,6 +208,14 @@ export const LLM_MODEL_CHOICES = [
     value: "openai",
     models: [
       {
+        label: "GPT-4o Mini",
+        value: "gpt-4o-mini",
+      },
+      {
+        label: "GPT-4o",
+        value: "gpt-4o",
+      },
+      {
         label: "GPT-5 Mini",
         value: "gpt-5-mini",
       },
@@ -219,13 +227,23 @@ export const LLM_MODEL_CHOICES = [
         label: "GPT-5",
         value: "gpt-5",
       },
+    ],
+  },
+  {
+    label: "Gemini",
+    value: "gemini",
+    models: [
       {
-        label: "GPT-4o Mini",
-        value: "gpt-4o-mini",
+        label: "Gemini 2.5 Flash Lite",
+        value: "gemini-2.5-flash-lite",
       },
       {
-        label: "GPT-4o",
-        value: "gpt-4o",
+        label: "Gemini 2.5 Flash",
+        value: "gemini-2.5-flash",
+      },
+      {
+        label: "Gemini 2.5 Pro",
+        value: "gemini-2.5-pro",
       },
     ],
   },
